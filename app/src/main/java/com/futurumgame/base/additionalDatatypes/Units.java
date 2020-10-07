@@ -22,7 +22,7 @@ public final class Units extends Number implements Comparable<Units> {
     public Units(long value, double scale) {
         this.value = value;
         this.scale = scale;
-
+        normalize();
     }
 
     private Units(Units toCopy) {
@@ -134,6 +134,10 @@ public final class Units extends Number implements Comparable<Units> {
     }
 
     public void nRoot(double root) {
+        if(Double.isInfinite(root)){
+            value = 1;
+            scale = 0;
+        }
         value = Math.pow(value, 1 / root);
         scale /= root;
         normalize();
