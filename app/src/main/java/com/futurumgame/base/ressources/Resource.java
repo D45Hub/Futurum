@@ -2,11 +2,11 @@ package com.futurumgame.base.ressources;
 
 import com.futurumgame.base.additionalDatatypes.Units;
 
-public abstract class Ressource {
+public abstract class Resource {
     protected final Units count = Units.Zero;
     private final String name;
 
-    protected Ressource(String name) {
+    protected Resource(String name) {
         this.name = name;
     }
 
