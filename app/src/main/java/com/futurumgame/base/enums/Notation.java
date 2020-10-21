@@ -11,8 +11,7 @@ public enum Notation {
         if(u.isPosInfinity()) return "Inf";
         if(u.isNegInfinity()) return "-Inf";
         if(u.isZero()) return "0";
-        String value = removeIllegalChars(String.format("%f",u.getValue()));
-        return String.format("%se%f",value, u.getScale());
+        return String.format("%.4fe%.0f",u.getValue(), u.getScale());
     });
 
     private static final char[] ForbiddenChars = {',', '.'};

@@ -2,6 +2,8 @@ package com.futurumgame.base.additionalDatatypes;
 
 import com.futurumgame.base.enums.Notation;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -12,11 +14,14 @@ public final class Units extends Number implements Comparable<Units> {
     private static final double DoublePosInfinity = Double.POSITIVE_INFINITY;
     private static final double DoubleNegInfinity = Double.NEGATIVE_INFINITY;
     private static final double DoubleZero = 0.0;
+    private static final double DoubleOne = 1.0;
+    private static final double DoubleNegOne = -1.0;
 
     private static final Units InternalPositiveInfinity = new Units(DoublePosInfinity, DoublePosInfinity, false);
     private static final Units InternalNegativeInfinity = new Units(DoubleNegInfinity, DoublePosInfinity, false);
     private static final Units InternalNaN = new Units(DoubleZero, DoubleNaN, false);
     private static final Units InternalZero = new Units(DoubleZero, DoubleZero, false);
+    private static final Units InternalOne = new Units(DoubleOne, DoubleZero,false);
 
     public static final Units PositiveInfinity = new Units(InternalPositiveInfinity);
     public static final Units NegativeInfinity = new Units(InternalNegativeInfinity);
@@ -59,7 +64,14 @@ public final class Units extends Number implements Comparable<Units> {
         this.scale = scale;
     }
 
+    public void negate(){
+        value =-value;
+    }
+
     public void add(Units units) {
+        if(units.isZero()){
+            return;
+        }
         if (evaluateToNaNIfTrue(units, u -> isNaN() || u.isNaN())) {
             return;
         }
@@ -74,11 +86,15 @@ public final class Units extends Number implements Comparable<Units> {
         if (evaluateToZeroIfTrue(units, u -> isInfinity() && u.isInfinity())) {
             return;
         }
-        double scaleDiff = Math.abs(scale - units.scale);
+        if(isZero()){
+            value = units.getValue();
+            scale = units.getScale();
+            return;
+        }
         if (scale > units.scale) {
-            value += units.value / (10 * scaleDiff);
+            value += rescaleValue(units.value, scale, units.scale);
         } else if (scale < units.scale) {
-            value = units.value + value / (10 * scaleDiff);
+            value = units.value+rescaleValue(value, scale, units.scale);
             scale = units.scale;
         } else {
             value += units.value;
@@ -87,6 +103,9 @@ public final class Units extends Number implements Comparable<Units> {
     }
 
     public void subtract(Units units) {
+        if(units.isZero()){
+            return;
+        }
         if (evaluateToNaNIfTrue(units, u -> isNaN() || u.isNaN())) {
             return;
         }
@@ -101,11 +120,15 @@ public final class Units extends Number implements Comparable<Units> {
         if (evaluateToZeroIfTrue(units, u -> isInfinity() && u.isInfinity())) {
             return;
         }
-        double scaleDiff = Math.abs(scale - units.scale);
+        if(isZero()){
+            value = -units.getValue();
+            scale = units.getScale();
+            return;
+        }
         if (scale > units.scale) {
-            value -= units.value / (10 * scaleDiff);
+            value -= rescaleValue(units.value, scale, units.scale);
         } else if (scale < units.scale) {
-            value = -units.value + value / (10 * scaleDiff);
+            value= units.value+ rescaleValue(value, scale, units.scale);
             scale = units.scale;
         } else {
             value -= units.value;
@@ -197,11 +220,11 @@ public final class Units extends Number implements Comparable<Units> {
     }
 
     public boolean isPosInfinity() {
-        return isInfinity() && value > 0;
+        return isInfinity() && isPositive();
     }
 
     public boolean isNegInfinity() {
-        return isInfinity() && value < 0;
+        return isInfinity() && isNegative();
     }
 
     public boolean isNaN() {
@@ -209,7 +232,19 @@ public final class Units extends Number implements Comparable<Units> {
     }
 
     public boolean isZero() {
-        return Double.compare(value, 0.0) == 0;
+        return Double.compare(value, DoubleZero) == 0;
+    }
+
+    public boolean isOne() {return Double.compare(value, DoubleOne) == 0 && Double.compare(scale, DoubleZero) == 0; }
+
+    public boolean isNegOne(){ return Double.compare(value, DoubleNegOne) == 0 && Double.compare(scale, DoubleZero) == 0;}
+
+    public boolean isPositive(){
+        return value > 0;
+    }
+
+    public boolean isNegative(){
+        return value < 0;
     }
 
     public Units copy() {
@@ -318,12 +353,29 @@ public final class Units extends Number implements Comparable<Units> {
         if (evaluateToZeroIfTrue(null, u -> isZero())) {
             return;
         }
-        int scaleDiff = (int) Math.log10(value);
-        if (scaleDiff > 0) {
-            value /= scaleDiff;
-        } else if (scaleDiff < 0) {
-            value *= -scaleDiff;// Faster than Math.abs(scaleDiff)
-        }
+        int scaleDiff = calcScaleDiff(value);
+        value = rescaleValue(value, scaleDiff);
         scale += scaleDiff;
+    }
+
+    private double rescaleValue(double value, double firstScale, double secondScale){
+        return rescaleValue(value, firstScale-secondScale);
+    }
+
+    private double rescaleValue(double value, double rawScaleDiff){
+        int scaleDiff = (int)Math.abs(rawScaleDiff);
+        return rescaleValue(value,scaleDiff);
+    }
+
+    private double rescaleValue(double value, int scaleDiff){
+        if(scaleDiff != 0){
+            value *= Math.pow(10,-scaleDiff);
+        }
+        return value;
+    }
+
+    private int calcScaleDiff(double rawValueDiff){
+        double scaleDiffRaw = Math.log10(Math.abs(rawValueDiff));
+        return (int)(scaleDiffRaw+(scaleDiffRaw > 0 ? 0:-1));
     }
 }
