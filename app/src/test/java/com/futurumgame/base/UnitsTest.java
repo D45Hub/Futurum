@@ -109,7 +109,7 @@ public class UnitsTest
         assertEquals(new Units(-1, 0.0), simpleTestUnit);
 
         simpleTestUnit.divide(Units.PositiveInfinity);
-        assertEquals(Units.NaN, simpleTestUnit);
+        assertEquals(Units.Zero, simpleTestUnit);
 
     }
 
