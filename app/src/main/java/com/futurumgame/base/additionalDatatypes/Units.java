@@ -19,14 +19,17 @@ public final class Units extends Number implements Comparable<Units> {
 
     private static final Units InternalPositiveInfinity = new Units(DoublePosInfinity, DoublePosInfinity, false);
     private static final Units InternalNegativeInfinity = new Units(DoubleNegInfinity, DoublePosInfinity, false);
-    private static final Units InternalNaN = new Units(DoubleZero, DoubleNaN, false);
+    private static final Units InternalNaN = new Units(DoubleNaN, DoubleNaN, false);
     private static final Units InternalZero = new Units(DoubleZero, DoubleZero, false);
     private static final Units InternalOne = new Units(DoubleOne, DoubleZero,false);
+    private static final Units InternalTen = new Units(DoubleOne, DoubleOne,false);
 
     public static final Units PositiveInfinity = new Units(InternalPositiveInfinity);
     public static final Units NegativeInfinity = new Units(InternalNegativeInfinity);
     public static final Units NaN = new Units(InternalNaN);
     public static final Units Zero = new Units(InternalZero);
+    public static final Units One = new Units(InternalOne);
+    public static final Units Ten = new Units(InternalTen);
 
     private double value;
     private double scale;
@@ -176,41 +179,65 @@ public final class Units extends Number implements Comparable<Units> {
 
     public void nRoot(double root) {
         if (Double.isInfinite(root)) {
-            value = 1;
-            scale = 0;
+            value = InternalOne.value;
+            scale = InternalOne.scale;
+            return;
         }
-        value = Math.pow(value, 1 / root);
         scale /= root;
+        double scaleDiff = scale - Math.floor(scale);
+        value = Math.pow(value, 1 / root)*Math.pow(10.0 ,scaleDiff);
+        scale-=scaleDiff;
         normalize();
     }
 
     public void log10() {
-        value = Math.log10(value) * scale;
-        scale = 0;
+        if(value != DoubleOne) {
+            value = Math.log10(value);
+        }
+         value*= scale;
+        scale = DoubleZero;
+        normalize();
     }
 
     public void log(double base) {
-        value = (Math.log(value) / Math.log(base)) * (scale / Math.log10(base));
-        scale = 0;
+        if(value != DoubleOne) {
+            value = (Math.log(value) / Math.log(base));
+        }
+        value*= (scale / Math.log10(base));
+        scale = DoubleZero;
         normalize();
     }
 
     public boolean isBiggerThan(Units other) {
-        if (scale > other.scale) {
+        if(isNegative() && !other.isNegative()){
+            return false;
+        }
+        if(!isNegative() && other.isNegative()){
             return true;
         }
+        boolean valuesAreNegative = isNegative();
+        if (scale > other.scale) {
+            return valuesAreNegative ^ true;
+        }
         if (scale < other.scale) {
-            return false;
+            return valuesAreNegative || false;
         }
         return value > other.value;
     }
 
     public boolean isSmallerThan(Units other) {
-        if (scale < other.scale) {
+        if(isNegative() && !other.isNegative()){
             return true;
         }
-        if (scale > other.scale) {
+        if(!isNegative() && other.isNegative()){
             return false;
+        }
+        boolean valuesAreNegative = isNegative();
+        if (scale < other.scale) {
+            return valuesAreNegative ^ true;
+        }
+        if (scale > other.scale) {
+            return valuesAreNegative || false;
         }
         return value < other.value;
     }
@@ -279,7 +306,7 @@ public final class Units extends Number implements Comparable<Units> {
 
     @Override
     public double doubleValue() {
-        return Math.pow(value, scale);
+        return value*Math.pow(10, scale);
     }
 
     @Override

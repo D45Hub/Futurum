@@ -6,18 +6,16 @@ import org.junit.Test;
 
 import com.futurumgame.base.additionalDatatypes.Units;
 
-public class UnitsTest
-{
+public class UnitsTest {
     @Test
-    public void testAddition()
-    {
+    public void testAddition() {
         Units simpleTestUnit = new Units(5, 0.0);
         Units simpleTestUnit2 = new Units(13, 0.0);
         Units simpleTestUnit3 = new Units(6, 2.0);
         Units simpleTestUnit4 = new Units(-5, 0.0);
 
-        Units positiveInfiniteUnit = Units.PositiveInfinity;
-        Units negativeInfiniteUnit = Units.NegativeInfinity;
+        Units positiveInfiniteUnit = Units.PositiveInfinity.copy();
+        Units negativeInfiniteUnit = Units.NegativeInfinity.copy();
 
         simpleTestUnit.add(simpleTestUnit2);
         assertEquals(new Units(18, 0.0), simpleTestUnit);
@@ -34,8 +32,8 @@ public class UnitsTest
         negativeInfiniteUnit.add(simpleTestUnit4);
         assertEquals(Units.NegativeInfinity, negativeInfiniteUnit);
 
-        // simpleTestUnit.add(Units.NaN);
-        // assertEquals(Units.NaN, simpleTestUnit);
+        simpleTestUnit.add(Units.NaN);
+        assertEquals(Units.NaN, simpleTestUnit);
 
         Units infiniteCancellationUnit = new Units(0, 0);
         infiniteCancellationUnit.add(Units.PositiveInfinity);
@@ -45,8 +43,7 @@ public class UnitsTest
     }
 
     @Test
-    public void testSubtraction()
-    {
+    public void testSubtraction() {
         Units simpleTestUnit = new Units(5, 0.0);
         Units simpleTestUnit2 = new Units(13, 0.0);
         Units simpleTestUnit3 = new Units(-5, 0.0);
@@ -66,17 +63,13 @@ public class UnitsTest
         simpleTestUnit.subtract(Units.Zero);
         assertEquals(new Units(5, 0.0), simpleTestUnit);
 
-        /*
-         * simpleTestUnit.subtract(Units.NegativeInfinity);
-         * System.out.println(simpleTestUnit.getValue());
-         * assertEquals(Units.PositiveInfinity, simpleTestUnit);
-         */
+        simpleTestUnit.subtract(Units.NegativeInfinity);
+        assertEquals(Units.PositiveInfinity, simpleTestUnit);
 
     }
 
     @Test
-    public void testMultiplication()
-    {
+    public void testMultiplication() {
         Units simpleTestUnit = new Units(5, 0.0);
         Units simpleTestUnit2 = new Units(13, 0.0);
         Units simpleTestUnit3 = new Units(-5, 0.0);
@@ -96,8 +89,7 @@ public class UnitsTest
     }
 
     @Test
-    public void testDivision()
-    {
+    public void testDivision() {
         Units simpleTestUnit = new Units(5, 0.0);
         Units simpleTestUnit2 = new Units(20, 0.0);
         Units simpleTestUnit3 = new Units(-5, 0.0);
@@ -114,8 +106,7 @@ public class UnitsTest
     }
 
     @Test
-    public void testPow()
-    {
+    public void testPow() {
         Units simpleTestUnit = new Units(5, 0.0);
         Units simpleTestUnit2 = new Units(2, 0.0);
         Units simpleTestUnit3 = new Units(-5, 0.0);
@@ -137,35 +128,32 @@ public class UnitsTest
     }
 
     @Test
-    public void testNthRoot()
-    {
+    public void testNthRoot() {
         Units simpleTestUnit = new Units(125, 0.0);
         Units simpleTestUnit2 = new Units(-125, 0.0);
 
-        Units positiveInfinityUnit = Units.PositiveInfinity;
+        Units positiveInfinityUnit = Units.PositiveInfinity.copy();
 
         simpleTestUnit.nRoot(3.0);
-        // assertEquals(new Units(5, 0.0), simpleTestUnit);
+        assertEquals(new Units(5, 0.0), simpleTestUnit);
 
         simpleTestUnit2.nRoot(3.0);
         assertEquals(Units.NaN, simpleTestUnit2);
 
         positiveInfinityUnit.nRoot(5.0);
-
+        assertEquals(Units.NaN, positiveInfinityUnit);
     }
 
     @Test
-    public void testLog10()
-    {
-        /*
-         * Units simpleTestUnit = new Units(10, 20.0); simpleTestUnit.log10();
-         * assertEquals(new Units(2.0, 0.0), simpleTestUnit);
-         */
+    public void testLog10() {
+
+        Units simpleTestUnit = new Units(10, 20.0);
+        simpleTestUnit.log10();
+        assertEquals(new Units(2.1, 1.0), simpleTestUnit);
     }
 
     @Test
-    public void testComparisons()
-    {
+    public void testComparisons() {
         Units simpleTestUnit = new Units(15, 0.0);
         Units simpleTestUnit2 = new Units(-23, 0.0);
         Units simpleTestUnit3 = new Units(55, 0.0);
@@ -173,10 +161,10 @@ public class UnitsTest
         Units simpleTestUnit5 = new Units(-10, 2.0);
         Units simpleTestUnit6 = new Units(-25, 0.0);
 
-        Units positiveInfiniteUnit = Units.PositiveInfinity;
-        Units negativeInfiniteUnit = Units.NegativeInfinity;
-        Units nanUnit = Units.NaN;
-        Units zeroUnit = Units.Zero;
+        Units positiveInfiniteUnit = Units.PositiveInfinity.copy();
+        Units negativeInfiniteUnit = Units.NegativeInfinity.copy();
+        Units nanUnit = Units.NaN.copy();
+        Units zeroUnit = Units.Zero.copy();
 
         assertEquals(true, simpleTestUnit.isBiggerThan(simpleTestUnit2));
         assertEquals(false, simpleTestUnit2.isBiggerThan(simpleTestUnit));
@@ -184,24 +172,24 @@ public class UnitsTest
         assertEquals(false, simpleTestUnit.isBiggerThan(simpleTestUnit3));
         assertEquals(true, simpleTestUnit3.isBiggerThan(simpleTestUnit));
         assertEquals(true, simpleTestUnit4.isBiggerThan(simpleTestUnit));
-        assertEquals(false, simpleTestUnit6.isBiggerThan(simpleTestUnit5));
+        assertEquals(true, simpleTestUnit6.isBiggerThan(simpleTestUnit5));
         assertEquals(true, simpleTestUnit4.isBiggerThan(simpleTestUnit6));
-        // assertEquals(false, simpleTestUnit5.isBiggerThan(simpleTestUnit));
+        assertEquals(false, simpleTestUnit5.isBiggerThan(simpleTestUnit));
 
         assertEquals(true, positiveInfiniteUnit.isBiggerThan(simpleTestUnit2));
         assertEquals(true, positiveInfiniteUnit.isBiggerThan(simpleTestUnit));
         assertEquals(false, simpleTestUnit4.isBiggerThan(positiveInfiniteUnit));
         assertEquals(false, simpleTestUnit6.isBiggerThan(positiveInfiniteUnit));
 
-        assertEquals(true, negativeInfiniteUnit.isBiggerThan(simpleTestUnit2));
-        assertEquals(true, negativeInfiniteUnit.isBiggerThan(simpleTestUnit));
-        assertEquals(false, simpleTestUnit4.isBiggerThan(negativeInfiniteUnit));
-        assertEquals(false, simpleTestUnit6.isBiggerThan(negativeInfiniteUnit));
+        assertEquals(false, negativeInfiniteUnit.isBiggerThan(simpleTestUnit2));
+        assertEquals(false, negativeInfiniteUnit.isBiggerThan(simpleTestUnit));
+        assertEquals(true, simpleTestUnit4.isBiggerThan(negativeInfiniteUnit));
+        assertEquals(true, simpleTestUnit6.isBiggerThan(negativeInfiniteUnit));
 
         assertEquals(false, nanUnit.isBiggerThan(simpleTestUnit));
         assertEquals(true, nanUnit.isBiggerThan(simpleTestUnit2));
 
-        // assertEquals(true, zeroUnit.isBiggerThan(simpleTestUnit2));
+        assertEquals(true, zeroUnit.isBiggerThan(simpleTestUnit2));
         assertEquals(false, zeroUnit.isBiggerThan(simpleTestUnit));
 
         assertEquals(false, simpleTestUnit.isSmallerThan(simpleTestUnit2));
@@ -210,37 +198,36 @@ public class UnitsTest
         assertEquals(true, simpleTestUnit.isSmallerThan(simpleTestUnit3));
         assertEquals(false, simpleTestUnit3.isSmallerThan(simpleTestUnit));
         assertEquals(false, simpleTestUnit4.isSmallerThan(simpleTestUnit));
-        assertEquals(true, simpleTestUnit6.isSmallerThan(simpleTestUnit5));
+        assertEquals(false, simpleTestUnit6.isSmallerThan(simpleTestUnit5));
         assertEquals(false, simpleTestUnit4.isSmallerThan(simpleTestUnit6));
-        // assertEquals(true, simpleTestUnit5.isSmallerThan(simpleTestUnit));
+        assertEquals(true, simpleTestUnit5.isSmallerThan(simpleTestUnit));
 
         assertEquals(false, positiveInfiniteUnit.isSmallerThan(simpleTestUnit2));
         assertEquals(false, positiveInfiniteUnit.isSmallerThan(simpleTestUnit));
         assertEquals(true, simpleTestUnit4.isSmallerThan(positiveInfiniteUnit));
         assertEquals(true, simpleTestUnit6.isSmallerThan(positiveInfiniteUnit));
 
-        // assertEquals(true, negativeInfiniteUnit.isSmallerThan(simpleTestUnit2));
-        // assertEquals(true, negativeInfiniteUnit.isSmallerThan(simpleTestUnit));
-        // assertEquals(false, simpleTestUnit4.isSmallerThan(negativeInfiniteUnit));
-        // assertEquals(false, simpleTestUnit6.isSmallerThan(negativeInfiniteUnit));
+        assertEquals(true, negativeInfiniteUnit.isSmallerThan(simpleTestUnit2));
+        assertEquals(true, negativeInfiniteUnit.isSmallerThan(simpleTestUnit));
+        assertEquals(false, simpleTestUnit4.isSmallerThan(negativeInfiniteUnit));
+        assertEquals(false, simpleTestUnit6.isSmallerThan(negativeInfiniteUnit));
 
-        assertEquals(true, nanUnit.isSmallerThan(simpleTestUnit));
+        assertEquals(false, nanUnit.isSmallerThan(simpleTestUnit));
         assertEquals(false, nanUnit.isSmallerThan(simpleTestUnit2));
 
-        // assertEquals(false, zeroUnit.isSmallerThan(simpleTestUnit2));
+        assertEquals(false, zeroUnit.isSmallerThan(simpleTestUnit2));
         assertEquals(true, zeroUnit.isSmallerThan(simpleTestUnit));
     }
 
     @Test
-    public void testSpecialValues()
-    {
+    public void testSpecialValues() {
         Units simpleTestUnit = new Units(15, 0.0);
         Units simpleTestUnit2 = new Units(-23, 0.0);
 
-        Units positiveInfiniteUnit = Units.PositiveInfinity;
-        Units negativeInfiniteUnit = Units.NegativeInfinity;
-        Units nanUnit = Units.NaN;
-        Units zeroUnit = Units.Zero;
+        Units positiveInfiniteUnit = Units.PositiveInfinity.copy();
+        Units negativeInfiniteUnit = Units.NegativeInfinity.copy();
+        Units nanUnit = Units.NaN.copy();
+        Units zeroUnit = Units.Zero.copy();
 
         assertEquals(false, simpleTestUnit.isInfinity());
         assertEquals(false, simpleTestUnit.isPosInfinity());
@@ -270,13 +257,12 @@ public class UnitsTest
     }
 
     @Test
-    public void testAbsValues()
-    {
+    public void testAbsValues() {
         Units simpleTestUnit = new Units(15, 0.0);
         Units simpleTestUnit2 = new Units(-23, 0.0);
 
-        Units positiveInfiniteUnit = Units.PositiveInfinity;
-        Units negativeInfiniteUnit = Units.NegativeInfinity;
+        Units positiveInfiniteUnit = Units.PositiveInfinity.copy();
+        Units negativeInfiniteUnit = Units.NegativeInfinity.copy();
 
         assertEquals(true, simpleTestUnit.isPositive());
         assertEquals(false, simpleTestUnit.isNegative());
@@ -292,13 +278,12 @@ public class UnitsTest
     }
 
     @Test
-    public void testCopy()
-    {
+    public void testCopy() {
         Units simpleTestUnit = new Units(15, 0.0);
         Units simpleTestUnit2 = new Units(-23, 0.0);
 
-        Units positiveInfiniteUnit = Units.PositiveInfinity;
-        Units negativeInfiniteUnit = Units.NegativeInfinity;
+        Units positiveInfiniteUnit = Units.PositiveInfinity.copy();
+        Units negativeInfiniteUnit = Units.NegativeInfinity.copy();
 
         assertEquals(new Units(15, 0.0), simpleTestUnit.copy());
         assertEquals(new Units(-23, 0.0), simpleTestUnit2.copy());
@@ -307,13 +292,12 @@ public class UnitsTest
     }
 
     @Test
-    public void testValueEvaluation()
-    {
-        //Units simpleTestUnit = new Units(15, 1.0);
+    public void testValueEvaluation() {
+        Units simpleTestUnit = new Units(15, 1.0);
         Units simpleTestUnit2 = new Units(-23, 0.0);
 
-        //assertEquals(150, simpleTestUnit.intValue());
-        //assertEquals(-23, simpleTestUnit2.intValue());
+        assertEquals(150, simpleTestUnit.intValue());
+        assertEquals(-23, simpleTestUnit2.intValue());
     }
 
 }
