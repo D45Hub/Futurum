@@ -7,7 +7,7 @@ Feature: Use Case Factory Upgrade
         Then calculate the generated amount of resources
         And add the amount of resources to USER
         And play background animation
-        And update the label witht the amount of resources
+        And update the label with the amount of resources
     
     Scenario: No actions are executed.
         When the USER doesn't tap on the screen
