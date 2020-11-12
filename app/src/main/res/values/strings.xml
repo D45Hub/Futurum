@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Futurum</string>
+    <string name="Costs">Costs</string>
+    <string name="ProductionRate">Production Rate</string>
+    <string name="UnitsPerSecond">u/s</string>
+    <string name="Factory">Factory</string>
 </resources>

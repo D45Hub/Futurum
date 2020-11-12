@@ -27,7 +27,7 @@ public class Tick extends TimerTask {
         long current = System.currentTimeMillis();
         factories.forEach(this::onCall);
         ThreadHelper.whenAll(tasks, wareHouse::addToResources);
-        GameRoutine.emitSignalToMainThread(wareHouse::updateUi);
+        GameRoutine.emitSignalToMainThread(GameRoutine::updateUi);
     }
 
     private void onCall(FactoryNode<? extends Resource> node) {
@@ -35,8 +35,8 @@ public class Tick extends TimerTask {
         if(node.getCurrent().gatherRequiredResources(wareHouse)) {
             t = new FutureTask<>(node.getCurrent()::work);
             tasks.add(t);
-        }else {
-            int fallBack = 1;
+        } else {
+            int fallBack = 0;
             while (node.canFallBack(fallBack)) {
                 Factory<? extends Resource> fallBackFactory = node.fallBack(fallBack, wareHouse);
                 if (fallBackFactory != null) {

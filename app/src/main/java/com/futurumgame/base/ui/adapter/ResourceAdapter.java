@@ -1,6 +1,5 @@
-package com.futurumgame.base.Ui.Adapter;
+package com.futurumgame.base.ui.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.futurumgame.base.R;
-import com.futurumgame.base.Ui.ViewHolder.ResourceViewHolder;
+import com.futurumgame.base.ui.viewholder.ResourceViewHolder;
 import com.futurumgame.base.resources.Resource;
 
 import java.util.HashMap;

@@ -4,27 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#131313"
     tools:context=".MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/Resources"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
+        android:background="#131313"
         android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="@+id/ResourceOverview"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible">
+
     </androidx.recyclerview.widget.RecyclerView>
 
-    <ScrollView
-        android:id="@+id/ResourceOverview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <com.futurumgame.base.gameinternals.FactorySystem
+        android:id="@+id/FactorySystem"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#131313"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="87dp">
-
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@+id/Resources" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

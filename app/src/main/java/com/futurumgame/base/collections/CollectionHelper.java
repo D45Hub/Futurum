@@ -1,7 +1,11 @@
 package com.futurumgame.base.collections;
 
+import com.futurumgame.base.resources.Resource;
+
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class CollectionHelper {
@@ -37,5 +41,23 @@ public class CollectionHelper {
             }
         }
         return false;
+    }
+
+    public static<T> String toString(Collection<T> collection){
+        StringBuilder sb = new StringBuilder();
+        for (T element :collection) {
+            sb.append(element+", ");
+        }
+        sb.delete(sb.length()-2, sb.length()-1);
+        return sb.toString();
+    }
+
+    public static<T> String toString(LinkedList<T> collection, Function<T,String> formatter) {
+        StringBuilder sb = new StringBuilder();
+        for (T element :collection) {
+            sb.append(formatter.apply(element) +", ");
+        }
+        sb.delete(sb.length()-2, sb.length()-1);
+        return sb.toString();
     }
 }

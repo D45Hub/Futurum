@@ -2,7 +2,11 @@
 
 package com.futurumgame.base.factories;
 
+import android.util.Log;
+
 import com.futurumgame.base.additionalDatatypes.Units;
+import com.futurumgame.base.enums.FactoryFormatter;
+import com.futurumgame.base.enums.UpgradeResult;
 import com.futurumgame.base.gameinternals.WareHouse;
 import com.futurumgame.base.resources.Resource;
 
@@ -16,6 +20,7 @@ public abstract class Factory<T extends Resource> {
     private final String name;
     private final T resource;
 
+    private boolean automated = false;
     private int level = 1;
     private Units internalStorage = Units.Zero.copy();
     private Units internalCapacity;
@@ -26,12 +31,28 @@ public abstract class Factory<T extends Resource> {
         this.resource = resource;
     }
 
+    public String getName(){
+        return name;
+    }
+
     public final T getResource() {
         return resource;
     }
 
-    protected final int getLevel(){
+    public final boolean isAutomated() {
+        return automated;
+    }
+
+    public final int getLevel() {
         return level;
+    }
+
+    public final Units getCapacity(){
+        return internalCapacity;
+    }
+
+    public final Units getStorage(){
+        return internalStorage;
     }
 
     public abstract T work();
@@ -40,8 +61,20 @@ public abstract class Factory<T extends Resource> {
 
     protected abstract LinkedList<Resource> requiredResources();
 
+    public abstract LinkedList<Resource> getUpgradeCosts();
+
+    public final void workManually() {
+        T resource = work();
+        Units multiplier = new Units(5, Math.floor(1/Math.log10((level+100)/169.0 +1)-3));
+        resource.getCount().multiply(multiplier);
+        addToStorage(resource.getCount());
+    }
+
     public final boolean gatherRequiredResources(WareHouse wareHouse) {
-        if(resource.isBaseResource()){
+        if (!isAutomated()) {
+            return false;
+        }
+        if (resource.isBaseResource()) {
             return true;
         }
         if (wareHouse.canOfferResources(requiredResources())) {
@@ -51,23 +84,36 @@ public abstract class Factory<T extends Resource> {
         return false;
     }
 
-    protected final void addToStorage(Units units) {
-        internalStorage.add(units);
-        if(internalStorage.isBiggerThan(internalCapacity)){
-            internalStorage.setValue(internalCapacity.getValue());
-            internalStorage.setScale(internalCapacity.getScale());
-        }
+    public final boolean canUpgrade(WareHouse wareHouse) {
+        return wareHouse.canOfferResources(getUpgradeCosts());
     }
 
-    protected final Units emptyStorage(){
+    public final UpgradeResult tryUpgrade(WareHouse wareHouse) {
+        LinkedList<Resource> upgradeCosts = getUpgradeCosts();
+        if (wareHouse.canOfferResources(upgradeCosts)) {
+            wareHouse.offerResources(upgradeCosts);
+            return UpgradeResult.Successful;
+        }
+        return UpgradeResult.Failure;
+    }
+
+    public final Units emptyStorage() {
         Units current = internalStorage.copy();
         internalStorage.setValue(Units.Zero.getValue());
         internalStorage.setScale(Units.Zero.getScale());
         return current;
     }
 
+    protected final void addToStorage(Units units) {
+        internalStorage.add(units);
+        if (internalStorage.isBiggerThan(internalCapacity)) {
+            internalStorage.setValue(internalCapacity.getValue());
+            internalStorage.setScale(internalCapacity.getScale());
+        }
+    }
+
     @Override
     public String toString() {
-        return String.format("%s Level: %d Capacity: %s Storage: %s", name, level, internalCapacity, internalStorage);
+        return FactoryFormatter.Debug.format(this);
     }
 }

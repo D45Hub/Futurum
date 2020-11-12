@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.futurumgame.base.MainActivity;
 import com.futurumgame.base.R;
-import com.futurumgame.base.Ui.Adapter.ResourceAdapter;
+import com.futurumgame.base.ui.adapter.ResourceAdapter;
 import com.futurumgame.base.additionalDatatypes.Units;
 import com.futurumgame.base.enums.WareHouseAcceptionResult;
 import com.futurumgame.base.resources.Resource;
@@ -26,6 +26,10 @@ public class WareHouse {
 
     public Hashtable<Integer, Resource> getWareHouseStocks() {
         return wareHouseStocks;
+    }
+
+    public Resource getWareHouseStock(int resourceID){
+        return wareHouseStocks.get(resourceID);
     }
 
     public void addResource(Resource resource, Units resourceCap){
@@ -61,13 +65,6 @@ public class WareHouse {
     public void offerResources(LinkedList<Resource> requiredResources) {
         for (Resource requiredResource : requiredResources) {
             ((Resource) wareHouseStocks.get(requiredResource.getID())).subtract(requiredResource.getCount());
-        }
-    }
-
-    public void updateUi() {
-        RecyclerView view = main.findViewById(R.id.Resources);
-        for (Resource warehouseStock:wareHouseStocks.values()) {
-            ((ResourceAdapter)view.getAdapter()).updateResourceViewHolder(warehouseStock);
         }
     }
 }
