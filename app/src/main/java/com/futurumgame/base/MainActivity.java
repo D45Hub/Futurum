@@ -1,9 +1,7 @@
 package com.futurumgame.base;
 
-import android.app.Activity;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +14,7 @@ import com.futurumgame.base.gameinternals.GameRoutine;
 public class MainActivity extends UpdatableViewActivity {
 
     private GameRoutine gameRoutine;
+    private RecyclerView resources;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,13 +22,13 @@ public class MainActivity extends UpdatableViewActivity {
         setContentView(R.layout.activity_main);
         gameRoutine = new GameRoutine(this);
 
-        if(GameRoutine.getMainActivity()!= null){
-            GameRoutine.setCurrent(GameRoutine.getMainActivity());
+        if (GameRoutine.getMainActivity() != null) {
+            GameRoutine.setNewCurrent(GameRoutine.getMainActivity());
         }
 
-        RecyclerView view = findViewById(R.id.Resources);
-        view.setLayoutManager(new LinearLayoutManager(this));
-        view.setAdapter(new ResourceAdapter(gameRoutine.getWareHouse().getWareHouseStocks()));
+        resources = findViewById(R.id.Resources);
+        resources.setLayoutManager(new LinearLayoutManager(this));
+        resources.setAdapter(new ResourceAdapter(gameRoutine.getWareHouse().getWareHouseStocks()));
         allowUpdates();
         gameRoutine.start();
     }
@@ -47,12 +46,12 @@ public class MainActivity extends UpdatableViewActivity {
 
     @Override
     public void updateUi(WareHouse wareHouse) {
-        if(!updatesAllowed()){
+        if (!updatesAllowed()) {
             return;
         }
-        RecyclerView view = findViewById(R.id.Resources);
-        for (Resource warehouseStock:wareHouse.getWareHouseStocks().values()) {
-            ((ResourceAdapter)view.getAdapter()).updateResourceViewHolder(warehouseStock);
+        resources = findViewById(R.id.Resources);
+        for (Resource warehouseStock : wareHouse.getWareHouseStocks().values()) {
+            ((ResourceAdapter) resources.getAdapter()).updateResourceViewHolder(warehouseStock);
         }
     }
 }

@@ -1,8 +1,4 @@
-
-
 package com.futurumgame.base.factories;
-
-import android.util.Log;
 
 import com.futurumgame.base.additionalDatatypes.Units;
 import com.futurumgame.base.enums.FactoryFormatter;
@@ -59,9 +55,13 @@ public abstract class Factory<T extends Resource> {
 
     public abstract Queue<String> getLongestResourceTreePath();
 
+    public abstract LinkedList<Resource> getUpgradeCosts();
+
     protected abstract LinkedList<Resource> requiredResources();
 
-    public abstract LinkedList<Resource> getUpgradeCosts();
+    protected abstract void upgrade();
+
+    protected abstract T instanceResourceWithAmount(Units amount);
 
     public final void workManually() {
         T resource = work();
@@ -92,16 +92,17 @@ public abstract class Factory<T extends Resource> {
         LinkedList<Resource> upgradeCosts = getUpgradeCosts();
         if (wareHouse.canOfferResources(upgradeCosts)) {
             wareHouse.offerResources(upgradeCosts);
+            upgrade();
             return UpgradeResult.Successful;
         }
         return UpgradeResult.Failure;
     }
 
-    public final Units emptyStorage() {
+    public final T emptyStorage() {
         Units current = internalStorage.copy();
         internalStorage.setValue(Units.Zero.getValue());
         internalStorage.setScale(Units.Zero.getScale());
-        return current;
+        return instanceResourceWithAmount(current);
     }
 
     protected final void addToStorage(Units units) {
@@ -110,6 +111,10 @@ public abstract class Factory<T extends Resource> {
             internalStorage.setValue(internalCapacity.getValue());
             internalStorage.setScale(internalCapacity.getScale());
         }
+    }
+
+    protected final void increaseLevel(){
+        level++;
     }
 
     @Override
