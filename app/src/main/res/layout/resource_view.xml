@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#131313"
+    android:backgroundTint="#131313">
 
     <ImageView
         android:id="@+id/ResourceImg"
@@ -17,12 +18,25 @@
         app:srcCompat="@drawable/ic_launcher_foreground" />
 
     <TextView
+        android:id="@+id/FactoryOveriew"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/muli"
+        android:text="[Name]: [Level]"
+        android:textColor="@color/plainWhite"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Production" />
+
+    <TextView
         android:id="@+id/ResourceName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="ResourceName"
+        android:textColor="@color/plainWhite"
         app:layout_constraintStart_toEndOf="@+id/ResourceImg"
         app:layout_constraintTop_toTopOf="@+id/ResourceImg" />
 
@@ -32,7 +46,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
         android:layout_marginTop="64dp"
+        android:fontFamily="@font/muli"
         android:text="WarehouseStock"
+        android:textColor="@color/plainWhite"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ResourceName" />
 
@@ -42,47 +58,46 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
         android:layout_marginTop="20dp"
+        android:fontFamily="@font/muli"
         android:text="Productionrate: [prodrate]"
+        android:textColor="@color/plainWhite"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/WarehouseStock" />
 
-    <TextView
-        android:id="@+id/FactoryOveriew"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="20dp"
-        android:text="[Name]: [Level]"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Production" />
-
-    <Button
-        android:id="@+id/ManageFactory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="32dp"
-        android:text="Manage Factory"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/FactoryOveriew" />
-
-    <Button
-        android:id="@+id/Click"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:text="Click"
-        app:layout_constraintStart_toEndOf="@+id/ManageFactory"
-        app:layout_constraintTop_toTopOf="@+id/ManageFactory" />
-
-    <Button
-        android:id="@+id/GoBackToMainView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="160dp"
-        android:text="Go Back"
+    <ImageButton
+        android:id="@+id/clickButton"
+        android:layout_width="92dp"
+        android:layout_height="69dp"
+        android:background="@drawable/click_button"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ManageFactory" />
+        app:layout_constraintHorizontal_bias="0.824"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.679" />
+
+    <ImageButton
+        android:id="@+id/backButton2"
+        android:layout_width="113dp"
+        android:layout_height="92dp"
+        android:background="@drawable/back_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.866" />
+
+    <ImageButton
+        android:id="@+id/factoryButton"
+        android:layout_width="92dp"
+        android:layout_height="69dp"
+        android:background="@drawable/factory_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.156"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.679" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

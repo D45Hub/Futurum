@@ -1,5 +1,6 @@
 package com.futurumgame.base.ui.activities;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -20,6 +21,7 @@ import com.futurumgame.base.ui.listeners.onclicklisteners.GoToViewListener;
 import com.futurumgame.base.ui.listeners.onclicklisteners.ManualCollectClickListener;
 import com.futurumgame.base.ui.listeners.onclicklisteners.ManualWorkClickListener;
 import com.futurumgame.base.util.ResourceUtil;
+
 
 public class ResourceViewActivity extends UpdatableViewActivity {
 
@@ -50,6 +52,7 @@ public class ResourceViewActivity extends UpdatableViewActivity {
         warehouseStocks = findViewById(R.id.WarehouseStock);
         productionRate = findViewById(R.id.Production);
         factoryOverview = findViewById(R.id.FactoryOveriew);
+
     }
 
     @Override
