@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.futurumgame.base.MainActivity;
 import com.futurumgame.base.R;
+import com.futurumgame.base.additionalDatatypes.Units;
 import com.futurumgame.base.factories.Factory;
 import com.futurumgame.base.factories.basic.WaterMill;
 import com.futurumgame.base.resources.Resource;
@@ -14,9 +15,12 @@ import com.futurumgame.base.ui.activities.FactoryManagerViewActivity;
 import com.futurumgame.base.ui.activities.ResourceViewActivity;
 import com.futurumgame.base.ui.activities.UpdatableViewActivity;
 
+import java.util.Hashtable;
 import java.util.Timer;
 
 public class GameRoutine {
+
+    private static final long Second = 1000;
 
     private static GameRoutine current;
     private static UpdatableViewActivity currentActivity;
@@ -25,6 +29,7 @@ public class GameRoutine {
     private final MainActivity main;
     private final WareHouse wareHouse;
     private final FactorySystem factories;
+    private final Hashtable<Integer, Units> measuredDeltas = new Hashtable<>();
 
     private long tickRate = 25;
     private Timer timer = new Timer(true);
@@ -52,6 +57,7 @@ public class GameRoutine {
 
     private void schedule() {
         timer.scheduleAtFixedRate(new Tick(factories, wareHouse), 0, tickRate);
+        timer.scheduleAtFixedRate(new MeasureTick(wareHouse, measuredDeltas), 0, 1000);
     }
 
     private void changeTickRate(long milliseconds) {
@@ -83,6 +89,10 @@ public class GameRoutine {
 
     public static Activity getCurrentActivity(){
         return currentActivity;
+    }
+
+    public static Units getMeasuredProduction(int resourceID) {
+        return current.measuredDeltas.get(resourceID);
     }
 
     public static void setCurrent(UpdatableViewActivity current){

@@ -18,7 +18,6 @@ public class ManualWorkClickListener implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         node.getCurrent().workManually();
-        Log.e("Click",node.getCurrent().toString());
     }
 
     public static ManualWorkClickListener newListener(FactoryNode<? extends Resource> node){

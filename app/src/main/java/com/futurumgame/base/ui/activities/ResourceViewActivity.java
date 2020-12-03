@@ -59,7 +59,7 @@ public class ResourceViewActivity extends UpdatableViewActivity {
         FactoryNode<? extends Resource> node = MetaData.FactoryNode.getMeta();
         warehouseStocks.setText(wareHouse.getWareHouseStock(node.getResourceID()).toString());
         TextView productionRate = findViewById(R.id.Production);
-        Units production = node.getCurrent().work().getCount();
+        Units production = GameRoutine.getMeasuredProduction(node.getResourceID());
         final long ticksPerSecond = 1000 / GameRoutine.getTickRate();
         production.multiply(new Units(ticksPerSecond, 0));
         productionRate.setText(StringFormatter.NameValueUnit.format(
