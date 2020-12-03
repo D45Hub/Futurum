@@ -61,6 +61,8 @@ public abstract class Factory<T extends Resource> {
 
     protected abstract void upgrade();
 
+    protected abstract T instanceResourceWithAmount(Units amount);
+
     public final void workManually() {
         T resource = work();
         Units multiplier = new Units(5, Math.floor(1/Math.log10((level+100)/169.0 +1)-3));
@@ -96,11 +98,11 @@ public abstract class Factory<T extends Resource> {
         return UpgradeResult.Failure;
     }
 
-    public final Units emptyStorage() {
+    public final T emptyStorage() {
         Units current = internalStorage.copy();
         internalStorage.setValue(Units.Zero.getValue());
         internalStorage.setScale(Units.Zero.getScale());
-        return current;
+        return instanceResourceWithAmount(current);
     }
 
     protected final void addToStorage(Units units) {

@@ -8,14 +8,14 @@ import android.util.Log;
 import com.futurumgame.base.MainActivity;
 import com.futurumgame.base.R;
 import com.futurumgame.base.additionalDatatypes.Units;
+import com.futurumgame.base.enums.TimeUnits;
 import com.futurumgame.base.factories.Factory;
 import com.futurumgame.base.factories.basic.WaterMill;
 import com.futurumgame.base.resources.Resource;
-import com.futurumgame.base.ui.activities.FactoryManagerViewActivity;
-import com.futurumgame.base.ui.activities.ResourceViewActivity;
 import com.futurumgame.base.ui.activities.UpdatableViewActivity;
 
 import java.util.Hashtable;
+import java.util.Stack;
 import java.util.Timer;
 
 public class GameRoutine {
@@ -25,13 +25,14 @@ public class GameRoutine {
     private static GameRoutine current;
     private static UpdatableViewActivity currentActivity;
     private static final Handler handler = new Handler(Looper.getMainLooper());
+    private static final Stack<UpdatableViewActivity> previousActiveActivities = new Stack<>();
 
     private final MainActivity main;
     private final WareHouse wareHouse;
     private final FactorySystem factories;
     private final Hashtable<Integer, Units> measuredDeltas = new Hashtable<>();
 
-    private long tickRate = 25;
+    private long tickRate = TimeUnits.Millisecond.inThisUnit(25);
     private Timer timer = new Timer(true);
 
     public GameRoutine(MainActivity mainActivity) {
@@ -57,11 +58,11 @@ public class GameRoutine {
 
     private void schedule() {
         timer.scheduleAtFixedRate(new Tick(factories, wareHouse), 0, tickRate);
-        timer.scheduleAtFixedRate(new MeasureTick(wareHouse, measuredDeltas), 0, 1000);
+        timer.scheduleAtFixedRate(new MeasureTick(wareHouse, measuredDeltas), 0, TimeUnits.Second.getTimeInMilliseconds());
     }
 
     private void changeTickRate(long milliseconds) {
-        tickRate = milliseconds;
+        tickRate = TimeUnits.Millisecond.inThisUnit(milliseconds);
         timer.cancel();
         timer = new Timer();
         schedule();
@@ -95,8 +96,14 @@ public class GameRoutine {
         return current.measuredDeltas.get(resourceID);
     }
 
-    public static void setCurrent(UpdatableViewActivity current){
-        GameRoutine.currentActivity = current;
+    public static void setNewCurrent(UpdatableViewActivity current){
+        previousActiveActivities.push(currentActivity);
+        currentActivity = current;
+    }
+
+    public static void fallBackToPrevious() {
+        currentActivity.finish();
+        currentActivity = previousActiveActivities.pop();
     }
 
     public static void stop() {

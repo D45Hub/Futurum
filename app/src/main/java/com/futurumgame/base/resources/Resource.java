@@ -11,7 +11,7 @@ public abstract class Resource {
     private final int id;
     private final String name;
 
-    protected Resource(int id,String name) {
+    protected Resource(int id, String name) {
         this.id = id;
         this.name = name;
     }
