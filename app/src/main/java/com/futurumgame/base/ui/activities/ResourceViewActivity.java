@@ -1,7 +1,9 @@
 package com.futurumgame.base.ui.activities;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -20,6 +22,7 @@ import com.futurumgame.base.ui.listeners.onclicklisteners.GoToViewListener;
 import com.futurumgame.base.ui.listeners.onclicklisteners.ManualWorkClickListener;
 import com.futurumgame.base.util.ResourceUtil;
 
+
 public class ResourceViewActivity extends UpdatableViewActivity {
 
     @Override
@@ -32,12 +35,21 @@ public class ResourceViewActivity extends UpdatableViewActivity {
 
         TextView resourceName = findViewById(R.id.ResourceName);
         resourceName.setText(((FactoryNode) MetaData.FactoryNode.getMeta()).getResourceName());
-        Button manageFactory = findViewById(R.id.ManageFactory);
-        manageFactory.setOnClickListener(new GoToViewListener(FactoryManagerViewActivity.class, this));
-        Button click = findViewById(R.id.Click);
-        click.setOnClickListener(ManualWorkClickListener.newListener(MetaData.FactoryNode.getMeta()));
-        Button goBack = findViewById(R.id.GoBackToMainView);
-        goBack.setOnClickListener(new GoBackToMainActivityListener(this));
+        //Button manageFactory = findViewById(R.id.ManageFactory);
+        //manageFactory.setOnClickListener(new GoToViewListener(FactoryManagerViewActivity.class, this));
+        ImageButton manageFactoryButton = findViewById(R.id.factoryButton);
+        manageFactoryButton.setOnClickListener(new GoToViewListener(FactoryManagerViewActivity.class, this));
+
+        //Button click = findViewById(R.id.Click);
+        //click.setOnClickListener(ManualWorkClickListener.newListener(MetaData.FactoryNode.getMeta()));
+        ImageButton clickButton = findViewById(R.id.clickButton);
+        clickButton.setOnClickListener(ManualWorkClickListener.newListener(MetaData.FactoryNode.getMeta()));
+
+        //Button goBack;
+        //goBack = findViewById(R.id.GoBackToMainView);
+        //goBack.setOnClickListener(new GoBackToMainActivityListener(this));
+        ImageButton goBackButton = findViewById(R.id.backButton2);
+        goBackButton.setOnClickListener(new GoBackToMainActivityListener(this));
     }
 
     @Override
