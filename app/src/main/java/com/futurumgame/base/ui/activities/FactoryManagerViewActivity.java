@@ -22,6 +22,7 @@ import com.futurumgame.base.gameinternals.FactoryNode;
 import com.futurumgame.base.gameinternals.GameRoutine;
 import com.futurumgame.base.gameinternals.WareHouse;
 import com.futurumgame.base.resources.Resource;
+import com.futurumgame.base.ui.listeners.onclicklisteners.GoBackListener;
 import com.futurumgame.base.ui.listeners.onclicklisteners.GoToViewListener;
 import com.futurumgame.base.ui.listeners.onclicklisteners.UpgradeFactoryListener;
 import com.futurumgame.base.util.ResourceUtil;
@@ -45,7 +46,7 @@ public class FactoryManagerViewActivity extends UpdatableViewActivity {
         upgradeButton.setOnClickListener(UpgradeFactoryListener.newListener(factory, costs));
 
         ImageButton goBack = findViewById(R.id.backButton);
-        goBack.setOnClickListener(new GoBackListener.newListener(ResourceViewActivity.class, this));
+        goBack.setOnClickListener(GoBackListener.newListener());
     }
 
     @Override

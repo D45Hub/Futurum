@@ -46,7 +46,7 @@ public class ResourceViewActivity extends UpdatableViewActivity {
         ImageButton goBackButton = findViewById(R.id.backButton2);
         goBackButton.setOnClickListener(GoBackListener.newListener());
 
-        Button collectButton = findViewById(R.id.Collect);
+        ImageButton collectButton = findViewById(R.id.Collect);
         collectButton.setOnClickListener(ManualCollectClickListener.newListener(MetaData.FactoryNode.getMeta()));
 
         warehouseStocks = findViewById(R.id.WarehouseStock);
