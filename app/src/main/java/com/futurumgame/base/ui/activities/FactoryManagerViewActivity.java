@@ -2,9 +2,11 @@ package com.futurumgame.base.ui.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -41,9 +43,14 @@ public class FactoryManagerViewActivity extends UpdatableViewActivity {
         costs = findViewById(R.id.UpgradeCosts);
         allowUpdates();
 
-        Button upgrade = findViewById(R.id.Upgrade);
-        upgrade.setOnClickListener(UpgradeFactoryListener.newListener(factory, costs));
-        Button goBack =findViewById(R.id.GoBackToRecourceView);
+        //Button upgrade = findViewById(R.id.Upgrade);
+        //upgrade.setOnClickListener(UpgradeFactoryListener.newListener(factory, costs));
+        ImageButton upgradeButton = findViewById(R.id.upgradeButton);
+        upgradeButton.setOnClickListener(UpgradeFactoryListener.newListener(factory, costs));
+
+        //Button goBack =findViewById(R.id.GoBackToRecourceView);
+        //goBack.setOnClickListener(new GoToViewListener(ResourceViewActivity.class, this));
+        ImageButton goBack = findViewById(R.id.backButton);
         goBack.setOnClickListener(new GoToViewListener(ResourceViewActivity.class, this));
     }
 

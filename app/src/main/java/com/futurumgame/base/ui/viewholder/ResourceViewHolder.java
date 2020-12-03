@@ -28,5 +28,6 @@ public class ResourceViewHolder extends RecyclerView.ViewHolder {
 
     public void upDateText(Resource resource){
         view.setText(ResourceFormatter.Default.format(resource));
+        view.setTextColor(Color.WHITE);
     }
 }

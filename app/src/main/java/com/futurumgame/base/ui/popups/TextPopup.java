@@ -1,6 +1,7 @@
 package com.futurumgame.base.ui.popups;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -23,5 +24,6 @@ public class TextPopup extends BasePopup {
     private void init(String text) {
         TextView view = getContentView().findViewById(R.id.Text);
         view.setText(text);
+        view.setTextColor(Color.WHITE);
     }
 }
