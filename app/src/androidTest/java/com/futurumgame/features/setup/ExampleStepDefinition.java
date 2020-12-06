@@ -1,37 +1,60 @@
 package com.futurumgame.features.setup;
 
-import org.junit.runner.RunWith;
+import com.futurumgame.base.MainActivity;
+import com.futurumgame.base.R;
+import com.futurumgame.base.enums.UpgradeResult;
+import com.futurumgame.base.gameinternals.GameRoutine;
+import com.futurumgame.base.ui.adapter.ResourceAdapter;
+import com.mauriciotogneri.greencoffee.GreenCoffeeSteps;
+import com.mauriciotogneri.greencoffee.annotations.And;
+import com.mauriciotogneri.greencoffee.annotations.Given;
+import com.mauriciotogneri.greencoffee.annotations.Then;
+import com.mauriciotogneri.greencoffee.annotations.When;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
+import org.junit.Before;
+import org.junit.BeforeClass;
 
-@RunWith(AndroidJUnit4.class)
-public class ExampleStepDefinition {
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import static org.junit.Assert.assertEquals;
 
 
-    @Before("@sessionoverview-feature")
-    public void setup() {
+public class ExampleStepDefinition extends GreenCoffeeSteps {
+
+    @Given("^the USER has enough resource$")
+    public void checkForEnoughResources() {
+
     }
 
-    @After("@sessionoverview-feature")
-    public void tearDown() {
+
+    @Given("^the USER has not enough resources$")
+    public void checkForNotEnoughResources() {
+
+        onViewWithObject(UpgradeResult.Successful).checkIfIsDisplayed();
     }
 
-    @When("^Activity Session Overview is open$")
-    public void activitySessionOverviewIsOpen() {
+    @When("^the USER presses the Upgrade button$")
+    public void upgradeButtonPress() {
+        assertEquals(true, onViewWithId(R.id.upgradeButton).checkIfIsDisplayed());
+        assertEquals(true, onViewWithId(R.id.upgradeButton).checkIfIsClickable());
+        waitFor(2000);
+        onViewWithId(R.id.upgradeButton).click();
     }
 
-    @Then("^The page should list all the current active Sessions$")
-    public void thePageShouldListAllTheCurrentActiveSessions() {
+    @Then("^the USER gets notified that the upgrade failed$")
+    public void failedUpgradeNotification() {
         //TODO test
+        System.out.println("Meme");
     }
 
-    @And("^For each Session should the title ([^\"]*) be shown$")
-    public void forEachSessionShouldTheTitleTitleBeShown(String testTitle) {
+    @Then("^the amount of resources of USER are subtracted$")
+    public void subtractedResources() {
+        //TODO test
+        System.out.println("Meme");
+    }
+
+    @And("^the USER get notified that the upgrade was successful$")
+    public void forEachSessionShouldTheTitleTitleBeShown() {
         //TODO test
     }
 

@@ -27,6 +27,7 @@ public class FactoryNode<T extends Resource> extends AppCompatButton {
         this.current = current;
         setBackgroundColor(Colors.Black.getColor());
         setText(current.getResource().getName());
+        setTextColor(Colors.White.getColor());
         HashMap<String, Object> map = new HashMap<>();
         map.put(MetaData.FactoryNode.getMetaName(), this);
         setOnClickListener(new GoToViewListener(ResourceViewActivity.class, GameRoutine.getMainActivity(), map));
