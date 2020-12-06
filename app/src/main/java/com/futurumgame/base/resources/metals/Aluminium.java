@@ -4,8 +4,10 @@ import com.futurumgame.base.resources.Metal;
 
 public class Aluminium extends Metal {
 
+    public static final int ID = 31;
+
     private Aluminium() {
-        super(30, Aluminium.class.getSimpleName());
+        super(ID, Aluminium.class.getSimpleName());
     }
 
     public static Aluminium factory(){

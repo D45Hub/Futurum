@@ -5,8 +5,10 @@ import com.futurumgame.base.resources.basic.Dirt;
 
 public class Silver extends Metal {
 
+    public static final int ID = 30;
+
     private Silver() {
-        super(29, Silver.class.getSimpleName());
+        super(ID, Silver.class.getSimpleName());
     }
 
     public static Silver factory(){

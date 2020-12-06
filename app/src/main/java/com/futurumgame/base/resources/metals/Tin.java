@@ -5,8 +5,10 @@ import com.futurumgame.base.resources.ores.Coal;
 
 public class Tin extends Metal {
 
+    public static final int ID = 14;
+
     private Tin() {
-        super(13, Tin.class.getSimpleName());
+        super(ID, Tin.class.getSimpleName());
     }
 
     public static Tin factory() {

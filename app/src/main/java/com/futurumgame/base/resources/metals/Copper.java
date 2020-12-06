@@ -4,8 +4,10 @@ import com.futurumgame.base.resources.Metal;
 
 public class Copper extends Metal {
 
+    public static final int ID = 15;
+
     private Copper() {
-        super(14, Copper.class.getSimpleName());
+        super(ID, Copper.class.getSimpleName());
     }
 
     public static Copper factory() {

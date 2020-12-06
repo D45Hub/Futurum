@@ -3,7 +3,6 @@ package com.futurumgame.base.gameinternals;
 import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import com.futurumgame.base.MainActivity;
 import com.futurumgame.base.R;
@@ -11,6 +10,7 @@ import com.futurumgame.base.additionalDatatypes.Units;
 import com.futurumgame.base.enums.TimeUnits;
 import com.futurumgame.base.factories.Factory;
 import com.futurumgame.base.factories.basic.WaterMill;
+import com.futurumgame.base.gameinternals.unlockables.UnlockableCollection;
 import com.futurumgame.base.resources.Resource;
 import com.futurumgame.base.ui.activities.UpdatableViewActivity;
 
@@ -31,6 +31,7 @@ public class GameRoutine {
     private final WareHouse wareHouse;
     private final FactorySystem factories;
     private final Hashtable<Integer, Units> measuredDeltas = new Hashtable<>();
+    private final UnlockableCollection unlockables = new UnlockableCollection();
 
     private long tickRate = TimeUnits.Millisecond.inThisUnit(25);
     private Timer timer = new Timer(true);
@@ -42,6 +43,7 @@ public class GameRoutine {
         factories = main.findViewById(R.id.FactorySystem);
         wareHouse = new WareHouse(main);
         add(WaterMill.factory());
+        unlockables.update(wareHouse);
     }
 
     public WareHouse getWareHouse() {
@@ -108,6 +110,10 @@ public class GameRoutine {
 
     public static void stop() {
         current.timer.cancel();
+    }
+
+    public static UnlockableCollection getUnlockables() {
+        return current.unlockables;
     }
 
     public static void updateUi() {
