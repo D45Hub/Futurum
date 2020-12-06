@@ -10,6 +10,7 @@ import com.mauriciotogneri.greencoffee.GreenCoffeeConfig;
 import com.mauriciotogneri.greencoffee.GreenCoffeeTest;
 import com.mauriciotogneri.greencoffee.ScenarioConfig;
 
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +28,7 @@ import gherkin.cli.Main;
 public class ExampleTest extends GreenCoffeeTest
 {
     @Rule
-    public ActivityTestRule<ResourceViewActivity> activity = new ActivityTestRule<>(ResourceViewActivity.class);
+    public ActivityTestRule<MainActivity> activity = new ActivityTestRule<>(MainActivity.class);
 
     public ExampleTest(ScenarioConfig scenarioConfig)
     {
@@ -37,9 +38,8 @@ public class ExampleTest extends GreenCoffeeTest
     @Parameterized.Parameters(name = "{0}")
     public static Iterable<ScenarioConfig> scenarios() throws IOException
     {
-
         return new GreenCoffeeConfig()
-                .withFeatureFromUrl("https://raw.githubusercontent.com/D45Hub/Futurum/dev/app/src/androidTest/java/com/futurumgame/features/assets/upgradeFeature.feature")
+                .withFeatureFromUrl("https://raw.githubusercontent.com/D45Hub/Futurum/tests/app/src/androidTest/java/com/futurumgame/features/assets/manualResourceGenerationBeta.feature")
                 .takeScreenshotOnFail()
                 .scenarios(TestSuite.ENGLISH);
     }

@@ -1,15 +1,24 @@
 package com.futurumgame.features.setup;
 
+import android.content.Intent;
+import android.view.View;
+
 import com.futurumgame.base.MainActivity;
 import com.futurumgame.base.R;
+import com.futurumgame.base.enums.MetaData;
 import com.futurumgame.base.enums.UpgradeResult;
+import com.futurumgame.base.factories.basic.WaterMill;
+import com.futurumgame.base.gameinternals.FactoryNode;
 import com.futurumgame.base.gameinternals.GameRoutine;
+import com.futurumgame.base.resources.basic.Water;
+import com.futurumgame.base.ui.activities.ResourceViewActivity;
 import com.futurumgame.base.ui.adapter.ResourceAdapter;
 import com.mauriciotogneri.greencoffee.GreenCoffeeSteps;
 import com.mauriciotogneri.greencoffee.annotations.And;
 import com.mauriciotogneri.greencoffee.annotations.Given;
 import com.mauriciotogneri.greencoffee.annotations.Then;
 import com.mauriciotogneri.greencoffee.annotations.When;
+import com.mauriciotogneri.greencoffee.interactions.ActionableObject;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -21,41 +30,37 @@ import static org.junit.Assert.assertEquals;
 
 public class ExampleStepDefinition extends GreenCoffeeSteps {
 
-    @Given("^the USER has enough resource$")
+    private ActionableObject oldLabel;
+
+    @Given("^the USER is on the Resource View$")
     public void checkForEnoughResources() {
-
-    }
-
-
-    @Given("^the USER has not enough resources$")
-    public void checkForNotEnoughResources() {
-
-        onViewWithObject(UpgradeResult.Successful).checkIfIsDisplayed();
-    }
-
-    @When("^the USER presses the Upgrade button$")
-    public void upgradeButtonPress() {
-        assertEquals(true, onViewWithId(R.id.upgradeButton).checkIfIsDisplayed());
-        assertEquals(true, onViewWithId(R.id.upgradeButton).checkIfIsClickable());
+        onViewWithText("WATER").click();
         waitFor(2000);
-        onViewWithId(R.id.upgradeButton).click();
+        assertEquals(true, onViewWithId(R.id.clickButton).checkIfIsDisplayed());
     }
 
-    @Then("^the USER gets notified that the upgrade failed$")
-    public void failedUpgradeNotification() {
-        //TODO test
-        System.out.println("Meme");
+    @When("^the USER taps on the Button$")
+    public void tapOnButton() {
+        oldLabel = onViewWithId(R.id.FactoryOveriew);
+        waitFor(2000);
+        onViewWithId(R.id.clickButton).click();
+        waitFor(2000);
     }
 
-    @Then("^the amount of resources of USER are subtracted$")
-    public void subtractedResources() {
-        //TODO test
-        System.out.println("Meme");
+    @Then("^calculate the generated amount of resources$")
+    public void updateThingy() {}
+
+
+    @And("^add the amount of resources to USER$")
+    public void addResources()
+    {
     }
 
-    @And("^the USER get notified that the upgrade was successful$")
-    public void forEachSessionShouldTheTitleTitleBeShown() {
-        //TODO test
+    @And("^update the label with the amount of resources$")
+    public void updateLabel()
+    {
+        assertEquals(false, oldLabel.equals(onViewWithId(R.id.FactoryOveriew)));
     }
+
 
 }
