@@ -4,8 +4,10 @@ import com.futurumgame.base.resources.BaseResource;
 
 public class Gravel extends BaseResource {
 
+    public static final int ID = 5;
+
     private Gravel() {
-        super(5, Gravel.class.getSimpleName());
+        super(ID, Gravel.class.getSimpleName());
     }
 
     public static Gravel factory(){

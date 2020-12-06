@@ -1,11 +1,8 @@
 package com.futurumgame.base.ui.adapter;
 
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.futurumgame.base.R;
 import com.futurumgame.base.ui.viewholder.ResourceViewHolder;
@@ -14,7 +11,7 @@ import com.futurumgame.base.resources.Resource;
 import java.util.HashMap;
 import java.util.Hashtable;
 
-public class ResourceAdapter extends RecyclerView.Adapter<ResourceViewHolder> {
+public final class ResourceAdapter extends TextViewAdapter<Resource, ResourceViewHolder> {
 
     private final HashMap<Integer, ResourceViewHolder> resourceViewIdMapping = new HashMap<>();
     private final Hashtable<Integer, Resource> resources;
@@ -23,31 +20,28 @@ public class ResourceAdapter extends RecyclerView.Adapter<ResourceViewHolder> {
         this.resources = resources;
     }
 
+    @NonNull
+    @Override
+    public ResourceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ResourceViewHolder(inflateListItemView(parent, R.layout.list_item_view));
+    }
+
     @Override
     public int getItemCount() {
         return resources.size();
     }
 
-    @NonNull
     @Override
-    public ResourceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_view, parent, false);
-        return new ResourceViewHolder(itemView);
+    protected Resource getHolderObjectByPosition(int position) {
+        return resources.get(position);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ResourceViewHolder holder, int position) {
-        Resource resource = resources.get(position);
-        updateResourceViewHolder(holder, resource);
-        resourceViewIdMapping.put(resource.getID(), holder);
+    protected void onBindViewHolder(ResourceViewHolder holder, int position, Resource holderObject) {
+        resourceViewIdMapping.put(holderObject.getID(), holder);
     }
 
     public void updateResourceViewHolder(Resource resource) {
-       updateResourceViewHolder(resourceViewIdMapping.get(resource.getID()), resource);
-    }
-    private void updateResourceViewHolder(ResourceViewHolder holder, Resource resource){
-        if(holder!= null) {
-            holder.upDateText(resource);
-        }
+        updateViewHolder(resourceViewIdMapping.get(resource.getID()), resource);
     }
 }

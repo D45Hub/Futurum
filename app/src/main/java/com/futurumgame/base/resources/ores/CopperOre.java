@@ -4,8 +4,10 @@ import com.futurumgame.base.resources.Ore;
 
 public class CopperOre extends Ore {
 
+    public static final int ID = 12;
+
     private CopperOre() {
-        super(11, CopperOre.class.getSimpleName());
+        super(ID, CopperOre.class.getSimpleName());
     }
 
     public static CopperOre factory() {

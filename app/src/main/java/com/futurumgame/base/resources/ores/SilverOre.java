@@ -4,8 +4,10 @@ import com.futurumgame.base.resources.Ore;
 
 public class SilverOre extends Ore {
 
+    public static final int ID = 25;
+
     private SilverOre() {
-        super(24, SilverOre.class.getSimpleName());
+        super(ID, SilverOre.class.getSimpleName());
     }
 
     public static SilverOre factory(){

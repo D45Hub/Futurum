@@ -4,8 +4,10 @@ import com.futurumgame.base.resources.BaseResource;
 
 public class Clay extends BaseResource {
 
+    public static final int ID = 2;
+
     private Clay() {
-        super(2, Clay.class.getSimpleName());
+        super(ID, Clay.class.getSimpleName());
     }
 
     public static Clay factory(){

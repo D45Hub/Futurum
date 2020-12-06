@@ -4,6 +4,7 @@ import com.futurumgame.base.additionalDatatypes.Units;
 import com.futurumgame.base.enums.ResourceFormatter;
 
 import java.security.InvalidParameterException;
+import java.util.Objects;
 
 public abstract class Resource {
 
@@ -53,5 +54,18 @@ public abstract class Resource {
     @Override
     public String toString() {
         return ResourceFormatter.Debug.format(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Resource resource = (Resource) o;
+        return id == resource.id && name.contentEquals(resource.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }

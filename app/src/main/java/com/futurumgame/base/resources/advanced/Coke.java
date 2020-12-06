@@ -4,8 +4,10 @@ import com.futurumgame.base.resources.AdvancedResource;
 
 public class Coke extends AdvancedResource {
 
+    public static final int ID = 16;
+
     private Coke() {
-        super(15, Coke.class.getSimpleName());
+        super(ID, Coke.class.getSimpleName());
     }
 
     public static Coke factory() {

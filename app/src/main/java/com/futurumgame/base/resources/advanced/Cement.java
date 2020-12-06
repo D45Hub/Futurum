@@ -5,8 +5,10 @@ import com.futurumgame.base.resources.basic.Sand;
 
 public class Cement extends AdvancedResource {
 
+    public static final int ID = 20;
+
     private Cement() {
-        super(19, Cement.class.getSimpleName());
+        super(ID, Cement.class.getSimpleName());
     }
 
     public static Cement factory(){

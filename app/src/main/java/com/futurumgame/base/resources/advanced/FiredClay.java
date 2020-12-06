@@ -4,8 +4,10 @@ import com.futurumgame.base.resources.AdvancedResource;
 
 public class FiredClay extends AdvancedResource {
 
+    public static final int ID = 17;
+
     private FiredClay() {
-        super(16, FiredClay.class.getSimpleName());
+        super(ID, FiredClay.class.getSimpleName());
     }
 
     public static FiredClay factory() {
