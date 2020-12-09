@@ -5,8 +5,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
 import com.futurumgame.base.R;
-import com.futurumgame.base.gameinternals.unlockables.Unlockable;
-import com.futurumgame.base.gameinternals.unlockables.UnlockableCollection;
+import com.futurumgame.base.ui.listeners.onclicklisteners.UnlockListener;
+import com.futurumgame.base.unlockables.Unlockable;
+import com.futurumgame.base.unlockables.UnlockableCollection;
 import com.futurumgame.base.ui.viewholder.UnlockableViewHolder;
 
 public final class UnlockableAdapter extends TextViewAdapter<Unlockable, UnlockableViewHolder> {
@@ -35,5 +36,8 @@ public final class UnlockableAdapter extends TextViewAdapter<Unlockable, Unlocka
 
     @Override
     protected void onBindViewHolder(UnlockableViewHolder holder, int position, Unlockable holderObject) {
+        Unlockable unlockable = unlockables.get(position);
+        holder.updateText(unlockable);
+        holder.setOnClickListener(unlockable);
     }
 }

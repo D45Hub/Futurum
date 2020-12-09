@@ -10,7 +10,7 @@ import com.futurumgame.base.additionalDatatypes.Units;
 import com.futurumgame.base.enums.TimeUnits;
 import com.futurumgame.base.factories.Factory;
 import com.futurumgame.base.factories.basic.WaterMill;
-import com.futurumgame.base.gameinternals.unlockables.UnlockableCollection;
+import com.futurumgame.base.unlockables.UnlockableCollection;
 import com.futurumgame.base.resources.Resource;
 import com.futurumgame.base.ui.activities.UpdatableViewActivity;
 
@@ -54,13 +54,13 @@ public class GameRoutine {
         schedule();
     }
 
-    public <T extends Resource> void add(Factory<T> factory){
-        factories.add(factory);
-    }
-
     private void schedule() {
         timer.scheduleAtFixedRate(new Tick(factories, wareHouse), 0, tickRate);
         timer.scheduleAtFixedRate(new MeasureTick(wareHouse, measuredDeltas), 0, TimeUnits.Second.getTimeInMilliseconds());
+    }
+
+    private <T extends Resource> void add(Factory<T> factory){
+        factories.add(factory);
     }
 
     private void changeTickRate(long milliseconds) {
@@ -86,12 +86,16 @@ public class GameRoutine {
         return current.main;
     }
 
+    public static Activity getCurrentActivity(){
+        return currentActivity;
+    }
+
     public static WareHouse getCurrentWareHouse(){
         return current.wareHouse;
     }
 
-    public static Activity getCurrentActivity(){
-        return currentActivity;
+    public static UnlockableCollection getUnlockables() {
+        return current.unlockables;
     }
 
     public static Units getMeasuredProduction(int resourceID) {
@@ -108,12 +112,12 @@ public class GameRoutine {
         currentActivity = previousActiveActivities.pop();
     }
 
-    public static void stop() {
-        current.timer.cancel();
+    public static <T extends Resource> void addNewFactory(Factory<T> factory) {
+        current.add(factory);
     }
 
-    public static UnlockableCollection getUnlockables() {
-        return current.unlockables;
+    public static void stop() {
+        current.timer.cancel();
     }
 
     public static void updateUi() {

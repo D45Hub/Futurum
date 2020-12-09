@@ -7,7 +7,7 @@ public class ResourceHelper {
     private ResourceHelper(){
     }
 
-    public static Resource setToAmount(Resource resource, Units units){
+    public static<T extends Resource> T setToAmount(T resource, Units units){
         resource.setCount(units);
         return resource;
     }
