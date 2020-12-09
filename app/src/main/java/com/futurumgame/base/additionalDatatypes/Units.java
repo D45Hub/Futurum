@@ -403,6 +403,6 @@ public final class Units extends Number implements Comparable<Units> {
 
     private int calcScaleDiff(double rawValueDiff){
         double scaleDiffRaw = Math.log10(Math.abs(rawValueDiff));
-        return (int)(scaleDiffRaw+(scaleDiffRaw > 0 ? 0:-1));
+        return (int)(scaleDiffRaw+(scaleDiffRaw >= 0 ? 0:-1));
     }
 }
