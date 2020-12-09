@@ -4,8 +4,10 @@ import com.futurumgame.base.resources.Ore;
 
 public class DiamondOre extends Ore {
 
+    public static final int ID = 27;
+
     private DiamondOre() {
-        super(26, DiamondOre.class.getSimpleName());
+        super(ID, DiamondOre.class.getSimpleName());
     }
 
     public static DiamondOre factory() {

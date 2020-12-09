@@ -1,11 +1,14 @@
 package com.futurumgame.base.resources.advanced;
 
+import com.futurumgame.base.interfaces.Burnable;
 import com.futurumgame.base.resources.AdvancedResource;
 
-public class Coke extends AdvancedResource {
+public class Coke extends AdvancedResource implements Burnable {
+
+    public static final int ID = 16;
 
     private Coke() {
-        super(15, Coke.class.getSimpleName());
+        super(ID, Coke.class.getSimpleName());
     }
 
     public static Coke factory() {

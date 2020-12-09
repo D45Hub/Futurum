@@ -5,8 +5,10 @@ import com.futurumgame.base.resources.advanced.Glass;
 
 public class Bronze extends Alloy {
 
+    public static final int ID = 19;
+
     private Bronze() {
-        super(18, Bronze.class.getSimpleName());
+        super(ID, Bronze.class.getSimpleName());
     }
 
     public static Bronze factory() {

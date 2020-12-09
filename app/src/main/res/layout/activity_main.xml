@@ -35,10 +35,10 @@
         android:id="@+id/researchButton"
         android:layout_width="123dp"
         android:layout_height="82dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="104dp"
         android:background="@drawable/research_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.774"
+        app:layout_constraintHorizontal_bias="0.708"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

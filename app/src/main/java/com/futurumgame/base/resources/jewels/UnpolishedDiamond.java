@@ -4,8 +4,10 @@ import com.futurumgame.base.resources.RawJewel;
 
 public class UnpolishedDiamond extends RawJewel {
 
+    public static final int ID = 32;
+
     private UnpolishedDiamond() {
-        super(31, UnpolishedDiamond.class.getSimpleName());
+        super(ID, UnpolishedDiamond.class.getSimpleName());
     }
 
     public static UnpolishedDiamond factory(){

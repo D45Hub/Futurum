@@ -27,7 +27,7 @@ public abstract class Factory<T extends Resource> {
         this.resource = resource;
     }
 
-    public String getName(){
+    public final String getName(){
         return name;
     }
 
@@ -50,18 +50,6 @@ public abstract class Factory<T extends Resource> {
     public final Units getStorage(){
         return internalStorage;
     }
-
-    public abstract T work();
-
-    public abstract Queue<String> getLongestResourceTreePath();
-
-    public abstract LinkedList<Resource> getUpgradeCosts();
-
-    protected abstract LinkedList<Resource> requiredResources();
-
-    protected abstract void upgrade();
-
-    protected abstract T instanceResourceWithAmount(Units amount);
 
     public final void workManually() {
         T resource = work();
@@ -113,12 +101,26 @@ public abstract class Factory<T extends Resource> {
         }
     }
 
-    protected final void increaseLevel(){
+    public abstract T work();
+
+    public abstract Queue<Integer> getLongestResourceTreePath();
+
+    public abstract LinkedList<Resource> getUpgradeCosts();
+
+    protected abstract LinkedList<Resource> requiredResources();
+
+    protected abstract T instanceResourceWithAmount(Units amount);
+
+    protected void upgrade() {
+        increaseLevel();
+    }
+
+    private void increaseLevel(){
         level++;
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return FactoryFormatter.Debug.format(this);
     }
 }

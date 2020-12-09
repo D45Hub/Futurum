@@ -5,8 +5,10 @@ import com.futurumgame.base.resources.ores.GoldOre;
 
 public class Gold extends Metal {
 
+    public static final int ID = 29;
+
     private Gold() {
-        super(28, Gold.class.getSimpleName());
+        super(ID, Gold.class.getSimpleName());
     }
 
     public static Gold factory(){

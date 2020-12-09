@@ -4,8 +4,10 @@ import com.futurumgame.base.resources.AdvancedResource;
 
 public class Glass extends AdvancedResource {
 
+    public static final int ID = 18;
+
     private Glass() {
-        super(17, Glass.class.getSimpleName());
+        super(ID, Glass.class.getSimpleName());
     }
 
     public static Glass factory() {
