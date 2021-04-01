@@ -20,6 +20,16 @@ public final class ResourceAdapter extends TextViewAdapter<Resource, ResourceVie
         this.resources = resources;
     }
 
+    @Override
+    protected Resource getHolderObjectByPosition(int position) {
+        return resources.get(position);
+    }
+
+    @Override
+    protected void onBindViewHolder(ResourceViewHolder holder, Resource holderObject) {
+        resourceViewIdMapping.put(holderObject.getID(), holder);
+    }
+
     @NonNull
     @Override
     public ResourceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -29,16 +39,6 @@ public final class ResourceAdapter extends TextViewAdapter<Resource, ResourceVie
     @Override
     public int getItemCount() {
         return resources.size();
-    }
-
-    @Override
-    protected Resource getHolderObjectByPosition(int position) {
-        return resources.get(position);
-    }
-
-    @Override
-    protected void onBindViewHolder(ResourceViewHolder holder, int position, Resource holderObject) {
-        resourceViewIdMapping.put(holderObject.getID(), holder);
     }
 
     public void updateResourceViewHolder(Resource resource) {

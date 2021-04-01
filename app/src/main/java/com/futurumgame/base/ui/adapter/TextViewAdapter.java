@@ -17,7 +17,7 @@ public abstract class TextViewAdapter<T, S extends TextViewViewHolder<T>> extend
     public final void onBindViewHolder(@NonNull S holder, int position) {
         T holderObject = getHolderObjectByPosition(position);
         updateViewHolder(holder, holderObject);
-        onBindViewHolder(holder, position, holderObject);
+        onBindViewHolder(holder, holderObject);
     }
 
     protected final View inflateListItemView(@NonNull ViewGroup parent, @LayoutRes int resource) {
@@ -32,5 +32,5 @@ public abstract class TextViewAdapter<T, S extends TextViewViewHolder<T>> extend
 
     protected abstract T getHolderObjectByPosition(int position);
 
-    protected abstract void onBindViewHolder(S holder, int position, T holderObject);
+    protected abstract void onBindViewHolder(S holder, T holderObject);
 }
