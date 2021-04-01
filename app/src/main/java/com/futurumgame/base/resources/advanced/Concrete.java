@@ -5,8 +5,10 @@ import com.futurumgame.base.resources.ores.IronOre;
 
 public class Concrete extends AdvancedResource {
 
+    public static final int ID = 23;
+
     private Concrete() {
-        super(22, Concrete.class.getSimpleName());
+        super(ID, Concrete.class.getSimpleName());
     }
 
     public static Concrete factory(){

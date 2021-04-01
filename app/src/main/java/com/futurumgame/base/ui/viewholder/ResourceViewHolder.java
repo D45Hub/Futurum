@@ -12,22 +12,18 @@ import com.futurumgame.base.enums.Colors;
 import com.futurumgame.base.enums.ResourceFormatter;
 import com.futurumgame.base.resources.Resource;
 
-public class ResourceViewHolder extends RecyclerView.ViewHolder {
+public  final class ResourceViewHolder extends TextViewViewHolder<Resource> {
 
     private TextView view;
 
     public ResourceViewHolder(@NonNull View itemView) {
         super(itemView);
-        view = itemView.findViewById(R.id.ReourceText);
+        view = itemView.findViewById(R.id.ItemText);
         view.setTextColor(Colors.White.getColor());
     }
 
-    public int getViewID(){
-        return view.getId();
-    }
-
-    public void upDateText(Resource resource){
+    public void updateText(Resource resource) {
         view.setText(ResourceFormatter.Default.format(resource));
-        view.setTextColor(Color.WHITE);
+        view.setTextColor(Colors.White.getColor());
     }
 }

@@ -5,8 +5,10 @@ import com.futurumgame.base.resources.Resource;
 
 public final class Wood extends AdvancedResource {
 
+    public static final int ID = 7;
+
     private Wood() {
-        super(6, Wood.class.getSimpleName());
+        super(ID, Wood.class.getSimpleName());
     }
 
     public static Wood factory() {

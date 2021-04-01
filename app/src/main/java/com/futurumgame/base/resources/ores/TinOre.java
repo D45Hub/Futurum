@@ -5,8 +5,10 @@ import com.futurumgame.base.resources.advanced.Limestone;
 
 public class TinOre extends Ore {
 
+    public static final int ID = 11;
+
     private TinOre() {
-        super(10, TinOre.class.getSimpleName());
+        super(ID, TinOre.class.getSimpleName());
     }
 
     public static TinOre factory() {

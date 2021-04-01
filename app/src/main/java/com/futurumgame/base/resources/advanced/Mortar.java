@@ -4,8 +4,10 @@ import com.futurumgame.base.resources.AdvancedResource;
 
 public class Mortar extends AdvancedResource {
 
+    public static final int ID = 8;
+
     private Mortar() {
-        super(7, Mortar.class.getSimpleName());
+        super(ID, Mortar.class.getSimpleName());
     }
 
     public static Mortar factory() {

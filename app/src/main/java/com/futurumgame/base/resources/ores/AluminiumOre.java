@@ -4,8 +4,10 @@ import com.futurumgame.base.resources.Ore;
 
 public class AluminiumOre extends Ore {
 
+    public static final int ID = 26;
+
     private AluminiumOre() {
-        super(25, AluminiumOre.class.getSimpleName());
+        super(ID, AluminiumOre.class.getSimpleName());
     }
 
     public static AluminiumOre factory(){

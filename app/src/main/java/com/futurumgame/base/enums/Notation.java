@@ -7,14 +7,12 @@ import java.lang.reflect.Method;
 
 public enum Notation {
     Scientific(u -> {
-        if(u.isNaN()) return "NaN";
-        if(u.isPosInfinity()) return "Inf";
-        if(u.isNegInfinity()) return "-Inf";
-        if(u.isZero()) return "0";
-        return String.format("%.4fe%.0f",u.getValue(), u.getScale());
+        if (u.isNaN()) return "NaN";
+        if (u.isPosInfinity()) return "Inf";
+        if (u.isNegInfinity()) return "-Inf";
+        if (u.isZero()) return "0";
+        return String.format("%.2fe%.0f", u.getValue(), u.getScale());
     });
-
-    private static final char[] ForbiddenChars = {',', '.'};
 
     private INotationFormatter formatter;
 
@@ -24,12 +22,5 @@ public enum Notation {
 
     public String applyNotationFormat(Units units) {
         return formatter.format(units);
-    }
-
-    private static String removeIllegalChars(String s) {
-        for (char c : ForbiddenChars) {
-            s = s.replace(new String(new char[]{c}), "");
-        }
-        return s;
     }
 }

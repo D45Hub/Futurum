@@ -4,8 +4,10 @@ import com.futurumgame.base.resources.BaseResource;
 
 public class Oil extends BaseResource {
 
+    public static final int ID = 6;
+
     private Oil() {
-        super(5, Oil.class.getSimpleName());
+        super(ID, Oil.class.getSimpleName());
     }
 
     public static Oil factory(){

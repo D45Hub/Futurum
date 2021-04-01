@@ -27,6 +27,31 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Resources" />
+        app:layout_constraintTop_toBottomOf="@+id/Resources" >
+
+    </com.futurumgame.base.gameinternals.FactorySystem>
+
+    <ImageButton
+        android:id="@+id/researchButton"
+        android:layout_width="123dp"
+        android:layout_height="82dp"
+        android:layout_marginTop="104dp"
+        android:background="@drawable/research_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.708"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/unlockButton"
+        android:layout_width="93dp"
+        android:layout_height="64dp"
+        android:background="@drawable/unlock_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.223"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.182" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,8 +5,10 @@ import com.futurumgame.base.resources.ores.DiamondOre;
 
 public class Steel extends Alloy {
 
+    public static final int ID = 28;
+
     private Steel() {
-        super(27, Steel.class.getSimpleName());
+        super(ID, Steel.class.getSimpleName());
     }
 
     public static Steel factory() {

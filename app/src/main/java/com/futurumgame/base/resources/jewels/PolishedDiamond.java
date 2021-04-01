@@ -4,8 +4,10 @@ import com.futurumgame.base.resources.Jewel;
 
 public class PolishedDiamond extends Jewel {
 
+    public static final int ID = 33;
+
     private PolishedDiamond() {
-        super(32, PolishedDiamond.class.getSimpleName());
+        super(ID, PolishedDiamond.class.getSimpleName());
     }
 
     public static PolishedDiamond factory(){

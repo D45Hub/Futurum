@@ -1,14 +1,16 @@
 package com.futurumgame.base.factories.basic;
 
 import com.futurumgame.base.additionalDatatypes.Units;
+import com.futurumgame.base.factories.BasicFactory;
 import com.futurumgame.base.factories.Factory;
 import com.futurumgame.base.resources.Resource;
+import com.futurumgame.base.resources.ResourceHelper;
 import com.futurumgame.base.resources.basic.Water;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-public final class WaterMill extends Factory<Water> {
+public final class WaterMill extends BasicFactory<Water> {
 
     protected WaterMill() {
         super(WaterMill.class.getSimpleName(), Water.factory(), new Units(1, 2));
@@ -16,7 +18,7 @@ public final class WaterMill extends Factory<Water> {
 
     @Override
     public Water work() {
-        Units baseProd = new Units(getLevel() * 4, -4);
+        Units baseProd = new Units(getLevel() * 4, -2 + Math.floor(Math.log(getLevel())/Math.log(5)));
         baseProd.multiply(new Units(1.5, Math.floor(Math.log10(getLevel()))));
         Water produced = Water.factory();
         produced.setCount(baseProd);
@@ -24,35 +26,22 @@ public final class WaterMill extends Factory<Water> {
     }
 
     @Override
-    public Queue<String> getLongestResourceTreePath() {
-        return new LinkedList<>();
-    }
-
-    @Override
     public LinkedList<Resource> getUpgradeCosts() {
         LinkedList<Resource> costs = new LinkedList<>();
-        Resource cost = Water.factory();
-        cost.setCount(new Units(getLevel() * 5, getLevel()-1));
-        costs.add(cost);
+        costs.add(ResourceHelper.setToAmount(Water.factory(),
+                new Units(getLevel() * 5, Math.floor(Math.log10(getLevel()*7)*0.3))));
         return costs;
     }
 
     @Override
-    protected LinkedList<Resource> requiredResources() {
-        return new LinkedList<>();
-    }
-
-    @Override
     protected void upgrade() {
-        increaseLevel();
-        getStorage().multiply(new Units(getLevel(), Math.floor(Math.log10(getLevel()))));
+        super.upgrade();
+        getStorage().multiply(new Units(getLevel(), Math.floor(Math.log(getLevel()))));
     }
 
     @Override
     protected Water instanceResourceWithAmount(Units amount) {
-        Water resource = Water.factory();
-        resource.setCount(amount);
-        return resource;
+        return ResourceHelper.setToAmount(Water.factory(), amount);
     }
 
     public static WaterMill factory() {

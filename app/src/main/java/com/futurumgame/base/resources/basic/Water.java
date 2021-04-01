@@ -5,8 +5,10 @@ import com.futurumgame.base.resources.Resource;
 
 public final class Water extends BaseResource {
 
+    public static final int ID = 0;
+
     private Water() {
-        super(0, Water.class.getSimpleName());
+        super(ID, Water.class.getSimpleName());
     }
 
     public static Water factory(){

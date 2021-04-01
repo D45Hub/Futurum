@@ -4,8 +4,10 @@ import com.futurumgame.base.resources.AdvancedResource;
 
 public class Limestone extends AdvancedResource {
 
+    public static final int ID = 10;
+
     private Limestone() {
-        super(9, Limestone.class.getSimpleName());
+        super(ID, Limestone.class.getSimpleName());
     }
 
     public static Limestone factory() {
