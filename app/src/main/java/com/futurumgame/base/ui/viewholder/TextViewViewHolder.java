@@ -14,7 +14,7 @@ public abstract class TextViewViewHolder<T> extends RecyclerView.ViewHolder {
     private TextView view;
 
 
-    public TextViewViewHolder(@NonNull View itemView) {
+    protected TextViewViewHolder(@NonNull View itemView) {
         super(itemView);
         view = itemView.findViewById(R.id.ItemText);
         view.setTextColor(Colors.White.getColor());

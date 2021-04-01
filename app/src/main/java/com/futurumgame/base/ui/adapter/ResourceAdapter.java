@@ -27,18 +27,23 @@ public final class ResourceAdapter extends TextViewAdapter<Resource, ResourceVie
     }
 
     @Override
-    public int getItemCount() {
-        return resources.size();
-    }
-
-    @Override
     protected Resource getHolderObjectByPosition(int position) {
         return resources.get(position);
     }
 
     @Override
-    protected void onBindViewHolder(ResourceViewHolder holder, int position, Resource holderObject) {
+    protected void onBindViewHolder(ResourceViewHolder holder, Resource holderObject) {
         resourceViewIdMapping.put(holderObject.getID(), holder);
+    }
+
+    @Override
+    public ResourceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ResourceViewHolder(inflateListItemView(parent, R.layout.list_item_view));
+    }
+
+    @Override
+    public int getItemCount() {
+        return resources.size();
     }
 
     public void updateResourceViewHolder(Resource resource) {

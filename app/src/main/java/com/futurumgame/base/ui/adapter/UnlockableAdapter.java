@@ -35,9 +35,8 @@ public final class UnlockableAdapter extends TextViewAdapter<Unlockable, Unlocka
     }
 
     @Override
-    protected void onBindViewHolder(UnlockableViewHolder holder, int position, Unlockable holderObject) {
-        Unlockable unlockable = unlockables.get(position);
-        holder.updateText(unlockable);
-        holder.setOnClickListener(unlockable);
+    protected void onBindViewHolder(UnlockableViewHolder holder, Unlockable holderObject) {
+        holder.updateText(holderObject);
+        holder.setOnClickListener(holderObject);
     }
 }
