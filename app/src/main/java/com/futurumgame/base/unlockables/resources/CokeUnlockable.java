@@ -9,7 +9,7 @@ import com.futurumgame.base.resources.ores.Coal;
 public class CokeUnlockable extends ResourceUnlockable {
 
     private CokeUnlockable() {
-        super(DirtUnlockable.class.getSimpleName(), Coke.ID, new Units(1, 3),
+        super(CokeUnlockable.class.getSimpleName(), Coke.ID, new Units(1, 3),
                 ResourceHelper.setToAmount(Coal.factory(), new Units(1, 3)));
     }
 

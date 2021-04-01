@@ -9,7 +9,7 @@ import com.futurumgame.base.resources.ores.DiamondOre;
 public class DiamondOreUnlockable extends ResourceUnlockable {
 
     private DiamondOreUnlockable() {
-        super(DirtUnlockable.class.getSimpleName(), DiamondOre.ID, new Units(1, 3),
+        super(DiamondOreUnlockable.class.getSimpleName(), DiamondOre.ID, new Units(1, 3),
                 ResourceHelper.setToAmount(Steel.factory(), new Units(1, 3)));
     }
 
