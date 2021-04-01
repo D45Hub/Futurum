@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -18,10 +19,12 @@ import com.futurumgame.base.enums.MetaData;
 import com.futurumgame.base.enums.ResourceFormatter;
 import com.futurumgame.base.enums.StringFormatter;
 import com.futurumgame.base.factories.Factory;
+import com.futurumgame.base.factories.basic.WaterMill;
 import com.futurumgame.base.gameinternals.FactoryNode;
 import com.futurumgame.base.gameinternals.GameRoutine;
 import com.futurumgame.base.gameinternals.WareHouse;
 import com.futurumgame.base.resources.Resource;
+import com.futurumgame.base.resources.basic.Water;
 import com.futurumgame.base.ui.listeners.onclicklisteners.GoBackListener;
 import com.futurumgame.base.ui.listeners.onclicklisteners.GoToViewListener;
 import com.futurumgame.base.ui.listeners.onclicklisteners.UpgradeFactoryListener;
@@ -38,7 +41,8 @@ public class FactoryManagerViewActivity extends UpdatableViewActivity {
         setContentView(R.layout.factory_manager_view);
 
         GameRoutine.setNewCurrent(this);
-        factory = ((FactoryNode<? extends Resource>) MetaData.FactoryNode.getMeta()).getCurrent();
+        //factory = ((FactoryNode<? extends Resource>) MetaData.FactoryNode.getMeta()).getCurrent();
+        factory = WaterMill.factory();
         costs = findViewById(R.id.UpgradeCosts);
         allowUpdates();
 
