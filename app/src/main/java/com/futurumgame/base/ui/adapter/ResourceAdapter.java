@@ -20,6 +20,12 @@ public final class ResourceAdapter extends TextViewAdapter<Resource, ResourceVie
         this.resources = resources;
     }
 
+    @NonNull
+    @Override
+    public ResourceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ResourceViewHolder(inflateListItemView(parent, R.layout.list_item_view));
+    }
+
     @Override
     protected Resource getHolderObjectByPosition(int position) {
         return resources.get(position);
@@ -30,7 +36,6 @@ public final class ResourceAdapter extends TextViewAdapter<Resource, ResourceVie
         resourceViewIdMapping.put(holderObject.getID(), holder);
     }
 
-    @NonNull
     @Override
     public ResourceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ResourceViewHolder(inflateListItemView(parent, R.layout.list_item_view));

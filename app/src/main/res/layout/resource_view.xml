@@ -112,4 +112,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.679" />
 
+    <ImageButton
+        android:id="@+id/Collect"
+        android:layout_width="126dp"
+        android:layout_height="89dp"
+        android:layout_marginBottom="316dp"
+        android:background="@drawable/factory_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.537"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
