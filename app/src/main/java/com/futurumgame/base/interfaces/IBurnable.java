@@ -1,4 +1,4 @@
 package com.futurumgame.base.interfaces;
 
-public interface Burnable {
+public interface IBurnable {
 }

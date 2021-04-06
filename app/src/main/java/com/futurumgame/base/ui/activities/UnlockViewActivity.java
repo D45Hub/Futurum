@@ -9,10 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.futurumgame.base.R;
 import com.futurumgame.base.gameinternals.GameRoutine;
-import com.futurumgame.base.ui.listeners.onclicklisteners.GoBackListener;
-import com.futurumgame.base.unlockables.UnlockableCollection;
 import com.futurumgame.base.gameinternals.WareHouse;
 import com.futurumgame.base.ui.adapter.UnlockableAdapter;
+import com.futurumgame.base.ui.listeners.onclicklisteners.GoBackListener;
 
 public class UnlockViewActivity extends UpdatableViewActivity {
 
@@ -34,10 +33,5 @@ public class UnlockViewActivity extends UpdatableViewActivity {
 
     @Override
     public void updateUi(WareHouse wareHouse) {
-        UnlockableCollection unlockables = GameRoutine.getUnlockables();
-        for (int i = 0; i < unlockables.size(); i++) {
-            //boolean canOffer = wareHouse.canOfferResources(unlockables.get(i).getCosts());
-            //unlockableContainer.getChildAt(i).findViewById(R.id.BuyButton).setEnabled(canOffer);
-        }
     }
 }

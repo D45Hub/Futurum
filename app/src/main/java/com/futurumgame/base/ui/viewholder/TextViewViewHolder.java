@@ -13,7 +13,6 @@ public abstract class TextViewViewHolder<T> extends RecyclerView.ViewHolder {
 
     private TextView view;
 
-
     protected TextViewViewHolder(@NonNull View itemView) {
         super(itemView);
         view = itemView.findViewById(R.id.ItemText);

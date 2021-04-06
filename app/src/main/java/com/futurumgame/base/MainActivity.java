@@ -36,7 +36,7 @@ public class MainActivity extends UpdatableViewActivity {
 
         resources = findViewById(R.id.Resources);
         resources.setLayoutManager(new LinearLayoutManager(this));
-        resources.setAdapter(new ResourceAdapter(gameRoutine.getWareHouse().getWareHouseStocks()));
+        resources.setAdapter(new ResourceAdapter(GameRoutine.getCurrentWareHouse().getWareHouseStocks()));
         allowUpdates();
         gameRoutine.start();
     }
