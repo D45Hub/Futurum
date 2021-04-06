@@ -36,7 +36,7 @@ public final class WaterMill extends BasicFactory<Water> {
     @Override
     protected void upgrade() {
         super.upgrade();
-        getStorage().multiply(new Units(getLevel(), Math.floor(Math.log(getLevel()))));
+        getCapacity().multiply(new Units(getLevel(), Math.floor(Math.log(getLevel()))));
     }
 
     @Override
