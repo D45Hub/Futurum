@@ -1,7 +1,7 @@
 package com.futurumgame.base.ui.viewholder;
 
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,7 +17,7 @@ public final class UnlockableViewHolder extends TextViewViewHolder<Unlockable> {
 
     private final TextView view;
     private final TextView costs;
-    private final Button buyButton;
+    private final ImageButton buyButton;
 
     public UnlockableViewHolder(@NonNull View itemView) {
         super(itemView);

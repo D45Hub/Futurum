@@ -1,7 +1,7 @@
 package com.futurumgame.base.ui.activities;
 
 import android.os.Bundle;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,7 +26,7 @@ public class UnlockViewActivity extends UpdatableViewActivity {
         unlockableContainer = findViewById(R.id.Unlockables);
         unlockableContainer.setLayoutManager(new LinearLayoutManager(this));
         unlockableContainer.setAdapter(new UnlockableAdapter(GameRoutine.getUnlockables()));
-        Button goBack = findViewById(R.id.GoBack);
+        ImageButton goBack = findViewById(R.id.GoBack);
         goBack.setOnClickListener(GoBackListener.newListener());
         allowUpdates();
     }
