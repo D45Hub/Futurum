@@ -15,7 +15,7 @@ import com.futurumgame.base.factories.basic.WaterMill;
 import com.futurumgame.base.factories.ores.CoalMine;
 import com.futurumgame.base.factories.ores.CopperMine;
 import com.futurumgame.base.factories.ores.TinMine;
-import com.futurumgame.base.factories.smelteries.TinSmeltery;
+import com.futurumgame.base.factories.smelteries.TinSmeltry;
 import com.futurumgame.base.gameinternals.GameRoutine;
 import com.futurumgame.base.resources.Resource;
 import com.futurumgame.base.resources.advanced.Cement;
@@ -72,9 +72,9 @@ public class ResourceUnlockable extends Unlockable {
 
     @Override
     public void unlock() {
-        GameRoutine.getCurrentWareHouse().addResource(resource, startCap);
+        GameRoutine.getWareHouse().addResource(resource, startCap);
         GameRoutine.addNewFactory(factory);
-        GameRoutine.getUnlockables().updateNewUnlock(this, GameRoutine.getCurrentWareHouse());
+        GameRoutine.getUnlockables().updateNewUnlock(this, GameRoutine.getWareHouse());
     }
 
     private static Hashtable<Integer, Resource> gatherAllResources() {
@@ -130,7 +130,7 @@ public class ResourceUnlockable extends Unlockable {
         allResources.put(TinOre.ID, TinMine.factory());
         allResources.put(CopperOre.ID, CopperMine.factory());
         allResources.put(Coal.ID, CoalMine.factory());
-        allResources.put(Tin.ID, TinSmeltery.factory());
+        allResources.put(Tin.ID, TinSmeltry.factory());
         allResources.put(Copper.ID, CopperMine.factory());
         //allResources.put(Coke.ID, Coke.factory());
         //allResources.put(FiredClay.ID, FiredClay.factory());

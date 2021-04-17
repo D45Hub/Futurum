@@ -4,23 +4,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.futurumgame.base.MainActivity;
 import com.futurumgame.base.R;
+import com.futurumgame.base.interfaces.IDataProvider;
 import com.futurumgame.base.ui.adapter.ResourceAdapter;
 import com.futurumgame.base.additionalDatatypes.Units;
 import com.futurumgame.base.enums.WareHouseAcceptionResult;
 import com.futurumgame.base.resources.Resource;
 import com.futurumgame.base.resources.basic.Water;
 
+import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.LinkedList;
 
-public class WareHouse {
+public class WareHouse implements IDataProvider {
 
-    private final MainActivity main;
     private final Hashtable<Integer, Resource> wareHouseStocks = new Hashtable<>();
     private final Hashtable<Integer, Units> resourceCapacities = new Hashtable<>();
 
-    public WareHouse(MainActivity mainActivity) {
-        main = mainActivity;
+    public WareHouse() {
         addResource(Water.factory(), new Units(1, 8));
     }
 
@@ -66,5 +66,14 @@ public class WareHouse {
         for (Resource requiredResource : requiredResources) {
             ((Resource) wareHouseStocks.get(requiredResource.getID())).subtract(requiredResource.getCount());
         }
+    }
+
+    @Override
+    public byte[] provideData() {
+        return new byte[0];
+    }
+
+    public static WareHouse from(byte[] wareHouseData) {
+        return new WareHouse();
     }
 }

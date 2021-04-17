@@ -53,6 +53,6 @@ public class FactoryManagerViewActivity extends UpdatableViewActivity {
         costs.setTextColor(factory.canUpgrade(wareHouse) ? Colors.Green.getColor() : Colors.Red.getColor());
         costs.setText(StringFormatter.NameValue.format(
                 ResourceUtil.getText(costs.getContext(), R.string.Costs),
-                CollectionHelper.toString(factory.getUpgradeCosts(), ResourceFormatter.Default::format)));
+                CollectionHelper.toString(ResourceFormatter.Default::format, factory.getUpgradeCosts())));
     }
 }

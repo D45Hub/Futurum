@@ -22,7 +22,7 @@ public class UnlockListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        WareHouse wareHouse = GameRoutine.getCurrentWareHouse();
+        WareHouse wareHouse = GameRoutine.getWareHouse();
         if (wareHouse.canOfferResources(unlockable.getCosts())) {
             wareHouse.offerResources(unlockable.getCosts());
             RecyclerView unlockables = ((UnlockViewActivity)v.getContext()).findViewById(R.id.Unlockables);

@@ -30,7 +30,7 @@ public final class UnlockableViewHolder extends TextViewViewHolder<Unlockable> {
 
     public void updateText(Unlockable unlockable) {
         view.setText(unlockable.getName());
-        costs.setText(CollectionHelper.toString(unlockable.getCosts(), r -> ResourceFormatter.Default.format(r)));
+        costs.setText(CollectionHelper.toString(ResourceFormatter.Default::format, unlockable.getCosts()));
     }
 
     public void setOnClickListener(Unlockable unlockable){

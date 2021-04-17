@@ -17,7 +17,7 @@ public class ManualCollectClickListener implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         Resource factoryStocks = node.getCurrent().emptyStorage();
-        GameRoutine.getCurrentWareHouse().addToResources(factoryStocks);
+        GameRoutine.getWareHouse().addToResources(factoryStocks);
     }
 
     public static ManualCollectClickListener newListener(FactoryNode<?extends Resource> node){

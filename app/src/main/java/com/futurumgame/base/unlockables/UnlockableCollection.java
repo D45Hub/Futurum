@@ -1,7 +1,12 @@
 package com.futurumgame.base.unlockables;
 
 import com.futurumgame.base.collections.CollectionHelper;
+import com.futurumgame.base.enums.DataEncoding;
 import com.futurumgame.base.gameinternals.WareHouse;
+import com.futurumgame.base.interfaces.IDataProvider;
+import com.futurumgame.base.interfaces.IParseRule;
+import com.futurumgame.base.interfaces.IParseRuleProvider;
+import com.futurumgame.base.serialization.parsing.UnlockableParseRule;
 import com.futurumgame.base.unlockables.resources.AluminiumOreUnlockable;
 import com.futurumgame.base.unlockables.resources.AluminiumUnlockable;
 import com.futurumgame.base.unlockables.resources.BronzeUnlockable;
@@ -40,8 +45,9 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.function.Consumer;
 
-public class UnlockableCollection {
+public class UnlockableCollection implements IDataProvider, IParseRuleProvider<Unlockable> {
 
+    private static UnlockableParseRule ParseRule = new UnlockableParseRule();
     private static final HashSet<Unlockable> AllUnlockables = gatherAllUnlockables();
 
     private final LinkedList<Unlockable> buyableUnlockables = new LinkedList<>();
@@ -75,6 +81,23 @@ public class UnlockableCollection {
         buyableUnlockables.remove(unlocked);
         boughtUnlockables.add(unlocked);
         update(wareHouse);
+    }
+
+    public void unlock(byte[] unlockableData) {
+        if(unlockableData.length == 0) {
+            return;
+        }
+        String data = DataEncoding.UTF8.decode(unlockableData);
+    }
+
+    @Override
+    public IParseRule<Unlockable> getParseRule() {
+        return ParseRule;
+    }
+
+    @Override
+    public byte[] provideData() {
+        return new byte[0];
     }
 
     private static HashSet<Unlockable> gatherAllUnlockables() {

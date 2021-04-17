@@ -20,7 +20,7 @@ public class UpgradeFactoryListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        UpgradeResult result = factory.tryUpgrade(GameRoutine.getCurrentWareHouse());
+        UpgradeResult result = factory.tryUpgrade(GameRoutine.getWareHouse());
         result.createPopup(v.getContext());
     }
 
