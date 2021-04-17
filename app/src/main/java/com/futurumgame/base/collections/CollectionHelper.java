@@ -1,11 +1,14 @@
 package com.futurumgame.base.collections;
 
 import com.futurumgame.base.interfaces.IEquatable;
+import com.futurumgame.base.interfaces.IMember;
+import com.futurumgame.base.interfaces.IOperator;
 import com.futurumgame.base.resources.Resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -13,6 +16,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class CollectionHelper {
+
+    private static final String DefaultSequenceSeparator = ", ";
 
     private CollectionHelper() {
     }
@@ -91,6 +96,22 @@ public class CollectionHelper {
         return true;
     }
 
+    public static <T, S> void operate(Iterable<T> firstCollection, Iterable<T> secondCollection, IOperator<T> operator, IMember<T, S> equalityMember) {
+        HashMap<S, T> equalityMapping = new HashMap<>();
+        for (T first : firstCollection) {
+            for (T second : secondCollection) {
+                S member = equalityMember.getMember(second);
+                if(equalityMapping.containsKey(member)) {
+                    operator.operate(first, second);
+                    continue;
+                }
+                if(operator.operate(first, second)) {
+                    equalityMapping.put(member, second);
+                }
+            }
+        }
+    }
+
     public static <T,S> LinkedList<S> select(Iterable<T> collection, Function<T, S> selector) {
         return select(collection, e->true, selector);
     }
@@ -165,16 +186,50 @@ public class CollectionHelper {
         return false;
     }
 
-    public static<T> String toString(Iterable<T> collection){
-        return toString(collection, e->e.toString());
+    public static<T> String toString(Iterable<T> collection) {
+        return toString(String::valueOf, collection);
     }
 
-    public static<T> String toString(Iterable<T> collection, Function<T, String> formatter) {
+    public static<T> String toString(T... array) {
+        return toString(String::valueOf, array);
+    }
+
+    public static<T> String toString(String separator, T... array) {
+        return toString(String::valueOf, separator, array);
+    }
+
+    public static<T> String toString(String separator, Iterable<T> collection) {
+        return toString(String::valueOf, separator, collection);
+    }
+
+    public static<T> String toString(Function<T, String> formatter, Iterable<T> collection) {
+        return toString(formatter, DefaultSequenceSeparator, collection);
+    }
+
+    public static<T> String toString(Function<T, String> formatter, T... array) {
+        return toString(formatter, DefaultSequenceSeparator, array);
+    }
+
+    public static<T> String toString(Function<T, String> formatter, String separator, Iterable<T> collection) {
         StringBuilder sb = new StringBuilder();
         for (T element : collection) {
-            sb.append(formatter.apply(element) +", ");
+            sb.append(formatter.apply(element));
+            sb.append(separator);
         }
         sb.delete(sb.length()-2, sb.length()-1);
+        return sb.toString();
+    }
+
+    public static<T> String toString(Function<T, String> formatter, String separator, T... array) {
+        if(array.length == 0) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < array.length-1; i++) {
+            sb.append(formatter.apply(array[i]));
+            sb.append(separator);
+        }
+        sb.append(array[array.length-1]);
         return sb.toString();
     }
 }
