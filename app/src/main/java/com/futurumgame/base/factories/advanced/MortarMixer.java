@@ -2,6 +2,8 @@ package com.futurumgame.base.factories.advanced;
 
 import com.futurumgame.base.additionalDatatypes.Units;
 import com.futurumgame.base.factories.Facility;
+import com.futurumgame.base.factories.Factory;
+import com.futurumgame.base.factories.basic.GravelPit;
 import com.futurumgame.base.resources.Resource;
 import com.futurumgame.base.resources.ResourceHelper;
 import com.futurumgame.base.resources.advanced.Mortar;
@@ -14,8 +16,10 @@ import java.util.Queue;
 
 public final class MortarMixer extends Facility<Mortar> {
 
+    public static String Name = "Mortar Mixer";
+
     private MortarMixer() {
-        super(MortarMixer.class.getSimpleName(), Mortar.factory(), new Units(1, 2));
+        super(Name, Mortar.factory(), new Units(1, 2));
     }
 
     @Override
@@ -53,5 +57,11 @@ public final class MortarMixer extends Facility<Mortar> {
 
     public static MortarMixer factory() {
         return new MortarMixer();
+    }
+
+    public static MortarMixer factory(int level) {
+        MortarMixer factory = factory();
+        factory.levelTo(level);
+        return factory;
     }
 }

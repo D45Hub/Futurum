@@ -2,6 +2,7 @@ package com.futurumgame.base.factories.basic;
 
 import com.futurumgame.base.additionalDatatypes.Units;
 import com.futurumgame.base.factories.BasicFactory;
+import com.futurumgame.base.factories.Factory;
 import com.futurumgame.base.resources.Resource;
 import com.futurumgame.base.resources.ResourceHelper;
 import com.futurumgame.base.resources.basic.Dirt;
@@ -10,8 +11,10 @@ import java.util.LinkedList;
 
 public final class DirtPit extends BasicFactory<Dirt> {
 
+    public static final String Name = "Dirt Pit";
+
     private DirtPit() {
-        super(DirtPit.class.getSimpleName(), Dirt.factory(), new Units(1, 2));
+        super(Name, Dirt.factory(), new Units(1, 2));
     }
 
     @Override
@@ -36,5 +39,11 @@ public final class DirtPit extends BasicFactory<Dirt> {
 
     public static DirtPit factory() {
         return new DirtPit();
+    }
+
+    public static DirtPit factory(int level) {
+        DirtPit factory = factory();
+        factory.levelTo(level);
+        return factory;
     }
 }

@@ -2,6 +2,7 @@ package com.futurumgame.base.factories.basic;
 
 import com.futurumgame.base.additionalDatatypes.Units;
 import com.futurumgame.base.factories.BasicFactory;
+import com.futurumgame.base.factories.Factory;
 import com.futurumgame.base.resources.Resource;
 import com.futurumgame.base.resources.ResourceHelper;
 import com.futurumgame.base.resources.basic.Clay;
@@ -11,8 +12,10 @@ import java.util.LinkedList;
 
 public final class ClayPit extends BasicFactory<Clay> {
 
+    public static final String Name = "Clay Pit";
+
     private ClayPit() {
-        super(ClayPit.class.getSimpleName(), Clay.factory(), new Units(1, 2));
+        super(Name, Clay.factory(), new Units(1, 2));
     }
 
     @Override
@@ -37,5 +40,11 @@ public final class ClayPit extends BasicFactory<Clay> {
 
     public static ClayPit factory() {
         return new ClayPit();
+    }
+
+    public static ClayPit factory(int level) {
+        ClayPit factory = factory();
+        factory.levelTo(level);
+        return factory;
     }
 }

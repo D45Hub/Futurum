@@ -3,11 +3,13 @@ package com.futurumgame.base.resources;
 import com.futurumgame.base.additionalDatatypes.Units;
 import com.futurumgame.base.enums.ResourceFormatter;
 import com.futurumgame.base.interfaces.IEquatable;
+import com.futurumgame.base.interfaces.IParseRule;
+import com.futurumgame.base.interfaces.IParseRuleProvider;
 
 import java.security.InvalidParameterException;
 import java.util.Objects;
 
-public abstract class Resource implements IEquatable<Resource> {
+public abstract class Resource implements IEquatable<Resource>, IParseRuleProvider<Resource> {
 
     protected final Units count = Units.Zero.copy();
     private final int id;
@@ -18,16 +20,21 @@ public abstract class Resource implements IEquatable<Resource> {
         this.name = name;
     }
 
-    public Units getCount() {
-        return count;
-    }
-
     public int getID(){
         return id;
     }
 
     public String getName(){
         return name;
+    }
+
+    public Units getCount() {
+        return count;
+    }
+
+    @Override
+    public IParseRule<Resource> getParseRule() {
+        return null;
     }
 
     public void setCount(Units count) {
