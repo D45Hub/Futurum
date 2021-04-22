@@ -1,9 +1,8 @@
 package com.futurumgame.base.serialization.parsing;
 
-import android.util.Log;
-
-import com.futurumgame.base.collections.CollectionHelper;
+import com.futurumgame.base.util.CollectionHelper;
 import com.futurumgame.base.unlockables.Unlockable;
+import com.futurumgame.base.util.Logger;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,7 +25,7 @@ public class UnlockableParseRule extends BaseParseRule<Unlockable> {
         }
         Unlockable unlockable = allUnlockables.get(string);
         if (unlockable == null) {
-            Log.e(UnlockableParseRule.class.getSimpleName(), "unknown unlockable: " + string);
+            Logger.cannotParse(getClass(), "unlockable", string);
             return ParseResult.failResult();
         }
         return ParseResult.create(unlockable);

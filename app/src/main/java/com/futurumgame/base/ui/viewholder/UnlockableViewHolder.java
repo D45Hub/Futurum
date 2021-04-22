@@ -7,7 +7,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.futurumgame.base.R;
-import com.futurumgame.base.collections.CollectionHelper;
+import com.futurumgame.base.util.CollectionHelper;
 import com.futurumgame.base.enums.Colors;
 import com.futurumgame.base.enums.ResourceFormatter;
 import com.futurumgame.base.ui.listeners.onclicklisteners.UnlockListener;

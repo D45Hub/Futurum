@@ -9,7 +9,7 @@ import com.futurumgame.base.interfaces.IParseRuleProvider;
 import java.security.InvalidParameterException;
 import java.util.Objects;
 
-public abstract class Resource implements IEquatable<Resource>, IParseRuleProvider<Resource> {
+public abstract class Resource implements IEquatable<Resource> {
 
     protected final Units count = Units.Zero.copy();
     private final int id;
@@ -30,11 +30,6 @@ public abstract class Resource implements IEquatable<Resource>, IParseRuleProvid
 
     public Units getCount() {
         return count;
-    }
-
-    @Override
-    public IParseRule<Resource> getParseRule() {
-        return null;
     }
 
     public void setCount(Units count) {

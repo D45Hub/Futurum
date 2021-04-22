@@ -7,25 +7,23 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-import com.futurumgame.base.collections.CollectionHelper;
+import com.futurumgame.base.util.CollectionHelper;
 import com.futurumgame.base.enums.DataEncoding;
 import com.futurumgame.base.enums.Separator;
 import com.futurumgame.base.factories.Factory;
 import com.futurumgame.base.factories.basic.WaterMill;
 import com.futurumgame.base.interfaces.IData;
-import com.futurumgame.base.interfaces.IDataProvider;
 import com.futurumgame.base.interfaces.IParseRule;
 import com.futurumgame.base.interfaces.IParseRuleProvider;
 import com.futurumgame.base.resources.Resource;
 import com.futurumgame.base.serialization.parsing.FactoryNodeParseRule;
 import com.futurumgame.base.serialization.parsing.ParseResult;
-import com.futurumgame.base.util.FactoryMapping;
+import com.futurumgame.base.util.Logger;
 import com.futurumgame.base.util.StringUtil;
 
 import java.security.InvalidParameterException;
@@ -64,7 +62,6 @@ public class FactorySystem extends ViewGroup implements IData, IParseRuleProvide
         Point deviceDisplay = new Point();
         display.getSize(deviceDisplay);
         deviceWidth = deviceDisplay.x;
-        add(WaterMill.factory());
     }
 
     public FactoryNode<? extends Resource> getLastEdited() {
@@ -112,6 +109,7 @@ public class FactorySystem extends ViewGroup implements IData, IParseRuleProvide
 
     @Override
     public void from(byte[] data) {
+        add(WaterMill.factory());
         if (data.length == 0) {
             return;
         }
@@ -126,7 +124,7 @@ public class FactorySystem extends ViewGroup implements IData, IParseRuleProvide
             onlyFails = false;
         }
         if(onlyFails){
-            Log.w(FactorySystem.class.getSimpleName(), "couldn't parse factory system received data: " + data);
+            Logger.cannotParse(getClass(), "factory system" , data);
         }
     }
 

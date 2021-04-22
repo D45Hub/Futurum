@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.futurumgame.base.enums.DataSize;
+import com.futurumgame.base.util.Logger;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -39,7 +40,7 @@ public class ByteCompressor  {
             }
             return baos.toByteArray();
         } catch (IOException e) {
-            Log.e(ByteCompressor.class.getSimpleName(), "error during compression returning empty array");
+            Logger.e(getClass(), "error during compression returning empty array", e);
         }
         return new byte[0];
     }
@@ -58,7 +59,7 @@ public class ByteCompressor  {
             }
             return baos.toByteArray();
         } catch (IOException | DataFormatException e) {
-            Log.e(ByteCompressor.class.getSimpleName(), "error during decompression returning empty array");
+            Logger.e(getClass(), "error during decompression returning empty array", e);
         }
         return new byte[0];
     }

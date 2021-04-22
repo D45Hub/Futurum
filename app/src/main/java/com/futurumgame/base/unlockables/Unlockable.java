@@ -1,6 +1,6 @@
 package com.futurumgame.base.unlockables;
 
-import com.futurumgame.base.collections.CollectionHelper;
+import com.futurumgame.base.util.CollectionHelper;
 import com.futurumgame.base.interfaces.IEquatable;
 import com.futurumgame.base.resources.Resource;
 

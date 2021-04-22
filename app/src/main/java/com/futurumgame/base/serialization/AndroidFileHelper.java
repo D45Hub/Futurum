@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi;
 import com.futurumgame.base.MainActivity;
 import com.futurumgame.base.exceptions.FileTooLargeException;
 import com.futurumgame.base.gameinternals.GameRoutine;
+import com.futurumgame.base.util.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -41,7 +42,7 @@ public class AndroidFileHelper {
     public static byte[] read(String fileName) throws IOException {
         File file = singleton.getFile(fileName);
         if(!file.exists()) {
-            Log.i(AndroidFileHelper.class.getSimpleName(), "file does not exist, assuming it hasn't been created yet");
+            Logger.i(AndroidFileHelper.class, "file does not exist, assuming it hasn't been created yet");
             return new byte[0];
         }
         int fileLength = (int)file.length();

@@ -1,6 +1,5 @@
 package com.futurumgame.base.util;
 
-import com.futurumgame.base.collections.CollectionHelper;
 import com.futurumgame.base.enums.Separator;
 
 import java.util.ArrayList;

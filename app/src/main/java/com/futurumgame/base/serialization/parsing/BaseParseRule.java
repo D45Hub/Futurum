@@ -26,7 +26,11 @@ public abstract class BaseParseRule<T> implements IParseRule<T> {
         return ParseResult.failResult();
     }
 
-    protected final void clearReadChars() {
+    public final void clearReadChars() {
+        clear();
         readChars = "";
+    }
+
+    protected void clear() {
     }
 }

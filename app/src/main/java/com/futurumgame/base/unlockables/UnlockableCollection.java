@@ -1,8 +1,8 @@
 package com.futurumgame.base.unlockables;
 
-import android.util.Log;
-
-import com.futurumgame.base.collections.CollectionHelper;
+import com.futurumgame.base.additionalDatatypes.Units;
+import com.futurumgame.base.resources.basic.Water;
+import com.futurumgame.base.util.CollectionHelper;
 import com.futurumgame.base.enums.DataEncoding;
 import com.futurumgame.base.enums.Separator;
 import com.futurumgame.base.gameinternals.WareHouse;
@@ -43,14 +43,17 @@ import com.futurumgame.base.unlockables.resources.TinOreUnlockable;
 import com.futurumgame.base.unlockables.resources.TinUnlockable;
 import com.futurumgame.base.unlockables.resources.UnpolishedDiamondUnlockable;
 import com.futurumgame.base.unlockables.resources.WoodUnlockable;
+import com.futurumgame.base.util.Logger;
 import com.futurumgame.base.util.StringUtil;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.function.Consumer;
+
+import static com.futurumgame.base.util.CollectionHelper.toMap;
 
 public class UnlockableCollection implements IData, IParseRuleProvider<Unlockable> {
 
@@ -101,18 +104,18 @@ public class UnlockableCollection implements IData, IParseRuleProvider<Unlockabl
     public void from(byte[] data) {
         if (data.length == 0) {
             addInitialUnlockable();
-            Log.i(UnlockableCollection.class.getSimpleName(), "empty file, assuming no stats existed");
+            Logger.i(getClass(), "empty file, assuming no stats existed");
             return;
         }
         String dataString = DataEncoding.UTF8.decode(data);
         String[][] collections = StringUtil.doubleSplit(dataString);
         if (collections.length < 2) {
-            Log.e(UnlockableCollection.class.getSimpleName(), "to few data: " + dataString + " array length: " + collections.length);
+            Logger.cannotParse(getClass(), "unlockable collection", collections, 2);
             addInitialUnlockable();
             return;
         }
         if (collections.length > 2) {
-            Log.w(UnlockableCollection.class.getSimpleName(), "to much data: " + dataString);
+            Logger.toMuchData(getClass(), dataString);
         }
         simulateUnlocks(collections[1]);
         LinkedList<Unlockable> buyables = CollectionHelper.select(collections[0], this::parse);
@@ -146,7 +149,7 @@ public class UnlockableCollection implements IData, IParseRuleProvider<Unlockabl
 
     private void correctFileCorruption() {
         if(boughtUnlockables.isEmpty()) {
-            Log.i(UnlockableCollection.class.getSimpleName(), "starting from scratch");
+            Logger.i(getClass(), "starting from scratch");
             addInitialUnlockable();
             return;
         }
@@ -178,6 +181,16 @@ public class UnlockableCollection implements IData, IParseRuleProvider<Unlockabl
 
     public static UnlockableCollection createResearchUnlockables() {
         return new UnlockableCollection(ResearchUnlockable.class);
+    }
+
+    public static Units getDefaultResourceCapacity(int id) {
+        if(id == Water.ID){
+            return WareHouse.WaterBaseCapacity;
+        }
+        HashSet<Unlockable> resourceUnlockables = AllUnlockables.get(ResourceUnlockable.class);
+        Map<Integer, Unlockable> unlockablesByResourceID = CollectionHelper.toMap(resourceUnlockables, u->((ResourceUnlockable) u).getResourceID());
+        ResourceUnlockable unlockable = (ResourceUnlockable) unlockablesByResourceID.get(id);
+        return unlockable.getStartCap();
     }
 
     //Not Cleancode!!!! TODO remove dependecy on init order

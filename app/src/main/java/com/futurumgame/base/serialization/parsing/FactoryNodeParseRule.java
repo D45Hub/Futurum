@@ -3,7 +3,7 @@ package com.futurumgame.base.serialization.parsing;
 import android.content.Context;
 import android.graphics.PointF;
 
-import com.futurumgame.base.collections.CollectionHelper;
+import com.futurumgame.base.util.CollectionHelper;
 import com.futurumgame.base.enums.Separator;
 import com.futurumgame.base.factories.Factory;
 import com.futurumgame.base.gameinternals.FactoryNode;
@@ -33,12 +33,14 @@ public class FactoryNodeParseRule<T extends Resource> extends BaseParseRule<Fact
         }
         LinkedList<ParseResult<Factory<T>>> successes = CollectionHelper.where(CollectionHelper.select(factories, ParseRule::next), r->r.parseSuccess());
         if(successes.isEmpty()) {
+            clearReadChars();
             return ParseResult.failResult();
         }
         FactoryNode<T> node = new FactoryNode(context, successes.pop().getResult(), new PointF());
         for (ParseResult<Factory<T>> result: successes) {
             node.changePrimaryFactory(result.getResult());
         }
+        clearReadChars();
         return ParseResult.create(node);
     }
 
