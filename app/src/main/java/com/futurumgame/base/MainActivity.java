@@ -51,14 +51,6 @@ public class MainActivity extends UpdatableViewActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        for (DataFile file : DataFile.values()) {
-            file.save();
-        }
-    }
-
-    @Override
     public void updateUi(WareHouse wareHouse) {
         if (!updatesAllowed()) {
             return;
