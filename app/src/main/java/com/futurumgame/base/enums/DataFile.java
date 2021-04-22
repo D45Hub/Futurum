@@ -2,22 +2,19 @@ package com.futurumgame.base.enums;
 
 import android.util.Log;
 
-import com.futurumgame.base.interfaces.IDataCreator;
+import com.futurumgame.base.gameinternals.GameRoutine;
+import com.futurumgame.base.interfaces.IDataProvider;
 import com.futurumgame.base.serialization.AndroidFileHelper;
 import com.futurumgame.base.serialization.ByteCompressor;
-import com.futurumgame.base.serialization.datacreation.FactorySystemDataCreator;
-import com.futurumgame.base.serialization.datacreation.UnlockDataCreator;
-import com.futurumgame.base.serialization.datacreation.WareHouseDataCreator;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 
 public enum DataFile {
 
-    FactorySystem("factorysystem", FactorySystemDataCreator.Creator),
-    Unlockables("unlock", UnlockDataCreator.Creator),
-    WareHouse("stocks", WareHouseDataCreator.Creator);
+    FactorySystem("factorysystem", GameRoutine.getFactorySystem()),
+    ResourceUnlockables("resource_unlock", GameRoutine.getResourceUnlockables()),
+    WareHouse("stocks", GameRoutine.getWareHouse());
 
     private static final String ReadTag = "File Reading";
     private static final String SaveTag = "File Saving";
@@ -27,11 +24,11 @@ public enum DataFile {
     private static final ByteCompressor Compressor = ByteCompressor.newInstance(4, DataSize.KiloByte);
 
     private final String fileName;
-    private final IDataCreator<?> dataCreator;
+    private final IDataProvider provider;
 
-    DataFile(String fileName, IDataCreator<?> dataCreator) {
-        this.fileName = fileName+FileEnding;
-        this.dataCreator = dataCreator;
+    DataFile(String fileName, IDataProvider provider) {
+        this.fileName = fileName + FileEnding;
+        this.provider = provider;
     }
 
     public byte[] read() {
@@ -46,7 +43,7 @@ public enum DataFile {
     }
 
     public void save() {
-        byte[] rawData = dataCreator.createData();
+        byte[] rawData = provider.provideData();
         byte[] compressed = Compressor.compress(rawData);
         try {
             AndroidFileHelper.save(fileName, compressed);

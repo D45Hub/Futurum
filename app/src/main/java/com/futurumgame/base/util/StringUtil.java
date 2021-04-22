@@ -1,31 +1,30 @@
 package com.futurumgame.base.util;
 
 import com.futurumgame.base.collections.CollectionHelper;
+import com.futurumgame.base.enums.Separator;
 
 import java.util.ArrayList;
 
 public class StringUtil {
 
-    public static final String DefaultDataStructureSeparator = "#";
-    public static final String DefaultDataCollectionSeparator = "\\|";
-    public static final String DefaultSplitSeparator = ";";
+
 
     private StringUtil() {
     }
 
     public static String[] splitDefault(String string) {
-        return string.split(DefaultSplitSeparator);
+        return string.split(Separator.DefaultSeparator.getSeparator());
     }
 
     public static String combine(String... strings) {
-        return combine(DefaultSplitSeparator, strings);
+        return combine(Separator.DefaultSeparator, strings);
     }
 
-    public static String combine(String separator, String... strings) {
+    public static String combine(Separator separator, String... strings) {
         return CollectionHelper.toString(separator, strings);
     }
 
-    public static String combine(String separator, Object... strings) {
+    public static String combine(Separator separator, Object... strings) {
         return CollectionHelper.toString(separator, strings);
     }
 
@@ -41,27 +40,27 @@ public class StringUtil {
     }
 
     public static String[][] doubleSplit(String string) {
-        return doubleSplit(string, DefaultSplitSeparator, DefaultDataCollectionSeparator);
+        return doubleSplit(string, Separator.CollectionSeparator,  Separator.DefaultSeparator);
     }
 
-    public static String[][] doubleSplit(String string, String firstSeparator, String secondSeparator) {
-        String[] firstResults = string.split(firstSeparator);
+    public static String[][] doubleSplit(String string, Separator firstSeparator, Separator secondSeparator) {
+        String[] firstResults = string.split(firstSeparator.getSeparator());
         ArrayList<String[]> data = new ArrayList<>();
         for (String firstResult : firstResults) {
-            data.add(firstResult.split(secondSeparator));
+            data.add(firstResult.split(secondSeparator.getSeparator()));
         }
         return data.toArray(new String[data.size()][]);
     }
 
     public static String[][][] tripleSplit(String string) {
-        return tripleSplit(string, DefaultDataCollectionSeparator, DefaultSplitSeparator, DefaultDataStructureSeparator);
+        return tripleSplit(string, Separator.CollectionSeparator, Separator.DefaultSeparator, Separator.DataStructureSeparator);
     }
 
-    public static String[][][] tripleSplit(String string, String firstSeparator, String secondSeparator, String thirdSeparator) {
-        String[] firstResults = string.split(firstSeparator);
+    public static String[][][] tripleSplit(String string, Separator firstSeparator, Separator secondSeparator, Separator thirdSeparator) {
+        String[] firstResults = string.split(firstSeparator.getSeparator());
         ArrayList<String[][]> data = new ArrayList<>();
         for (String firstResult : firstResults) {
-            data.add(doubleSplit(string, secondSeparator, thirdSeparator));
+            data.add(doubleSplit(firstResult, secondSeparator, thirdSeparator));
         }
         return data.toArray(new String[data.size()][][]);
     }

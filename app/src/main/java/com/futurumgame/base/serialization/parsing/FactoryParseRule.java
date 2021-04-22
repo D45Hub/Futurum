@@ -2,6 +2,7 @@ package com.futurumgame.base.serialization.parsing;
 
 import android.util.Log;
 
+import com.futurumgame.base.enums.Separator;
 import com.futurumgame.base.factories.Factory;
 import com.futurumgame.base.resources.Resource;
 import com.futurumgame.base.util.FactoryMapping;
@@ -12,7 +13,7 @@ public class FactoryParseRule<T extends Resource> extends BaseParseRule<Factory<
     @Override
     public ParseResult<Factory<T>> next(String string) {
         super.next(string);
-        String[] values = getReadChars().split(StringUtil.DefaultDataStructureSeparator);
+        String[] values = getReadChars().split(Separator.DataStructureSeparator.getSeparator());
         if (values.length < 2) {
             return ParseResult.create(null);
         }
@@ -31,6 +32,6 @@ public class FactoryParseRule<T extends Resource> extends BaseParseRule<Factory<
 
     @Override
     public String getParsingValue(Factory<T> obj) {
-        return StringUtil.combine(StringUtil.DefaultDataStructureSeparator, obj.getName(), obj.getLevel());
+        return StringUtil.combine(Separator.DataStructureSeparator, obj.getName(), obj.getLevel());
     }
 }
