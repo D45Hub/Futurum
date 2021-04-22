@@ -27,10 +27,8 @@ public class MainActivity extends UpdatableViewActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         AndroidFileHelper.init(this);
-        byte[] factorySystemData = DataFile.FactorySystem.read();
-        byte[] unlockableDatas = DataFile.Unlockables.read();
-        byte[] wareHouseData = DataFile.WareHouse.read();
-        gameRoutine = new GameRoutine(this, factorySystemData, unlockableDatas, wareHouseData);
+        gameRoutine = new GameRoutine(this);
+        gameRoutine.initFromFiles();
 
         if (GameRoutine.getMainActivity() != null) {
             GameRoutine.setNewCurrent(GameRoutine.getMainActivity());

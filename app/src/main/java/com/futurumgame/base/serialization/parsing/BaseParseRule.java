@@ -10,28 +10,23 @@ public abstract class BaseParseRule<T> implements IParseRule<T> {
         clearReadChars();
     }
 
-    public String getReadChars(){
+    public final String getReadChars(){
         return readChars;
     }
 
     @Override
     public ParseResult<T> next(char c) {
         readChars += c;
-        return ParseResult.create(null);
+        return ParseResult.failResult();
     }
 
     @Override
     public ParseResult<T> next(String string) {
         readChars += string;
-        return ParseResult.create(null);
+        return ParseResult.failResult();
     }
 
-    @Override
-    public String getParsingValue(T obj) {
-        return null;
-    }
-
-    protected void clearReadChars() {
+    protected final void clearReadChars() {
         readChars = "";
     }
 }

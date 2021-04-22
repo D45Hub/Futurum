@@ -25,6 +25,7 @@ public class UnlockListener implements View.OnClickListener {
         WareHouse wareHouse = GameRoutine.getWareHouse();
         if (wareHouse.canOfferResources(unlockable.getCosts())) {
             wareHouse.offerResources(unlockable.getCosts());
+            unlockable.unlock();
             RecyclerView unlockables = ((UnlockViewActivity)v.getContext()).findViewById(R.id.Unlockables);
             unlockables.getAdapter().notifyDataSetChanged();
         }

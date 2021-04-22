@@ -74,7 +74,7 @@ public class ResourceUnlockable extends Unlockable {
     public void unlock() {
         GameRoutine.getWareHouse().addResource(resource, startCap);
         GameRoutine.addNewFactory(factory);
-        GameRoutine.getUnlockables().updateNewUnlock(this, GameRoutine.getWareHouse());
+        GameRoutine.getResourceUnlockables().updateNewUnlock(this, GameRoutine.getWareHouse());
     }
 
     private static Hashtable<Integer, Resource> gatherAllResources() {

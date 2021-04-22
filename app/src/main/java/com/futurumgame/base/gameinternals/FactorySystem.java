@@ -15,8 +15,10 @@ import android.view.WindowManager;
 
 import com.futurumgame.base.collections.CollectionHelper;
 import com.futurumgame.base.enums.DataEncoding;
+import com.futurumgame.base.enums.Separator;
 import com.futurumgame.base.factories.Factory;
 import com.futurumgame.base.factories.basic.WaterMill;
+import com.futurumgame.base.interfaces.IData;
 import com.futurumgame.base.interfaces.IDataProvider;
 import com.futurumgame.base.interfaces.IParseRule;
 import com.futurumgame.base.interfaces.IParseRuleProvider;
@@ -32,7 +34,7 @@ import java.util.LinkedList;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-public class FactorySystem extends ViewGroup implements IDataProvider, IParseRuleProvider<FactoryNode<Resource>> {
+public class FactorySystem extends ViewGroup implements IData, IParseRuleProvider<FactoryNode<Resource>> {
 
     private final FactoryNodeParseRule<Resource> parseRule;
 
@@ -62,6 +64,7 @@ public class FactorySystem extends ViewGroup implements IDataProvider, IParseRul
         Point deviceDisplay = new Point();
         display.getSize(deviceDisplay);
         deviceWidth = deviceDisplay.x;
+        add(WaterMill.factory());
     }
 
     public FactoryNode<? extends Resource> getLastEdited() {
@@ -88,21 +91,6 @@ public class FactorySystem extends ViewGroup implements IDataProvider, IParseRul
         addView(node);
     }
 
-    public void createSystem(byte[] factorySystemData) {
-        if (factorySystemData.length == 0) {
-            add(WaterMill.factory());
-            return;
-        }
-        String data = DataEncoding.UTF8.decode(factorySystemData);
-        for (String node : data.split(StringUtil.DefaultDataCollectionSeparator)) {
-            ParseResult<FactoryNode<Resource>> result = getParseRule().next(node);
-            if (!result.parseSuccess()) {
-                continue;
-            }
-            update(result.getResult());
-        }
-    }
-
     public void forEach(Consumer<FactoryNode<? extends Resource>> consumer) {
         for (LinkedList<FactoryNode<? extends Resource>> level : root) {
             for (FactoryNode<? extends Resource> node : level) {
@@ -123,18 +111,38 @@ public class FactorySystem extends ViewGroup implements IDataProvider, IParseRul
     }
 
     @Override
-    public IParseRule<FactoryNode<Resource>> getParseRule() {
-        return parseRule;
+    public void from(byte[] data) {
+        if (data.length == 0) {
+            return;
+        }
+        String stringData = DataEncoding.UTF8.decode(data);
+        boolean onlyFails = true;
+        for (String node : stringData.split(Separator.CollectionSeparator.getSeparator())) {
+            ParseResult<FactoryNode<Resource>> result = parseRule.next(node);
+            if (!result.parseSuccess()) {
+                continue;
+            }
+            update(result.getResult());
+            onlyFails = false;
+        }
+        if(onlyFails){
+            Log.w(FactorySystem.class.getSimpleName(), "couldn't parse factory system received data: " + data);
+        }
     }
 
     @Override
     public byte[] provideData() {
         ArrayList<String> data = new ArrayList<>();
         forEach(fn -> {
-            data.add(getParseRule().getParsingValue((FactoryNode<Resource>) fn));
+            data.add(parseRule.getParsingValue((FactoryNode<Resource>) fn));
         });
-        String dataAsString = StringUtil.combine(StringUtil.DefaultDataCollectionSeparator, data.toArray());
+        String dataAsString = StringUtil.combine(Separator.CollectionSeparator, data.toArray());
         return DataEncoding.UTF8.encode(dataAsString);
+    }
+
+    @Override
+    public IParseRule<FactoryNode<Resource>> getParseRule() {
+        return parseRule;
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.PointF;
 
 import com.futurumgame.base.collections.CollectionHelper;
+import com.futurumgame.base.enums.Separator;
 import com.futurumgame.base.factories.Factory;
 import com.futurumgame.base.gameinternals.FactoryNode;
 import com.futurumgame.base.resources.Resource;
@@ -26,7 +27,7 @@ public class FactoryNodeParseRule<T extends Resource> extends BaseParseRule<Fact
     @Override
     public ParseResult<FactoryNode<T>> next(String string) {
         super.next(string);
-        String[] factories = getReadChars().split(StringUtil.DefaultSplitSeparator);
+        String[] factories = getReadChars().split(Separator.DefaultSeparator.getSeparator());
         if(factories.length == 0) {
             return ParseResult.failResult();
         }
@@ -49,6 +50,6 @@ public class FactoryNodeParseRule<T extends Resource> extends BaseParseRule<Fact
         for (Factory<T> factory : factories) {
             data.add(obj.getParseRule().getParsingValue(factory));
         }
-        return StringUtil.combine(StringUtil.DefaultSplitSeparator, data.toArray());
+        return StringUtil.combine(Separator.DefaultSeparator, data.toArray());
     }
 }

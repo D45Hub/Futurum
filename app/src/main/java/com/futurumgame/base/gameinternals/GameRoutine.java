@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import com.futurumgame.base.MainActivity;
 import com.futurumgame.base.R;
 import com.futurumgame.base.additionalDatatypes.Units;
+import com.futurumgame.base.enums.DataFile;
 import com.futurumgame.base.enums.TimeUnits;
 import com.futurumgame.base.factories.Factory;
 import com.futurumgame.base.resources.Resource;
@@ -30,21 +31,24 @@ public class GameRoutine {
 
     private final MainActivity main;
     private final FactorySystem factories;
-    private final WareHouse wareHouse;
+    private final WareHouse wareHouse = new WareHouse();
     private final Hashtable<Integer, Units> measuredDeltas = new Hashtable<>();
-    private final UnlockableCollection unlockables = new UnlockableCollection();
+    private final UnlockableCollection resourceUnlockables = UnlockableCollection.createResourceUnlockables();
 
     private long tickRate = TimeUnits.Millisecond.inThisUnit(25);
     private Timer timer = new Timer(true);
 
-    public GameRoutine(MainActivity mainActivity, @Nullable byte[] factorySystemData, @Nullable byte[] unlockableDatas, @Nullable byte[] wareHouseData) {
+    public GameRoutine(MainActivity mainActivity) {
         main = mainActivity;
         currentActivity = main;
         current = this;
         factories = main.findViewById(R.id.FactorySystem);
-        unlockables.unlock(unlockableDatas);
-        factories.createSystem(factorySystemData);
-        wareHouse = WareHouse.from(wareHouseData);
+    }
+
+    public void initFromFiles() {
+        resourceUnlockables.from(DataFile.ResourceUnlockables.read());
+        factories.from(DataFile.FactorySystem.read());
+        wareHouse.from(DataFile.WareHouse.read());
     }
 
     public void start() {
@@ -91,8 +95,8 @@ public class GameRoutine {
         return current.wareHouse;
     }
 
-    public static UnlockableCollection getUnlockables() {
-        return current.unlockables;
+    public static UnlockableCollection getResourceUnlockables() {
+        return current.resourceUnlockables;
     }
 
     public static FactorySystem getFactorySystem() {

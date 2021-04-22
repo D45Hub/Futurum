@@ -25,7 +25,7 @@ public class UnlockViewActivity extends UpdatableViewActivity {
 
         unlockableContainer = findViewById(R.id.Unlockables);
         unlockableContainer.setLayoutManager(new LinearLayoutManager(this));
-        unlockableContainer.setAdapter(new UnlockableAdapter(GameRoutine.getUnlockables()));
+        unlockableContainer.setAdapter(new UnlockableAdapter(GameRoutine.getResourceUnlockables()));
         ImageButton goBack = findViewById(R.id.GoBack);
         goBack.setOnClickListener(GoBackListener.newListener());
         allowUpdates();
