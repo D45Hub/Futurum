@@ -2,11 +2,9 @@ package com.futurumgame.testhelpers;
 
 import com.futurumgame.base.factories.Factory;
 import com.futurumgame.base.resources.Resource;
-import com.futurumgame.base.util.CollectionHelper;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
 
 public class FactoryTestHelper {
 

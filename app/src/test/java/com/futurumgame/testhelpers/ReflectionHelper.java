@@ -1,8 +1,7 @@
 package com.futurumgame.testhelpers;
 
-import com.futurumgame.base.util.CollectionHelper;
-
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.List;
 
 public class ReflectionHelper {
@@ -29,7 +28,7 @@ public class ReflectionHelper {
         for (int i = 0; i < methodNames.length; i++) {
             final String methodName = methodNames[i];
             final Class[] params = args.get(i);
-            if (CollectionHelper.contains(methods, m -> isMethod(m, methodName, params))) {
+            if (Arrays.stream(methods).allMatch(m -> isMethod(m, methodName, params))) {
                 continue;
             }
             return false;
@@ -38,6 +37,16 @@ public class ReflectionHelper {
     }
 
     private static boolean isMethod(Method method, String methodName, Class<?>[] args) {
-        return method.getName().equals(methodName) && CollectionHelper.sequenceEquals(method.getParameterTypes(), args);
+        Class<?>[] params = method.getParameterTypes();
+        if(! method.getName().equals(methodName)|| params.length != args.length){
+            return false;
+        }
+        for (int i = 0; i < params.length; i++) {
+            if(params[i].equals(args[i])){
+                continue;
+            }
+            return false;
+        }
+        return true;
     }
 }
