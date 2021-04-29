@@ -25,9 +25,7 @@ public final class WaterMill extends BasicFactory<Water> {
     public Water work() {
         Units baseProd = new Units(getLevel() * 4, -2 + Math.floor(Math.log(getLevel())/Math.log(5)));
         baseProd.multiply(new Units(1.5, Math.floor(Math.log10(getLevel()))));
-        Water produced = Water.factory();
-        produced.setCount(baseProd);
-        return produced;
+        return ResourceHelper.setToAmount(Water.factory(), baseProd);
     }
 
     @Override

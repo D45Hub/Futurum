@@ -5,8 +5,10 @@ import com.futurumgame.base.factories.BasicFactory;
 import com.futurumgame.base.factories.Factory;
 import com.futurumgame.base.resources.Resource;
 import com.futurumgame.base.resources.ResourceHelper;
+import com.futurumgame.base.resources.basic.Clay;
 import com.futurumgame.base.resources.basic.Gravel;
 import com.futurumgame.base.resources.basic.Oil;
+import com.futurumgame.base.resources.basic.Water;
 
 import java.util.LinkedList;
 
@@ -20,17 +22,23 @@ public final class OilPump extends BasicFactory<Oil> {
 
     @Override
     public Oil work() {
-        return null;
+        Units baseProd = new Units(getLevel() * 4, -2 + Math.floor(Math.log(getLevel())/Math.log(7)));
+        baseProd.multiply(new Units(1.5, Math.floor(Math.log10(getLevel()/5))));
+        return ResourceHelper.setToAmount(Oil.factory(), baseProd);
     }
 
     @Override
     public LinkedList<Resource> getUpgradeCosts() {
-        return null;
+        LinkedList<Resource> costs = new LinkedList<>();
+        double exponent = Math.floor(Math.log(Math.pow(getLevel()*69, 4.2069*Math.log(getLevel()))));
+        costs.add(ResourceHelper.setToAmount(Oil.factory(), new Units(getLevel() * 170, exponent)));
+        return costs;
     }
 
     @Override
     protected void upgrade() {
         super.upgrade();
+        getCapacity().multiply(new Units(10, Math.sqrt(getLevel() * 0.25)));
     }
 
     @Override
