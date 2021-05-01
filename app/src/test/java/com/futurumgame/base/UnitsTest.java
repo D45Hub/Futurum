@@ -7,6 +7,7 @@ import org.junit.Test;
 import com.futurumgame.base.additionalDatatypes.Units;
 
 public class UnitsTest {
+
     @Test
     public void testAddition() {
         Units simpleTestUnit = new Units(5, 0.0);
@@ -66,6 +67,8 @@ public class UnitsTest {
         simpleTestUnit.subtract(Units.NegativeInfinity);
         assertEquals(Units.PositiveInfinity, simpleTestUnit);
 
+        simpleTestUnit.subtract(Units.PositiveInfinity);
+        assertEquals(Units.Zero, simpleTestUnit);
     }
 
     @Test
@@ -86,6 +89,14 @@ public class UnitsTest {
         simpleTestUnit2.multiply(Units.NaN);
         assertEquals(Units.NaN, simpleTestUnit2);
 
+        simpleTestUnit3.multiply(Units.NegativeInfinity);
+        assertEquals(Units.PositiveInfinity, simpleTestUnit3);
+
+        simpleTestUnit3.multiply(Units.PositiveInfinity);
+        assertEquals(Units.PositiveInfinity, simpleTestUnit3);
+
+        simpleTestUnit3.multiply(Units.NegativeInfinity);
+        assertEquals(Units.NegativeInfinity, simpleTestUnit3);
     }
 
     @Test
@@ -103,6 +114,14 @@ public class UnitsTest {
         simpleTestUnit.divide(Units.PositiveInfinity);
         assertEquals(Units.Zero, simpleTestUnit);
 
+        simpleTestUnit2.divide(Units.Zero);
+        assertEquals(Units.NaN, simpleTestUnit2);
+
+        simpleTestUnit3.divide(Units.NegativeInfinity);
+        assertEquals(Units.Zero, simpleTestUnit3);
+
+        simpleTestUnit.divide(Units.NaN);
+        assertEquals(Units.NaN, simpleTestUnit);
     }
 
     @Test
@@ -125,12 +144,16 @@ public class UnitsTest {
 
         simpleTestUnit2.pow(5);
         assertEquals(Units.NaN, simpleTestUnit2);
+
+        simpleTestUnit.pow(Double.NaN);
+        assertEquals(Units.NaN, simpleTestUnit);
     }
 
     @Test
     public void testNthRoot() {
         Units simpleTestUnit = new Units(125, 0.0);
         Units simpleTestUnit2 = new Units(-125, 0.0);
+        Units simpleTestUnit3 = new Units(4.0, 0.0);
 
         Units positiveInfinityUnit = Units.PositiveInfinity.copy();
 
@@ -142,13 +165,38 @@ public class UnitsTest {
 
         positiveInfinityUnit.nRoot(5.0);
         assertEquals(Units.NaN, positiveInfinityUnit);
+
+        simpleTestUnit3.nRoot(-2.0);
+        assertEquals(new Units(0.5, 0.0), simpleTestUnit3);
+
+        simpleTestUnit3.nRoot(Double.NaN);
+        assertEquals(Units.NaN, simpleTestUnit3);
     }
 
     @Test
     public void testLog10() {
         Units simpleTestUnit = new Units(10, 20.0);
+        Units zeroUnit = new Units(0.0, 0.0);
+        Units negativeUnit = new Units(-15,  1.0);
+
+        Units positiveInfiniteUnit = Units.PositiveInfinity.copy();
+        Units negativeInfiniteUnit = Units.NegativeInfinity.copy();
+        Units nanUnit = Units.NaN.copy();
+
         simpleTestUnit.log10();
+        zeroUnit.log10();
+        negativeUnit.log10();
+
+        positiveInfiniteUnit.log10();
+        negativeInfiniteUnit.log10();
+        nanUnit.log10();
+
         assertEquals(new Units(2.1, 1.0), simpleTestUnit);
+        assertEquals(Units.NaN, zeroUnit);
+        assertEquals(Units.NaN, negativeUnit);
+        assertEquals(Units.PositiveInfinity, positiveInfiniteUnit);
+        assertEquals(Units.NaN, negativeInfiniteUnit);
+        assertEquals(Units.NaN, nanUnit);
     }
 
     @Test
@@ -156,7 +204,12 @@ public class UnitsTest {
         double eValue = 2.718281828459045;
         Units simpleTestUnit = new Units(16, 0.0);
         Units zeroUnit = new Units(0.0, 0.0);
+        Units negativeUnit = new Units(-15,  1.0);
         Units eTestUnit = new Units(eValue, 0.0);
+
+        Units positiveInfiniteUnit = Units.PositiveInfinity.copy();
+        Units negativeInfiniteUnit = Units.NegativeInfinity.copy();
+        Units nanUnit = Units.NaN.copy();
 
         eTestUnit.pow(2.0);
         eTestUnit.log(eValue);
@@ -167,6 +220,29 @@ public class UnitsTest {
 
         zeroUnit.log(5.0);
         assertEquals(Units.NaN, zeroUnit);
+
+        negativeUnit.log(3.0);
+        assertEquals(Units.NaN, negativeUnit);
+
+        simpleTestUnit.log(-4.0);
+        assertEquals(Units.NaN, simpleTestUnit);
+
+        positiveInfiniteUnit.log(3.0);
+        assertEquals(Units.PositiveInfinity, positiveInfiniteUnit);
+
+        negativeInfiniteUnit.log(4.0);
+        assertEquals(Units.NaN, negativeInfiniteUnit);
+
+        nanUnit.log(7.0);
+        assertEquals(Units.NaN, nanUnit);
+
+        eTestUnit.log(Double.NaN);
+        assertEquals(Units.NaN, eTestUnit);
+
+        simpleTestUnit = new Units(16, 0.0);
+        simpleTestUnit.log(Double.POSITIVE_INFINITY);
+
+        assertEquals(Units.Zero, simpleTestUnit);
     }
 
     @Test
@@ -281,6 +357,8 @@ public class UnitsTest {
         Units positiveInfiniteUnit = Units.PositiveInfinity.copy();
         Units negativeInfiniteUnit = Units.NegativeInfinity.copy();
 
+        Units zeroUnit = Units.Zero.copy();
+
         assertEquals(true, simpleTestUnit.isPositive());
         assertEquals(false, simpleTestUnit.isNegative());
 
@@ -292,6 +370,9 @@ public class UnitsTest {
 
         assertEquals(false, negativeInfiniteUnit.isPositive());
         assertEquals(true, negativeInfiniteUnit.isNegative());
+
+        assertEquals(false, zeroUnit.isPositive());
+        assertEquals(false, zeroUnit.isNegative());
     }
 
     @Test
@@ -302,19 +383,24 @@ public class UnitsTest {
         Units positiveInfiniteUnit = Units.PositiveInfinity.copy();
         Units negativeInfiniteUnit = Units.NegativeInfinity.copy();
 
+        Units zeroUnit = Units.Zero.copy();
+
         assertEquals(new Units(15, 0.0), simpleTestUnit.copy());
         assertEquals(new Units(-23, 0.0), simpleTestUnit2.copy());
         assertEquals(Units.PositiveInfinity, positiveInfiniteUnit.copy());
         assertEquals(Units.NegativeInfinity, negativeInfiniteUnit.copy());
+        assertEquals(Units.Zero, zeroUnit.copy());
     }
 
     @Test
     public void testValueEvaluation() {
         Units simpleTestUnit = new Units(15, 1.0);
         Units simpleTestUnit2 = new Units(-23, 0.0);
+        Units zeroUnit = new Units(0.0, 0.0);
 
         assertEquals(150, simpleTestUnit.intValue());
         assertEquals(-23, simpleTestUnit2.intValue());
+        assertEquals(0, zeroUnit.intValue());
     }
 
 }
