@@ -146,10 +146,27 @@ public class UnitsTest {
 
     @Test
     public void testLog10() {
-
         Units simpleTestUnit = new Units(10, 20.0);
         simpleTestUnit.log10();
         assertEquals(new Units(2.1, 1.0), simpleTestUnit);
+    }
+
+    @Test
+    public void testLog() {
+        double eValue = 2.718281828459045;
+        Units simpleTestUnit = new Units(16, 0.0);
+        Units zeroUnit = new Units(0.0, 0.0);
+        Units eTestUnit = new Units(eValue, 0.0);
+
+        eTestUnit.pow(2.0);
+        eTestUnit.log(eValue);
+        assertEquals(new Units(2.0, 0.0), eTestUnit);
+
+        simpleTestUnit.log(2.0);
+        assertEquals(new Units(4.0, 0.0), simpleTestUnit);
+
+        zeroUnit.log(5.0);
+        assertEquals(Units.NaN, zeroUnit);
     }
 
     @Test
