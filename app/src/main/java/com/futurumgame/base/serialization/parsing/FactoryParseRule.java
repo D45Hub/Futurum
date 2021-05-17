@@ -1,7 +1,5 @@
 package com.futurumgame.base.serialization.parsing;
 
-import android.util.Log;
-
 import com.futurumgame.base.enums.Separator;
 import com.futurumgame.base.factories.Factory;
 import com.futurumgame.base.resources.Resource;
@@ -11,26 +9,28 @@ import com.futurumgame.base.util.StringUtil;
 
 public class FactoryParseRule<T extends Resource> extends BaseParseRule<Factory<T>> {
 
+    private static final int ExpectedValueCount = 2;
     private static final int DefaultLevel = 1;
 
     @Override
     public ParseResult<Factory<T>> next(String string) {
         super.next(string);
-        String[] values = getReadChars().split(Separator.DataStructureSeparator.getSeparator());
-        if (values.length < 2) {
-            return ParseResult.create(null);
+        String[] data = getReadChars().split(Separator.DataStructureSeparator.getSeparator());
+        if (data.length < ExpectedValueCount) {
+            Logger.toFewData(getClass(), "factory entry", data, ExpectedValueCount);
+            return ParseResult.failResult();
         }
-        if (values.length != 2) {
+        if (data.length != ExpectedValueCount) {
             Logger.toMuchData(getClass(), getReadChars());
         }
         int level = DefaultLevel;
         try {
-            level = Integer.parseInt(values[1]);
+            level = Integer.parseInt(data[1]);
         } catch (NumberFormatException e) {
-            Logger.cannotParse(getClass(), "factory level", values[0], DefaultLevel, e);
+            Logger.cannotParse(getClass(), "factory level", data[0], DefaultLevel, e);
         }
-        clearReadChars();
-        return ParseResult.create(FactoryMapping.instanceFactory(values[0], level));
+        clearAll();
+        return ParseResult.create(FactoryMapping.instanceFactory(data[0], level));
     }
 
     @Override

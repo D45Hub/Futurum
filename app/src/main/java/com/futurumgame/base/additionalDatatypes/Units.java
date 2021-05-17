@@ -418,7 +418,7 @@ public final class Units extends Number implements Comparable<Units> {
         for (char c : string.toCharArray()) {
             result = ParseRule.next(c);
         }
-        ParseRule.clearReadChars();
+        ParseRule.clearAll();
         if (!result.parseSuccess()) {
             ExceptionUtil.throwUnitsFormatException(string);
         }

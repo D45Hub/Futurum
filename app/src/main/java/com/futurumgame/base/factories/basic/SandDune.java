@@ -12,10 +12,10 @@ import java.util.LinkedList;
 
 public final class SandDune extends BasicFactory<Sand> {
 
-    public static final String Name = "";
+    public static final String Name = "SandDune";
 
     private SandDune() {
-        super(GravelPit.class.getSimpleName(), Sand.factory(), new Units(1, 2));
+        super(Name, Sand.factory(), new Units(1, 2));
     }
 
     @Override

@@ -17,14 +17,14 @@ public class UnitsParseRule extends BaseParseRule<Units> {
     @Override
     public ParseResult<Units> next(char c) {
         if(Character.toLowerCase(c) == E) {
-            clearReadChars();
+            clearAll();
             parseExponent = true;
             return ParseResult.failResult();
         }
         super.next(c);
         Units normedValue = NormedNotationParser.Singleton.parse(getReadChars());
         if(normedValue!= null) {
-            clearReadChars();
+            clearAll();
             return ParseResult.create(normedValue);
         }
         double value;

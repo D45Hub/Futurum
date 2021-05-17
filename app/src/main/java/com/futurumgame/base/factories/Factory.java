@@ -53,8 +53,7 @@ public abstract class Factory<T extends Resource> {
 
     public final void workManually() {
         T resource = work();
-        Units multiplier = new Units(5, Math.floor(1 / Math.log10((level + 100) / 169.0 + 1) - 3));
-        resource.getCount().multiply(multiplier);
+        resource.getCount().multiply(calculateMultiplier());
         addToStorage(resource.getCount());
     }
 
@@ -123,6 +122,13 @@ public abstract class Factory<T extends Resource> {
 
     private void increaseLevel() {
         level++;
+    }
+
+    private Units calculateMultiplier() {
+        double div = Math.log10((level + 100) / 169.0 + 1.0);
+        double exponent = Math.floor(1 / div - 3);
+
+        return new Units(5, exponent);
     }
 
     @Override

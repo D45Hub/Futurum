@@ -57,6 +57,7 @@ import static com.futurumgame.base.util.CollectionHelper.toMap;
 
 public class UnlockableCollection implements IData, IParseRuleProvider<Unlockable> {
 
+    private static final int ExpectedValueCount = 2;
     private static final HashMap<Class<? extends Unlockable>, Unlockable> InitialUnlockables = gatherAllInitials();
     private static final HashMap<Class<? extends Unlockable>, HashSet<Unlockable>> AllUnlockables = gatherAllUnlockables();
 
@@ -109,12 +110,12 @@ public class UnlockableCollection implements IData, IParseRuleProvider<Unlockabl
         }
         String dataString = DataEncoding.UTF8.decode(data);
         String[][] collections = StringUtil.doubleSplit(dataString);
-        if (collections.length < 2) {
+        if (collections.length < ExpectedValueCount) {
             Logger.cannotParse(getClass(), "unlockable collection", collections, 2);
             addInitialUnlockable();
             return;
         }
-        if (collections.length > 2) {
+        if (collections.length > ExpectedValueCount) {
             Logger.toMuchData(getClass(), dataString);
         }
         simulateUnlocks(collections[1]);

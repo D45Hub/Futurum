@@ -11,6 +11,8 @@ import java.util.Map;
 
 public class IntegerUnitsMapEntryParseRule extends MapEntryParseRule<Integer, Units> {
 
+    private static final int ExpectedValueCount = 2;
+
     public IntegerUnitsMapEntryParseRule() {
     }
 
@@ -21,15 +23,15 @@ public class IntegerUnitsMapEntryParseRule extends MapEntryParseRule<Integer, Un
             return ParseResult.failResult();
         }
         String[] data = getReadChars().split(Separator.DataStructureSeparator.getSeparator());
-        if (data.length < 2) {
-            Logger.toFewData(getClass(), "capacity entry", data, 2);
-            clearReadChars();
+        if (data.length < ExpectedValueCount) {
+            Logger.toFewData(getClass(), "capacity entry", data, ExpectedValueCount);
+            clearAll();
             return ParseResult.failResult();
         }
-        if (data.length > 2) {
+        if (data.length > ExpectedValueCount) {
             Logger.toMuchData(getClass(), getReadChars());
         }
-        int id=-1;
+        int id = -1;
         Units cap;
         ParseResult<Map.Entry<Integer, Units>> result;
         try {
@@ -43,7 +45,7 @@ public class IntegerUnitsMapEntryParseRule extends MapEntryParseRule<Integer, Un
             Logger.cannotParse(getClass(), "resource id", data[0], e);
             result = ParseResult.failResult();
         }
-        clearReadChars();
+        clearAll();
         return result;
     }
 

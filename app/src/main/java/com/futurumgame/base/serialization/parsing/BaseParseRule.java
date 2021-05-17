@@ -7,7 +7,7 @@ public abstract class BaseParseRule<T> implements IParseRule<T> {
     private String readChars;
 
     protected BaseParseRule() {
-        clearReadChars();
+        clearAll();
     }
 
     public final String getReadChars(){
@@ -26,7 +26,7 @@ public abstract class BaseParseRule<T> implements IParseRule<T> {
         return ParseResult.failResult();
     }
 
-    public final void clearReadChars() {
+    public final void clearAll() {
         clear();
         readChars = "";
     }

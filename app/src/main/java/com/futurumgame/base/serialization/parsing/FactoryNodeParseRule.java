@@ -33,14 +33,14 @@ public class FactoryNodeParseRule<T extends Resource> extends BaseParseRule<Fact
         }
         LinkedList<ParseResult<Factory<T>>> successes = CollectionHelper.where(CollectionHelper.select(factories, ParseRule::next), r->r.parseSuccess());
         if(successes.isEmpty()) {
-            clearReadChars();
+            clearAll();
             return ParseResult.failResult();
         }
         FactoryNode<T> node = new FactoryNode(context, successes.pop().getResult(), new PointF());
         for (ParseResult<Factory<T>> result: successes) {
             node.changePrimaryFactory(result.getResult());
         }
-        clearReadChars();
+        clearAll();
         return ParseResult.create(node);
     }
 
