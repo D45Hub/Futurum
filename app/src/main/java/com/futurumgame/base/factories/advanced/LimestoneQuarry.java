@@ -24,7 +24,9 @@ public final class LimestoneQuarry extends Facility<Limestone> {
 
     @Override
     public Limestone work() {
-        return null;
+        Units baseProd = new Units(getLevel() * 4, -2 + Math.floor(Math.log(getLevel() * Math.PI) / Math.log(2 * Math.PI)));
+        baseProd.multiply(new Units(7.3, Math.floor(Math.log10(getLevel() / 7.3))));
+        return ResourceHelper.setToAmount(Limestone.factory(), baseProd);
     }
 
     @Override
@@ -38,17 +40,27 @@ public final class LimestoneQuarry extends Facility<Limestone> {
 
     @Override
     public LinkedList<Resource> getUpgradeCosts() {
-        return null;
+        LinkedList<Resource> costs = new LinkedList<>();
+        double exponent = Math.floor(Math.log(Math.pow(getLevel() * 69, 0.69420 * Math.log10(getLevel() / 9.0))));
+        costs.add(ResourceHelper.setToAmount(Wood.factory(), new Units(getLevel() * 51, exponent * 1.7)));
+        costs.add(ResourceHelper.setToAmount(Stone.factory(), new Units(getLevel() * 113, exponent * 1.73)));
+        return costs;
     }
 
     @Override
     protected LinkedList<Resource> requiredResources() {
-        return null;
+        LinkedList<Resource> requieredResources = new LinkedList<>();
+        Units baseValue = new Units(1, Math.floor(5.5 * Math.log(getLevel() + 13)) + 1);
+        requieredResources.add(ResourceHelper.setToAmount(Wood.factory(), baseValue.copy()));
+        baseValue.divide(new Units(4.5, 0));
+        requieredResources.add(ResourceHelper.setToAmount(Stone.factory(), baseValue.copy()));
+        return requieredResources;
     }
 
     @Override
     protected void upgrade() {
         super.upgrade();
+        getCapacity().multiply(new Units(8.8, Math.sqrt(getLevel() * 0.79)));
     }
 
     @Override

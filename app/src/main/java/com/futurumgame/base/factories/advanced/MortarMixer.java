@@ -7,8 +7,10 @@ import com.futurumgame.base.factories.basic.GravelPit;
 import com.futurumgame.base.resources.Resource;
 import com.futurumgame.base.resources.ResourceHelper;
 import com.futurumgame.base.resources.advanced.Mortar;
+import com.futurumgame.base.resources.advanced.Stone;
 import com.futurumgame.base.resources.advanced.Wood;
 import com.futurumgame.base.resources.basic.Clay;
+import com.futurumgame.base.resources.basic.Oil;
 import com.futurumgame.base.resources.basic.Water;
 
 import java.util.LinkedList;
@@ -24,7 +26,9 @@ public final class MortarMixer extends Facility<Mortar> {
 
     @Override
     public Mortar work() {
-        return null;
+        Units baseProd = new Units(getLevel() * 2, -2 + Math.floor(Math.log(getLevel())/Math.log(3)));
+        baseProd.multiply(new Units(3, Math.floor(Math.log10(Math.pow(getLevel()/5, 1.5)))));
+        return ResourceHelper.setToAmount(Mortar.factory(), baseProd);
     }
 
     @Override
@@ -37,7 +41,12 @@ public final class MortarMixer extends Facility<Mortar> {
 
     @Override
     public LinkedList<Resource> getUpgradeCosts() {
-        return null;
+        LinkedList<Resource> requieredResources = new LinkedList<>();
+        Units baseValue = new Units(7.5, Math.floor(3.5*Math.log(getLevel() + 13)));
+        requieredResources.add(ResourceHelper.setToAmount(Wood.factory(), baseValue.copy()));
+        baseValue.divide(new Units(4.5,1));
+        requieredResources.add(ResourceHelper.setToAmount(Stone.factory(), baseValue.copy()));
+        return requieredResources;
     }
 
     @Override
@@ -48,6 +57,7 @@ public final class MortarMixer extends Facility<Mortar> {
     @Override
     protected void upgrade() {
         super.upgrade();
+        getCapacity().multiply(new Units(8, Math.sqrt(getLevel() * 0.5)));
     }
 
     @Override

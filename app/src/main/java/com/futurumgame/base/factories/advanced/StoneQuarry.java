@@ -8,6 +8,7 @@ import com.futurumgame.base.resources.Resource;
 import com.futurumgame.base.resources.ResourceHelper;
 import com.futurumgame.base.resources.advanced.Stone;
 import com.futurumgame.base.resources.advanced.Wood;
+import com.futurumgame.base.resources.basic.Dirt;
 import com.futurumgame.base.resources.basic.Water;
 
 import java.util.LinkedList;
@@ -23,7 +24,9 @@ public final class StoneQuarry extends Facility<Stone> {
 
     @Override
     public Stone work() {
-        return null;
+        Units baseProd = new Units(getLevel() * 4, -2 + Math.floor(Math.log(getLevel()) / Math.log(7)));
+        baseProd.multiply(new Units(1.5, Math.floor(Math.log10(getLevel() / 5))));
+        return ResourceHelper.setToAmount(Stone.factory(), baseProd);
     }
 
     @Override
@@ -37,17 +40,27 @@ public final class StoneQuarry extends Facility<Stone> {
 
     @Override
     public LinkedList<Resource> getUpgradeCosts() {
-        return null;
+        LinkedList<Resource> costs = new LinkedList<>();
+        double exponent = Math.floor(Math.log(Math.pow(getLevel() * 420, 0.069420 * Math.log10(getLevel() / 9.0))));
+        costs.add(ResourceHelper.setToAmount(Wood.factory(), new Units(getLevel() * 513, exponent * 1.23)));
+        costs.add(ResourceHelper.setToAmount(Stone.factory(), new Units(getLevel() * 1313, exponent * 1.3)));
+        return costs;
     }
 
     @Override
     protected LinkedList<Resource> requiredResources() {
-        return null;
+        LinkedList<Resource> requieredResources = new LinkedList<>();
+        Units baseValue = new Units(7.5, Math.floor(3.5*Math.log(getLevel() + 13)));
+        requieredResources.add(ResourceHelper.setToAmount(Wood.factory(), baseValue.copy()));
+        baseValue.divide(new Units(4.5,1));
+        requieredResources.add(ResourceHelper.setToAmount(Stone.factory(), baseValue.copy()));
+        return requieredResources;
     }
 
     @Override
     protected void upgrade() {
         super.upgrade();
+        getCapacity().multiply(new Units(3, Math.sqrt(getLevel() * 0.73)));
     }
 
     @Override
