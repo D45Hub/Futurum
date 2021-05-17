@@ -18,15 +18,15 @@ public final class UnlockableAdapter extends TextViewAdapter<Unlockable, Unlocka
         this.unlockables = unlockables;
     }
 
+    @Override
+    public int getItemCount() {
+        return unlockables.size();
+    }
+
     @NonNull
     @Override
     public UnlockableViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new UnlockableViewHolder(inflateListItemView(parent, R.layout.list_price_item_view));
-    }
-
-    @Override
-    public int getItemCount() {
-        return unlockables.size();
     }
 
     @Override

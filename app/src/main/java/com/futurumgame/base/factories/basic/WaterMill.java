@@ -1,5 +1,8 @@
 package com.futurumgame.base.factories.basic;
 
+import android.text.Editable;
+import android.text.Spannable;
+
 import com.futurumgame.base.additionalDatatypes.Units;
 import com.futurumgame.base.factories.BasicFactory;
 import com.futurumgame.base.factories.Factory;
@@ -12,8 +15,10 @@ import java.util.Queue;
 
 public final class WaterMill extends BasicFactory<Water> {
 
-    protected WaterMill() {
-        super(WaterMill.class.getSimpleName(), Water.factory(), new Units(1, 2));
+    public static final String Name = "Watermill";
+
+    private WaterMill() {
+        super(Name, Water.factory(), new Units(1, 2));
     }
 
     @Override
@@ -36,7 +41,7 @@ public final class WaterMill extends BasicFactory<Water> {
     @Override
     protected void upgrade() {
         super.upgrade();
-        getStorage().multiply(new Units(getLevel(), Math.floor(Math.log(getLevel()))));
+        getCapacity().multiply(new Units(getLevel(), Math.floor(Math.log(getLevel()))));
     }
 
     @Override
@@ -46,5 +51,11 @@ public final class WaterMill extends BasicFactory<Water> {
 
     public static WaterMill factory() {
         return new WaterMill();
+    }
+
+    public static WaterMill factory(int level) {
+        WaterMill factory = factory();
+        factory.levelTo(level);
+        return factory;
     }
 }

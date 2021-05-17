@@ -2,6 +2,8 @@ package com.futurumgame.base.factories.advanced;
 
 import com.futurumgame.base.additionalDatatypes.Units;
 import com.futurumgame.base.factories.Facility;
+import com.futurumgame.base.factories.Factory;
+import com.futurumgame.base.factories.basic.GravelPit;
 import com.futurumgame.base.resources.Resource;
 import com.futurumgame.base.resources.ResourceHelper;
 import com.futurumgame.base.resources.advanced.Stone;
@@ -13,8 +15,10 @@ import java.util.Queue;
 
 public final class StoneQuarry extends Facility<Stone> {
 
+    public static final String Name = "Stone Quarry";
+
     private StoneQuarry() {
-        super(StoneQuarry.class.getSimpleName(), Stone.factory(), new Units(1, 2));
+        super(Name, Stone.factory(), new Units(1, 2));
     }
 
     @Override
@@ -53,5 +57,11 @@ public final class StoneQuarry extends Facility<Stone> {
 
     public static StoneQuarry factory() {
         return new StoneQuarry();
+    }
+
+    public static StoneQuarry factory(int level) {
+        StoneQuarry factory = factory();
+        factory.levelTo(level);
+        return factory;
     }
 }

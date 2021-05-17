@@ -15,10 +15,12 @@ import com.futurumgame.base.resources.ores.CopperOre;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class CopperSmeltery extends Smeltery<Copper, Coal> {
+public final class CopperSmeltry extends Smeltery<Copper, Coal> {
 
-    private CopperSmeltery() {
-        super(CopperSmeltery.class.getSimpleName(), Copper.factory(), ResourceHelper.setToAmount(Coal.factory(), Units.Ten.copy()), new Units(1, 2));
+    public static final String Name = "Copper Smeltry";
+
+    private CopperSmeltry() {
+        super(Name, Copper.factory(), ResourceHelper.setToAmount(Coal.factory(), Units.Ten.copy()), new Units(1, 2));
     }
 
     @Override
@@ -59,7 +61,13 @@ public class CopperSmeltery extends Smeltery<Copper, Coal> {
         return ResourceHelper.setToAmount(Copper.factory(), amount);
     }
 
-    public static CopperSmeltery factory() {
-        return new CopperSmeltery();
+    public static CopperSmeltry factory() {
+        return new CopperSmeltry();
+    }
+
+    public static CopperSmeltry factory(int level) {
+        CopperSmeltry factory = factory();
+        factory.levelTo(level);
+        return factory;
     }
 }

@@ -13,10 +13,12 @@ import com.futurumgame.base.resources.ores.CopperOre;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class CoalMine extends Mine<Coal> {
+public final class CoalMine extends Mine<Coal> {
+
+    public static final String Name = "SandDune";
 
     private CoalMine() {
-        super(CoalMine.class.getSimpleName(), Coal.factory(), new Units(1, 2));
+        super(Name, Coal.factory(), new Units(1, 2));
     }
 
     @Override

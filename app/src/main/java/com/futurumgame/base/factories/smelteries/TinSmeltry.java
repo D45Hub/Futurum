@@ -1,7 +1,6 @@
 package com.futurumgame.base.factories.smelteries;
 
 import com.futurumgame.base.additionalDatatypes.Units;
-import com.futurumgame.base.factories.Factory;
 import com.futurumgame.base.factories.Smeltery;
 import com.futurumgame.base.resources.Resource;
 import com.futurumgame.base.resources.ResourceHelper;
@@ -15,10 +14,12 @@ import com.futurumgame.base.resources.ores.TinOre;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class TinSmeltery extends Smeltery<Tin, Coal> {
+public final class TinSmeltry extends Smeltery<Tin, Coal> {
 
-    private TinSmeltery() {
-        super(TinSmeltery.class.getSimpleName(), Tin.factory(), ResourceHelper.setToAmount(Coal.factory(), Units.Ten.copy()), new Units(1, 2));
+    public static final String Name = "Tin Smeltry";
+
+    private TinSmeltry() {
+        super(Name, Tin.factory(), ResourceHelper.setToAmount(Coal.factory(), Units.Ten.copy()), new Units(1, 2));
     }
 
     @Override
@@ -59,7 +60,13 @@ public class TinSmeltery extends Smeltery<Tin, Coal> {
         return ResourceHelper.setToAmount(Tin.factory(), amount);
     }
 
-    public static TinSmeltery factory() {
-        return new TinSmeltery();
+    public static TinSmeltry factory() {
+        return new TinSmeltry();
+    }
+
+    public static TinSmeltry factory(int level) {
+        TinSmeltry factory = factory();
+        factory.levelTo(level);
+        return factory;
     }
 }

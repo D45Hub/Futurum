@@ -1,6 +1,7 @@
 package com.futurumgame.base.resources;
 
 public abstract class BaseResource extends Resource {
+
     protected BaseResource(int id, String name) {
         super(id, name);
     }

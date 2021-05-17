@@ -12,15 +12,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-import com.futurumgame.base.collections.CollectionHelper;
+import com.futurumgame.base.util.CollectionHelper;
+import com.futurumgame.base.enums.DataEncoding;
+import com.futurumgame.base.enums.Separator;
 import com.futurumgame.base.factories.Factory;
+import com.futurumgame.base.factories.basic.WaterMill;
+import com.futurumgame.base.interfaces.IData;
+import com.futurumgame.base.interfaces.IParseRule;
+import com.futurumgame.base.interfaces.IParseRuleProvider;
 import com.futurumgame.base.resources.Resource;
+import com.futurumgame.base.serialization.parsing.FactoryNodeParseRule;
+import com.futurumgame.base.serialization.parsing.ParseResult;
+import com.futurumgame.base.util.Logger;
+import com.futurumgame.base.util.StringUtil;
 
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
-public class FactorySystem extends ViewGroup {
+public class FactorySystem extends ViewGroup implements IData, IParseRuleProvider<FactoryNode<Resource>> {
+
+    private final FactoryNodeParseRule<Resource> parseRule;
 
     private final LinkedList<LinkedList<FactoryNode<? extends Resource>>> root = new LinkedList<>();
     private final Paint backGround = new Paint();
@@ -41,12 +55,17 @@ public class FactorySystem extends ViewGroup {
 
     public FactorySystem(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        backGround.setColor(Color.argb(255,19,19,19));
+        parseRule = new FactoryNodeParseRule<>(context);
+        backGround.setColor(Color.argb(255, 19, 19, 19));
         backGround.setStyle(Paint.Style.FILL);
         final Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         Point deviceDisplay = new Point();
         display.getSize(deviceDisplay);
         deviceWidth = deviceDisplay.x;
+    }
+
+    public FactoryNode<? extends Resource> getLastEdited() {
+        return lastEdited;
     }
 
     public <T extends Resource> void add(Factory<T> factory) {
@@ -69,16 +88,59 @@ public class FactorySystem extends ViewGroup {
         addView(node);
     }
 
-    public FactoryNode<? extends Resource> getLastEdited() {
-        return lastEdited;
-    }
-
     public void forEach(Consumer<FactoryNode<? extends Resource>> consumer) {
         for (LinkedList<FactoryNode<? extends Resource>> level : root) {
             for (FactoryNode<? extends Resource> node : level) {
                 consumer.accept(node);
             }
         }
+    }
+
+    public FactoryNode<Resource> forEachResult(Predicate<FactoryNode<? extends Resource>> predicate) {
+        for (LinkedList<FactoryNode<? extends Resource>> level : root) {
+            for (FactoryNode<? extends Resource> node : level) {
+                if (predicate.test(node)) {
+                    return (FactoryNode<Resource>) node;
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void from(byte[] data) {
+        add(WaterMill.factory());
+        if (data.length == 0) {
+            return;
+        }
+        String stringData = DataEncoding.UTF8.decode(data);
+        boolean onlyFails = true;
+        for (String node : stringData.split(Separator.CollectionSeparator.getSeparator())) {
+            ParseResult<FactoryNode<Resource>> result = parseRule.next(node);
+            if (!result.parseSuccess()) {
+                continue;
+            }
+            update(result.getResult());
+            onlyFails = false;
+        }
+        if(onlyFails){
+            Logger.cannotParse(getClass(), "factory system" , data);
+        }
+    }
+
+    @Override
+    public byte[] provideData() {
+        ArrayList<String> data = new ArrayList<>();
+        forEach(fn -> {
+            data.add(parseRule.getParsingValue((FactoryNode<Resource>) fn));
+        });
+        String dataAsString = StringUtil.combine(Separator.CollectionSeparator, data.toArray());
+        return DataEncoding.UTF8.encode(dataAsString);
+    }
+
+    @Override
+    public IParseRule<FactoryNode<Resource>> getParseRule() {
+        return parseRule;
     }
 
     @Override
@@ -184,6 +246,29 @@ public class FactorySystem extends ViewGroup {
 
     private static <T extends Resource> boolean containsPredicate(FactoryNode<? extends Resource> node, Factory<T> factory) {
         return node.getResourceName().contentEquals(factory.getResource().getName());
+    }
+
+    private FactoryNode<Resource> get(int resourceID) {
+        return forEachResult(factoryNode -> factoryNode.getResourceID() == resourceID);
+    }
+
+    private void update(FactoryNode<Resource> node) {
+        FactoryNode<Resource> targetNode = get(node.getResourceID());
+        if (targetNode == null) {
+            for (Factory factory : node.getFactories()) {
+                add(factory);
+            }
+            return;
+        }
+        CollectionHelper.operate(node.getFactories(), targetNode.getFactories(), this::updateLevels, Factory::getName);
+    }
+
+    private boolean updateLevels(Factory<Resource> first, Factory<Resource> second) {
+        if (!first.getName().equals(second.getName())) {
+            second.levelTo(first.getLevel());
+            return false;
+        }
+        return true;
     }
 
     private PointF calculateOptimalPosition(int enterLevel) {

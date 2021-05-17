@@ -1,9 +1,11 @@
 package com.futurumgame.base.additionalDatatypes;
 
 import com.futurumgame.base.enums.Notation;
+import com.futurumgame.base.exceptions.UnitsFormatException;
+import com.futurumgame.base.serialization.parsing.ParseResult;
+import com.futurumgame.base.serialization.parsing.UnitsParseRule;
+import com.futurumgame.base.util.ExceptionUtil;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -21,8 +23,8 @@ public final class Units extends Number implements Comparable<Units> {
     private static final Units InternalNegativeInfinity = new Units(DoubleNegInfinity, DoublePosInfinity, false);
     private static final Units InternalNaN = new Units(DoubleNaN, DoubleNaN, false);
     private static final Units InternalZero = new Units(DoubleZero, DoubleZero, false);
-    private static final Units InternalOne = new Units(DoubleOne, DoubleZero,false);
-    private static final Units InternalTen = new Units(DoubleOne, DoubleOne,false);
+    private static final Units InternalOne = new Units(DoubleOne, DoubleZero, false);
+    private static final Units InternalTen = new Units(DoubleOne, DoubleOne, false);
 
     public static final Units PositiveInfinity = new Units(InternalPositiveInfinity);
     public static final Units NegativeInfinity = new Units(InternalNegativeInfinity);
@@ -30,6 +32,7 @@ public final class Units extends Number implements Comparable<Units> {
     public static final Units Zero = new Units(InternalZero);
     public static final Units One = new Units(InternalOne);
     public static final Units Ten = new Units(InternalTen);
+    private static final UnitsParseRule ParseRule = new UnitsParseRule();
 
     private double value;
     private double scale;
@@ -67,12 +70,12 @@ public final class Units extends Number implements Comparable<Units> {
         this.scale = scale;
     }
 
-    public void negate(){
-        value =-value;
+    public void negate() {
+        value = -value;
     }
 
     public void add(Units units) {
-        if(units.isZero()){
+        if (units.isZero()) {
             return;
         }
         if (evaluateToNaNIfTrue(units, u -> isNaN() || u.isNaN())) {
@@ -89,7 +92,7 @@ public final class Units extends Number implements Comparable<Units> {
         if (evaluateToZeroIfTrue(units, u -> isInfinity() && u.isInfinity())) {
             return;
         }
-        if(isZero()){
+        if (isZero()) {
             value = units.getValue();
             scale = units.getScale();
             return;
@@ -97,7 +100,7 @@ public final class Units extends Number implements Comparable<Units> {
         if (scale > units.scale) {
             value += rescaleValue(units.value, scale, units.scale);
         } else if (scale < units.scale) {
-            value = units.value+rescaleValue(value, scale, units.scale);
+            value = units.value + rescaleValue(value, scale, units.scale);
             scale = units.scale;
         } else {
             value += units.value;
@@ -106,7 +109,7 @@ public final class Units extends Number implements Comparable<Units> {
     }
 
     public void subtract(Units units) {
-        if(units.isZero()){
+        if (units.isZero()) {
             return;
         }
         if (evaluateToNaNIfTrue(units, u -> isNaN() || u.isNaN())) {
@@ -123,7 +126,7 @@ public final class Units extends Number implements Comparable<Units> {
         if (evaluateToZeroIfTrue(units, u -> isInfinity() && u.isInfinity())) {
             return;
         }
-        if(isZero()){
+        if (isZero()) {
             value = -units.getValue();
             scale = units.getScale();
             return;
@@ -131,7 +134,7 @@ public final class Units extends Number implements Comparable<Units> {
         if (scale > units.scale) {
             value -= rescaleValue(units.value, scale, units.scale);
         } else if (scale < units.scale) {
-            value= units.value+ rescaleValue(value, scale, units.scale);
+            value = units.value + rescaleValue(value, scale, units.scale);
             scale = units.scale;
         } else {
             value -= units.value;
@@ -185,34 +188,34 @@ public final class Units extends Number implements Comparable<Units> {
         }
         scale /= root;
         double scaleDiff = scale - Math.floor(scale);
-        value = Math.pow(value, 1 / root)*Math.pow(10.0 ,scaleDiff);
-        scale-=scaleDiff;
+        value = Math.pow(value, 1 / root) * Math.pow(10.0, scaleDiff);
+        scale -= scaleDiff;
         normalize();
     }
 
     public void log10() {
-        if(value != DoubleOne) {
+        if (value != DoubleOne) {
             value = Math.log10(value);
         }
-         value*= scale;
+        value *= scale;
         scale = DoubleZero;
         normalize();
     }
 
     public void log(double base) {
-        if(value != DoubleOne) {
+        if (value != DoubleOne) {
             value = (Math.log(value) / Math.log(base));
         }
-        value*= (scale / Math.log10(base));
+        value *= (scale / Math.log10(base));
         scale = DoubleZero;
         normalize();
     }
 
     public boolean isBiggerThan(Units other) {
-        if(isNegative() && !other.isNegative()){
+        if (isNegative() && !other.isNegative()) {
             return false;
         }
-        if(!isNegative() && other.isNegative()){
+        if (!isNegative() && other.isNegative()) {
             return true;
         }
         boolean valuesAreNegative = isNegative();
@@ -226,10 +229,10 @@ public final class Units extends Number implements Comparable<Units> {
     }
 
     public boolean isSmallerThan(Units other) {
-        if(isNegative() && !other.isNegative()){
+        if (isNegative() && !other.isNegative()) {
             return true;
         }
-        if(!isNegative() && other.isNegative()){
+        if (!isNegative() && other.isNegative()) {
             return false;
         }
         boolean valuesAreNegative = isNegative();
@@ -262,15 +265,19 @@ public final class Units extends Number implements Comparable<Units> {
         return Double.compare(value, DoubleZero) == 0;
     }
 
-    public boolean isOne() {return Double.compare(value, DoubleOne) == 0 && Double.compare(scale, DoubleZero) == 0; }
+    public boolean isOne() {
+        return Double.compare(value, DoubleOne) == 0 && Double.compare(scale, DoubleZero) == 0;
+    }
 
-    public boolean isNegOne(){ return Double.compare(value, DoubleNegOne) == 0 && Double.compare(scale, DoubleZero) == 0;}
+    public boolean isNegOne() {
+        return Double.compare(value, DoubleNegOne) == 0 && Double.compare(scale, DoubleZero) == 0;
+    }
 
-    public boolean isPositive(){
+    public boolean isPositive() {
         return value > 0;
     }
 
-    public boolean isNegative(){
+    public boolean isNegative() {
         return value < 0;
     }
 
@@ -306,7 +313,7 @@ public final class Units extends Number implements Comparable<Units> {
 
     @Override
     public double doubleValue() {
-        return value*Math.pow(10, scale);
+        return value * Math.pow(10, scale);
     }
 
     @Override
@@ -385,24 +392,36 @@ public final class Units extends Number implements Comparable<Units> {
         scale += scaleDiff;
     }
 
-    private double rescaleValue(double value, double firstScale, double secondScale){
-        return rescaleValue(value, firstScale-secondScale);
+    private double rescaleValue(double value, double firstScale, double secondScale) {
+        return rescaleValue(value, firstScale - secondScale);
     }
 
-    private double rescaleValue(double value, double rawScaleDiff){
-        int scaleDiff = (int)Math.abs(rawScaleDiff);
-        return rescaleValue(value,scaleDiff);
+    private double rescaleValue(double value, double rawScaleDiff) {
+        int scaleDiff = (int) Math.abs(rawScaleDiff);
+        return rescaleValue(value, scaleDiff);
     }
 
-    private double rescaleValue(double value, int scaleDiff){
-        if(scaleDiff != 0){
-            value *= Math.pow(10,-scaleDiff);
+    private double rescaleValue(double value, int scaleDiff) {
+        if (scaleDiff != 0) {
+            value *= Math.pow(10, -scaleDiff);
         }
         return value;
     }
 
-    private int calcScaleDiff(double rawValueDiff){
+    private int calcScaleDiff(double rawValueDiff) {
         double scaleDiffRaw = Math.log10(Math.abs(rawValueDiff));
-        return (int)(scaleDiffRaw+(scaleDiffRaw >= 0 ? 0:-1));
+        return (int) (scaleDiffRaw + (scaleDiffRaw >= 0 ? 0 : -1));
+    }
+
+    public static Units parse(String string) throws UnitsFormatException {
+        ParseResult<Units> result = ParseResult.failResult();
+        for (char c : string.toCharArray()) {
+            result = ParseRule.next(c);
+        }
+        ParseRule.clearAll();
+        if (!result.parseSuccess()) {
+            ExceptionUtil.throwUnitsFormatException(string);
+        }
+        return result.getResult();
     }
 }

@@ -1,13 +1,12 @@
 package com.futurumgame.base.ui.listeners.onclicklisteners;
 
-import android.app.Activity;
 import android.view.View;
 
 import com.futurumgame.base.gameinternals.GameRoutine;
 
 public final class GoBackListener implements View.OnClickListener {
 
-    private GoBackListener(){
+    private GoBackListener() {
     }
 
     @Override
@@ -15,7 +14,7 @@ public final class GoBackListener implements View.OnClickListener {
         GameRoutine.fallBackToPrevious();
     }
 
-    public static GoBackListener newListener(){
+    public static GoBackListener newListener() {
         return new GoBackListener();
     }
 }

@@ -1,13 +1,13 @@
 package com.futurumgame.base.factories;
 
 import com.futurumgame.base.additionalDatatypes.Units;
-import com.futurumgame.base.interfaces.Burnable;
+import com.futurumgame.base.interfaces.IBurnable;
 import com.futurumgame.base.resources.Metal;
 import com.futurumgame.base.resources.Resource;
 
 import java.util.LinkedList;
 
-public abstract class Smeltery<T extends Metal, B extends Burnable> extends Factory<T> {
+public abstract class Smeltery<T extends Metal, B extends IBurnable> extends Factory<T> {
 
     private final Resource burnable;
 

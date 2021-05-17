@@ -1,11 +1,12 @@
 package com.futurumgame.base.unlockables;
 
-import com.futurumgame.base.collections.CollectionHelper;
+import com.futurumgame.base.util.CollectionHelper;
+import com.futurumgame.base.interfaces.IEquatable;
 import com.futurumgame.base.resources.Resource;
 
 import java.util.LinkedList;
 
-public abstract class Unlockable {
+public abstract class Unlockable implements IEquatable<Unlockable> {
 
     private final String name;
     private final LinkedList<Resource> costs = new LinkedList<>();
@@ -24,4 +25,9 @@ public abstract class Unlockable {
     }
 
     public abstract void unlock();
+
+    @Override
+    public boolean isEqualTo(Unlockable other) {
+        return name.equals(other.name) && CollectionHelper.equatableSequenceEquals(costs, other.costs);
+    }
 }

@@ -2,11 +2,14 @@ package com.futurumgame.base.resources;
 
 import com.futurumgame.base.additionalDatatypes.Units;
 import com.futurumgame.base.enums.ResourceFormatter;
+import com.futurumgame.base.interfaces.IEquatable;
+import com.futurumgame.base.interfaces.IParseRule;
+import com.futurumgame.base.interfaces.IParseRuleProvider;
 
 import java.security.InvalidParameterException;
 import java.util.Objects;
 
-public abstract class Resource {
+public abstract class Resource implements IEquatable<Resource> {
 
     protected final Units count = Units.Zero.copy();
     private final int id;
@@ -17,16 +20,16 @@ public abstract class Resource {
         this.name = name;
     }
 
-    public Units getCount() {
-        return count;
-    }
-
     public int getID(){
         return id;
     }
 
     public String getName(){
         return name;
+    }
+
+    public Units getCount() {
+        return count;
     }
 
     public void setCount(Units count) {
@@ -61,7 +64,12 @@ public abstract class Resource {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Resource resource = (Resource) o;
-        return id == resource.id && name.contentEquals(resource.name);
+        return isEqualTo(resource);
+    }
+
+    @Override
+    public boolean isEqualTo(Resource other) {
+        return id == other.id && name.equals(other.name);
     }
 
     @Override

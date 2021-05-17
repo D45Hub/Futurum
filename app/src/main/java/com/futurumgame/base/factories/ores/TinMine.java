@@ -1,7 +1,9 @@
 package com.futurumgame.base.factories.ores;
 
 import com.futurumgame.base.additionalDatatypes.Units;
+import com.futurumgame.base.factories.Factory;
 import com.futurumgame.base.factories.Mine;
+import com.futurumgame.base.factories.basic.GravelPit;
 import com.futurumgame.base.resources.Resource;
 import com.futurumgame.base.resources.ResourceHelper;
 import com.futurumgame.base.resources.advanced.Stone;
@@ -13,6 +15,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public final class TinMine extends Mine<TinOre> {
+
+    public static final String Name = "Tin Mine";
 
     private TinMine() {
         super(TinMine.class.getSimpleName(), TinOre.factory(), new Units(1, 2));
@@ -57,5 +61,11 @@ public final class TinMine extends Mine<TinOre> {
 
     public static TinMine factory() {
         return new TinMine();
+    }
+
+    public static TinMine factory(int level) {
+        TinMine factory = factory();
+        factory.levelTo(level);
+        return factory;
     }
 }

@@ -4,15 +4,17 @@ import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
 
+import androidx.annotation.Nullable;
+
 import com.futurumgame.base.MainActivity;
 import com.futurumgame.base.R;
 import com.futurumgame.base.additionalDatatypes.Units;
+import com.futurumgame.base.enums.DataFile;
 import com.futurumgame.base.enums.TimeUnits;
 import com.futurumgame.base.factories.Factory;
-import com.futurumgame.base.factories.basic.WaterMill;
-import com.futurumgame.base.unlockables.UnlockableCollection;
 import com.futurumgame.base.resources.Resource;
 import com.futurumgame.base.ui.activities.UpdatableViewActivity;
+import com.futurumgame.base.unlockables.UnlockableCollection;
 
 import java.util.Hashtable;
 import java.util.Stack;
@@ -28,10 +30,10 @@ public class GameRoutine {
     private static final Stack<UpdatableViewActivity> previousActiveActivities = new Stack<>();
 
     private final MainActivity main;
-    private final WareHouse wareHouse;
     private final FactorySystem factories;
+    private final WareHouse wareHouse = new WareHouse();
     private final Hashtable<Integer, Units> measuredDeltas = new Hashtable<>();
-    private final UnlockableCollection unlockables = new UnlockableCollection();
+    private final UnlockableCollection resourceUnlockables = UnlockableCollection.createResourceUnlockables();
 
     private long tickRate = TimeUnits.Millisecond.inThisUnit(25);
     private Timer timer = new Timer(true);
@@ -41,13 +43,12 @@ public class GameRoutine {
         currentActivity = main;
         current = this;
         factories = main.findViewById(R.id.FactorySystem);
-        wareHouse = new WareHouse(main);
-        add(WaterMill.factory());
-        unlockables.update(wareHouse);
     }
 
-    public WareHouse getWareHouse() {
-        return wareHouse;
+    public void initFromFiles() {
+        resourceUnlockables.from(DataFile.ResourceUnlockables.read());
+        factories.from(DataFile.FactorySystem.read());
+        wareHouse.from(DataFile.WareHouse.read());
     }
 
     public void start() {
@@ -59,7 +60,7 @@ public class GameRoutine {
         timer.scheduleAtFixedRate(new MeasureTick(wareHouse, measuredDeltas), 0, TimeUnits.Second.getTimeInMilliseconds());
     }
 
-    private <T extends Resource> void add(Factory<T> factory){
+    private <T extends Resource> void add(Factory<T> factory) {
         factories.add(factory);
     }
 
@@ -70,39 +71,43 @@ public class GameRoutine {
         schedule();
     }
 
-    public static void emitSignalToMainThread(Runnable runnable){
+    public static void emitSignalToMainThread(Runnable runnable) {
         handler.post(runnable);
     }
 
-    public static void setTickRate(long milliseconds){
+    public static void setTickRate(long milliseconds) {
         current.changeTickRate(milliseconds);
     }
 
-    public static long getTickRate(){
+    public static long getTickRate() {
         return current.tickRate;
     }
 
-    public static MainActivity getMainActivity(){
+    public static MainActivity getMainActivity() {
         return current.main;
     }
 
-    public static Activity getCurrentActivity(){
+    public static Activity getCurrentActivity() {
         return currentActivity;
     }
 
-    public static WareHouse getCurrentWareHouse(){
+    public static WareHouse getWareHouse() {
         return current.wareHouse;
     }
 
-    public static UnlockableCollection getUnlockables() {
-        return current.unlockables;
+    public static UnlockableCollection getResourceUnlockables() {
+        return current.resourceUnlockables;
+    }
+
+    public static FactorySystem getFactorySystem() {
+        return current.factories;
     }
 
     public static Units getMeasuredProduction(int resourceID) {
         return current.measuredDeltas.get(resourceID);
     }
 
-    public static void setNewCurrent(UpdatableViewActivity current){
+    public static void setNewCurrent(UpdatableViewActivity current) {
         previousActiveActivities.push(currentActivity);
         currentActivity = current;
     }
@@ -121,6 +126,6 @@ public class GameRoutine {
     }
 
     public static void updateUi() {
-        currentActivity.updateUi(getCurrentWareHouse());
+        currentActivity.updateUi(current.wareHouse);
     }
 }

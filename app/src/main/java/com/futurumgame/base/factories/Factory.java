@@ -27,7 +27,7 @@ public abstract class Factory<T extends Resource> {
         this.resource = resource;
     }
 
-    public final String getName(){
+    public final String getName() {
         return name;
     }
 
@@ -43,18 +43,17 @@ public abstract class Factory<T extends Resource> {
         return level;
     }
 
-    public final Units getCapacity(){
+    public final Units getCapacity() {
         return internalCapacity;
     }
 
-    public final Units getStorage(){
+    public final Units getStorage() {
         return internalStorage;
     }
 
     public final void workManually() {
         T resource = work();
-        Units multiplier = new Units(5, Math.floor(1/Math.log10((level+100)/169.0 +1)-3));
-        resource.getCount().multiply(multiplier);
+        resource.getCount().multiply(calculateMultiplier());
         addToStorage(resource.getCount());
     }
 
@@ -93,6 +92,12 @@ public abstract class Factory<T extends Resource> {
         return instanceResourceWithAmount(current);
     }
 
+    public final void levelTo(int newLevel) {
+        while (this.level < newLevel) {
+            upgrade();
+        }
+    }
+
     protected final void addToStorage(Units units) {
         internalStorage.add(units);
         if (internalStorage.isBiggerThan(internalCapacity)) {
@@ -115,8 +120,15 @@ public abstract class Factory<T extends Resource> {
         increaseLevel();
     }
 
-    private void increaseLevel(){
+    private void increaseLevel() {
         level++;
+    }
+
+    private Units calculateMultiplier() {
+        double div = Math.log10((level + 100) / 169.0 + 1.0);
+        double exponent = Math.floor(1 / div - 3);
+
+        return new Units(5, exponent);
     }
 
     @Override
