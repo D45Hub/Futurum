@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.futurumgame.base.gameinternals.GameRoutine;
 
-public class HardResetListener implements View.OnClickListener {
+public class HardResetListener  extends SoundListener {
 
     private final Context context;
 
@@ -15,6 +15,7 @@ public class HardResetListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        super.onClick(v);
         GameRoutine.requestHardReset();
     }
 

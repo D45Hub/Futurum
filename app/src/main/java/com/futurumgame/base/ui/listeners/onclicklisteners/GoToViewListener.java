@@ -10,7 +10,7 @@ import com.futurumgame.base.enums.MetaData;
 import java.io.Serializable;
 import java.util.HashMap;
 
-public class GoToViewListener implements View.OnClickListener {
+public class GoToViewListener extends SoundListener {
 
     private final Class<? extends Activity> clazz;
     private final Activity current;
@@ -28,6 +28,7 @@ public class GoToViewListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        super.onClick(v);
         Intent intent = new Intent(current.getApplicationContext(), clazz);
         if(map != null) {
             MetaData.setAllMeta(map);

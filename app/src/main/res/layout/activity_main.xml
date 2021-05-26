@@ -41,7 +41,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.055"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/unlockButton" />
+        app:layout_constraintTop_toBottomOf="@+id/unlockButton"
+        android:soundEffectsEnabled="false" />
 
     <ImageButton
         android:id="@+id/unlockButton"
@@ -53,7 +54,8 @@
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintVertical_bias="0.023"
+        android:soundEffectsEnabled="false" />
 
     <Button
         android:id="@+id/HardReset"
@@ -63,6 +65,7 @@
         android:text="HardReset"
         android:textColor="@color/plainWhite"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:soundEffectsEnabled="false" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

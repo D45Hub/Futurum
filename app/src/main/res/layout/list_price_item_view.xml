@@ -49,6 +49,7 @@
         android:background="@drawable/buy_button"
         app:layout_constraintEnd_toStartOf="@+id/Prize"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/buy_button" />
+        app:srcCompat="@drawable/buy_button"
+        android:soundEffectsEnabled="false" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
