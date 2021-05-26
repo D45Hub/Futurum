@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import com.futurumgame.base.enums.DataFile;
 import com.futurumgame.base.gameinternals.WareHouse;
 
+import java.util.Arrays;
+
 public abstract class UpdatableViewActivity extends Activity {
 
     private boolean canBeUpdated;
@@ -15,9 +17,7 @@ public abstract class UpdatableViewActivity extends Activity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        for (DataFile file : DataFile.values()) {
-            file.save();
-        }
+        Arrays.stream(DataFile.values()).forEach(DataFile::save);
     }
 
     protected void allowUpdates(){

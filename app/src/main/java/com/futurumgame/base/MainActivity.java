@@ -1,6 +1,7 @@
 package com.futurumgame.base;
 
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import com.futurumgame.base.ui.activities.UnlockViewActivity;
 import com.futurumgame.base.ui.activities.UpdatableViewActivity;
 import com.futurumgame.base.ui.adapter.ResourceAdapter;
 import com.futurumgame.base.ui.listeners.onclicklisteners.GoToViewListener;
+import com.futurumgame.base.ui.listeners.onclicklisteners.HardResetListener;
 
 public class MainActivity extends UpdatableViewActivity {
 
@@ -42,6 +44,8 @@ public class MainActivity extends UpdatableViewActivity {
         resources.setAdapter(new ResourceAdapter(GameRoutine.getWareHouse().getWareHouseStocks()));
         allowUpdates();
         gameRoutine.start();
+        Button hardResetButton = findViewById(R.id.HardReset);
+        hardResetButton.setOnClickListener(HardResetListener.newListener(this));
     }
 
     @Override

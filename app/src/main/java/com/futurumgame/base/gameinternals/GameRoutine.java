@@ -1,6 +1,11 @@
 package com.futurumgame.base.gameinternals;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -15,7 +20,9 @@ import com.futurumgame.base.factories.Factory;
 import com.futurumgame.base.resources.Resource;
 import com.futurumgame.base.ui.activities.UpdatableViewActivity;
 import com.futurumgame.base.unlockables.UnlockableCollection;
+import com.futurumgame.base.util.Logger;
 
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Stack;
 import java.util.Timer;
@@ -35,6 +42,7 @@ public class GameRoutine {
     private final Hashtable<Integer, Units> measuredDeltas = new Hashtable<>();
     private final UnlockableCollection resourceUnlockables = UnlockableCollection.createResourceUnlockables();
 
+    private boolean hardReset;
     private long tickRate = TimeUnits.Millisecond.inThisUnit(25);
     private Timer timer = new Timer(true);
 
@@ -119,6 +127,25 @@ public class GameRoutine {
 
     public static <T extends Resource> void addNewFactory(Factory<T> factory) {
         current.add(factory);
+    }
+
+    public static boolean hardResetActivated() {
+        return current.hardReset;
+    }
+
+    public static void requestHardReset() {
+        current.hardReset = true;
+        Activity context = current.main;
+        Logger.e(GameRoutine.class, "request hard reset");
+        Arrays.stream(DataFile.values()).forEach(DataFile::clear);
+        Intent restartIntent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName() );
+        @SuppressLint("WrongConstant")
+        PendingIntent intent = PendingIntent.getActivity(
+                context, 0,
+                restartIntent, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        manager.set(AlarmManager.RTC, System.currentTimeMillis() + 100, intent);
+        context.finish();
     }
 
     public static void stop() {
