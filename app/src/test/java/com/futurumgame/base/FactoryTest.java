@@ -34,8 +34,8 @@ public class FactoryTest {
         assertNotNull(FactoryTestHelper.instanceFactory(CoalMine.class));
         assertNotNull(FactoryTestHelper.instanceFactory(CopperMine.class));
         assertNotNull(FactoryTestHelper.instanceFactory(TinMine.class));
-        assertNotNull(FactoryTestHelper.instanceFactory(CopperSmeltery.class));
-        assertNotNull(FactoryTestHelper.instanceFactory(TinSmeltery.class));
+        assertNotNull(FactoryTestHelper.instanceFactory(CopperSmeltry.class));
+        assertNotNull(FactoryTestHelper.instanceFactory(TinSmeltry.class));
 
 
         Factory forest = FactoryTestHelper.instanceFactory(Forest.class, 50);
@@ -51,8 +51,8 @@ public class FactoryTest {
         Factory coalMine = FactoryTestHelper.instanceFactory(CoalMine.class, 50);
         Factory copperMine = FactoryTestHelper.instanceFactory(CopperMine.class, 50);
         Factory tinMine = FactoryTestHelper.instanceFactory(TinMine.class, 50);
-        Factory copperSmeltery = FactoryTestHelper.instanceFactory(CopperSmeltery.class, 50);
-        Factory tinSmeltery = FactoryTestHelper.instanceFactory(TinSmeltery.class, 50);
+        Factory copperSmeltery = FactoryTestHelper.instanceFactory(CopperSmeltry.class, 50);
+        Factory tinSmeltery = FactoryTestHelper.instanceFactory(TinSmeltry.class, 50);
 
         assertNotNull(forest);
         assertNotNull(limestoneQuarry);
@@ -92,8 +92,8 @@ public class FactoryTest {
         assertTrue(ReflectionHelper.hasMethods(CoalMine.class, new String[]{factory, factory}, args));
         assertTrue(ReflectionHelper.hasMethods(CopperMine.class, new String[]{factory, factory}, args));
         assertTrue(ReflectionHelper.hasMethods(TinMine.class, new String[]{factory, factory}, args));
-        assertTrue(ReflectionHelper.hasMethods(CopperSmeltery.class, new String[]{factory, factory}, args));
-        assertTrue(ReflectionHelper.hasMethods(TinSmeltery.class, new String[]{factory, factory}, args));
+        assertTrue(ReflectionHelper.hasMethods(CopperSmeltry.class, new String[]{factory, factory}, args));
+        assertTrue(ReflectionHelper.hasMethods(TinSmeltry.class, new String[]{factory, factory}, args));
     }
 
 }

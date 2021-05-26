@@ -155,7 +155,11 @@ public final class Units extends Number implements Comparable<Units> {
         if (value != DoubleOne) {
             value = (Math.log(value) / Math.log(base));
         }
-        value *= (scale / Math.log10(base));
+        if(scale != 0) {
+            double b = scale - Math.log10(base);
+            double a = (scale / Math.log10(base));
+            value += a;
+        }
         scale = DoubleZero;
         normalize();
     }

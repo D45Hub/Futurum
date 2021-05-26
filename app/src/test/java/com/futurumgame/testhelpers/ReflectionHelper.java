@@ -28,7 +28,7 @@ public class ReflectionHelper {
         for (int i = 0; i < methodNames.length; i++) {
             final String methodName = methodNames[i];
             final Class[] params = args.get(i);
-            if (Arrays.stream(methods).allMatch(m -> isMethod(m, methodName, params))) {
+            if (Arrays.stream(methods).anyMatch(m -> isMethod(m, methodName, params))) {
                 continue;
             }
             return false;
