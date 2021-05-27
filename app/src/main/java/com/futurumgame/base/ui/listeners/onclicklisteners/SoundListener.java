@@ -8,6 +8,8 @@ import com.futurumgame.base.gameinternals.GameRoutine;
 
 public abstract class SoundListener implements View.OnClickListener, SoundPool.OnLoadCompleteListener {
 
+    public static boolean muted = false;
+
     private static final float MaxVolume = 1.0f;
     private static final float NormalPlayBackRate = 1.0f;
 
@@ -20,8 +22,17 @@ public abstract class SoundListener implements View.OnClickListener, SoundPool.O
         pool.setOnLoadCompleteListener(this);
     }
 
+    public static void toggleSoundMute() {
+        muted = !muted;
+    }
+
     @Override
     public void onClick(View v) {
+
+        if (muted) {
+            return;
+        }
+
         pool.load(v.getContext(), R.raw.click, 1);
     }
 

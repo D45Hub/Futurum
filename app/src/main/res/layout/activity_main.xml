@@ -9,63 +9,61 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/Resources"
-        android:layout_width="111dp"
-        android:layout_height="127dp"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
         android:background="#131313"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/HardReset"
+        app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible">
 
     </androidx.recyclerview.widget.RecyclerView>
 
     <com.futurumgame.base.gameinternals.FactorySystem
         android:id="@+id/FactorySystem"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="310dp"
+        android:layout_height="269dp"
         android:background="#131313"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Resources" >
+        app:layout_constraintTop_toBottomOf="@+id/Resources"
+        app:layout_constraintVertical_bias="0.064">
 
     </com.futurumgame.base.gameinternals.FactorySystem>
 
     <ImageButton
         android:id="@+id/researchButton"
-        android:layout_width="123dp"
-        android:layout_height="82dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="90dp"
+        android:layout_height="64dp"
         android:background="@drawable/research_button"
-        app:layout_constraintBottom_toTopOf="@+id/FactorySystem"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.055"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/unlockButton"
-        android:soundEffectsEnabled="false" />
+        app:layout_constraintHorizontal_bias="0.176"
+        app:layout_constraintStart_toEndOf="@+id/unlockButton"
+        app:layout_constraintTop_toTopOf="@+id/unlockButton" />
 
     <ImageButton
         android:id="@+id/unlockButton"
-        android:layout_width="93dp"
+        android:layout_width="90dp"
         android:layout_height="64dp"
         android:background="@drawable/unlock_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintHorizontal_bias="0.059"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023"
-        android:soundEffectsEnabled="false" />
+        app:layout_constraintVertical_bias="0.902" />
 
-    <Button
-        android:id="@+id/HardReset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/plainBlack"
-        android:text="HardReset"
-        android:textColor="@color/plainWhite"
+    <ImageButton
+        android:id="@+id/settingsButton"
+        android:layout_width="90dp"
+        android:layout_height="64dp"
+        android:background="@drawable/settings_button"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.644"
+        app:layout_constraintStart_toEndOf="@+id/researchButton"
         app:layout_constraintTop_toTopOf="parent"
-        android:soundEffectsEnabled="false" />
+        app:layout_constraintVertical_bias="0.902" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#131313"
+    tools:context=".ui.activities.OptionsViewActivity">
+
+  <ImageButton
+      android:id="@+id/soundButton"
+      android:layout_width="75dp"
+      android:layout_height="75dp"
+      android:background="@drawable/sound_on_button"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.498"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.182" />
+
+  <ImageButton
+      android:id="@+id/optionsReturnButton"
+      android:layout_width="100dp"
+      android:layout_height="100dp"
+      android:background="@drawable/back_button"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.176"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.927" />
+
+  <Button
+      android:id="@+id/HardReset"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="296dp"
+      android:layout_marginEnd="160dp"
+      android:background="@color/plainBlack"
+      android:text="HardReset"
+      android:textColor="@color/plainWhite"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
