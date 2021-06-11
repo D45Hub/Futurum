@@ -31,7 +31,7 @@ public class OptionsViewActivity extends UpdatableViewActivity {
         ImageButton returnButton = findViewById(R.id.optionsReturnButton);
         returnButton.setOnClickListener(GoBackListener.newListener());
 
-        Button hardResetButton = findViewById(R.id.HardReset);
+        ImageButton hardResetButton = findViewById(R.id.HardReset);
         hardResetButton.setOnClickListener(HardResetListener.newListener(this));
 
         soundButton.setOnClickListener(new View.OnClickListener() {

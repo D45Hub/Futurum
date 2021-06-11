@@ -14,15 +14,15 @@
       android:background="@drawable/sound_on_button"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.498"
+      app:layout_constraintHorizontal_bias="0.217"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.182" />
+      app:layout_constraintVertical_bias="0.153" />
 
   <ImageButton
       android:id="@+id/optionsReturnButton"
-      android:layout_width="100dp"
-      android:layout_height="100dp"
+      android:layout_width="70dp"
+      android:layout_height="70dp"
       android:background="@drawable/back_button"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
@@ -31,16 +31,47 @@
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintVertical_bias="0.927" />
 
-  <Button
+  <ImageButton
       android:id="@+id/HardReset"
+      android:layout_width="75dp"
+      android:layout_height="75dp"
+      android:background="@drawable/reset_button"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.217"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.339" />
+
+  <TextView
+      android:id="@+id/muteTextView"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="296dp"
-      android:layout_marginEnd="160dp"
-      android:background="@color/plainBlack"
-      android:text="HardReset"
-      android:textColor="@color/plainWhite"
+      android:fontFamily="@font/muli"
+      android:text="Mute\nSound"
+      android:textAlignment="center"
+      android:textColor="#E5E5E5"
+      android:textSize="26sp"
+      app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
+      app:layout_constraintHorizontal_bias="0.625"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.152" />
+
+  <TextView
+      android:id="@+id/HardResetTextView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:fontFamily="@font/muli"
+      android:text="Hardreset"
+      android:textColor="#E5E5E5"
+      android:textSize="26sp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.718"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.342" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

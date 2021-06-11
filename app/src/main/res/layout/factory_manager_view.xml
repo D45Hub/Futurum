@@ -23,15 +23,16 @@
 
     <ImageButton
         android:id="@+id/backButton"
-        android:layout_width="77dp"
-        android:layout_height="68dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:background="@drawable/back_button"
+        android:soundEffectsEnabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.758"
-        android:soundEffectsEnabled="false" />
+        app:layout_constraintVertical_bias="0.9" />
 
     <ImageButton
         android:id="@+id/upgradeButton"

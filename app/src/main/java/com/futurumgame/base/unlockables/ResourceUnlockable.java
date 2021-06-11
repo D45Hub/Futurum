@@ -56,6 +56,8 @@ public class ResourceUnlockable extends Unlockable {
         return resource.getID();
     }
 
+    public int getResourceIconID() { return resource.getResourceIconId(); }
+
     public Units getStartCap() {
         return startCap;
     }

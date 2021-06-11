@@ -52,6 +52,8 @@ public class FactoryNode<T extends Resource> extends AppCompatButton implements 
         return current.getResource().getID();
     }
 
+    public int getResourceIconID() { return current.getResource().getResourceIconId(); }
+
     public String getResourceName() {
         return current.getResource().getName();
     }

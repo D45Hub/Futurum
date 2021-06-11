@@ -79,16 +79,16 @@
 
     <ImageButton
         android:id="@+id/backButton2"
-        android:layout_width="113dp"
-        android:layout_height="92dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:background="@drawable/back_button"
+        android:soundEffectsEnabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.865"
-        android:soundEffectsEnabled="false" />
+        app:layout_constraintVertical_bias="0.9" />
 
     <ImageButton
         android:id="@+id/factoryButton"
