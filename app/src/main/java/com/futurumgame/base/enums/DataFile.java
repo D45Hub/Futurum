@@ -20,6 +20,7 @@ public enum DataFile {
     private static final String SaveTag = "File Saving";
     private static final String ReadFileMessageFormat = "reading file: {0}";
     private static final String SaveFileMessageFormat = "saving file: {0}";
+    private static final String ClearFileMessageFormat = "clearing file: {0}";
     private static final String FileEnding = ".ftrm";
     private static final ByteCompressor Compressor = ByteCompressor.newInstance(4, DataSize.KiloByte);
 
@@ -49,6 +50,14 @@ public enum DataFile {
             AndroidFileHelper.save(fileName, compressed);
         } catch (IOException e) {
             Log.e(SaveTag, String.format(SaveFileMessageFormat, fileName), e);
+        }
+    }
+
+    public void clear() {
+        try {
+            AndroidFileHelper.save(fileName, new byte[0]);
+        } catch (IOException e) {
+            Log.e(SaveTag, String.format(ClearFileMessageFormat, fileName), e);
         }
     }
 }

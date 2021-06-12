@@ -4,13 +4,14 @@ import android.view.View;
 
 import com.futurumgame.base.gameinternals.GameRoutine;
 
-public final class GoBackListener implements View.OnClickListener {
+public final class GoBackListener extends SoundListener {
 
     private GoBackListener() {
     }
 
     @Override
     public void onClick(View v) {
+        super.onClick(v);
         GameRoutine.fallBackToPrevious();
     }
 

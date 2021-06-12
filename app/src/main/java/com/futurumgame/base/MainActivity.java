@@ -1,6 +1,7 @@
 package com.futurumgame.base;
 
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
@@ -12,10 +13,12 @@ import com.futurumgame.base.gameinternals.GameRoutine;
 import com.futurumgame.base.gameinternals.WareHouse;
 import com.futurumgame.base.resources.Resource;
 import com.futurumgame.base.serialization.AndroidFileHelper;
+import com.futurumgame.base.ui.activities.OptionsViewActivity;
 import com.futurumgame.base.ui.activities.UnlockViewActivity;
 import com.futurumgame.base.ui.activities.UpdatableViewActivity;
 import com.futurumgame.base.ui.adapter.ResourceAdapter;
 import com.futurumgame.base.ui.listeners.onclicklisteners.GoToViewListener;
+import com.futurumgame.base.ui.listeners.onclicklisteners.HardResetListener;
 
 public class MainActivity extends UpdatableViewActivity {
 
@@ -42,6 +45,9 @@ public class MainActivity extends UpdatableViewActivity {
         resources.setAdapter(new ResourceAdapter(GameRoutine.getWareHouse().getWareHouseStocks()));
         allowUpdates();
         gameRoutine.start();
+
+        ImageButton settingsButton = findViewById(R.id.settingsButton);
+        settingsButton.setOnClickListener(new GoToViewListener(OptionsViewActivity.class, this));
     }
 
     @Override

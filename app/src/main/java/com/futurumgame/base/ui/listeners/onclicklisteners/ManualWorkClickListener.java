@@ -7,7 +7,7 @@ import com.futurumgame.base.factories.Factory;
 import com.futurumgame.base.gameinternals.FactoryNode;
 import com.futurumgame.base.resources.Resource;
 
-public class ManualWorkClickListener implements View.OnClickListener {
+public class ManualWorkClickListener  extends SoundListener {
 
     private final FactoryNode<? extends Resource> node;
 
@@ -17,6 +17,7 @@ public class ManualWorkClickListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        super.onClick(v);
         node.getCurrent().workManually();
     }
 

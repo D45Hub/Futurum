@@ -13,7 +13,7 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/itemIcon"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:src="@mipmap/ic_launcher_round"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/itemIcon"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.509"
         tools:text="Item" />
@@ -37,6 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Costs"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ItemText" />
 
@@ -49,6 +50,7 @@
         android:background="@drawable/buy_button"
         app:layout_constraintEnd_toStartOf="@+id/Prize"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/buy_button" />
+        app:srcCompat="@drawable/buy_button"
+        android:soundEffectsEnabled="false" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

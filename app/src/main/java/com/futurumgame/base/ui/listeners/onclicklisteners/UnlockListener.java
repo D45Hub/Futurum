@@ -12,7 +12,7 @@ import com.futurumgame.base.gameinternals.WareHouse;
 import com.futurumgame.base.ui.activities.UnlockViewActivity;
 import com.futurumgame.base.unlockables.Unlockable;
 
-public class UnlockListener implements View.OnClickListener {
+public class UnlockListener  extends SoundListener {
 
     private final Unlockable unlockable;
 
@@ -22,6 +22,7 @@ public class UnlockListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        super.onClick(v);
         WareHouse wareHouse = GameRoutine.getWareHouse();
         if (wareHouse.canOfferResources(unlockable.getCosts())) {
             wareHouse.offerResources(unlockable.getCosts());

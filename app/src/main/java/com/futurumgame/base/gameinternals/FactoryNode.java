@@ -36,6 +36,7 @@ public class FactoryNode<T extends Resource> extends AppCompatButton implements 
         setBackgroundColor(Colors.Black.getColor());
         setText(current.getResource().getName());
         setTextColor(Colors.White.getColor());
+        setSoundEffectsEnabled(false);
         HashMap<String, Object> map = new HashMap<>();
         map.put(MetaData.FactoryNode.getMetaName(), this);
         setOnClickListener(new GoToViewListener(ResourceViewActivity.class, GameRoutine.getMainActivity(), map));
@@ -50,6 +51,8 @@ public class FactoryNode<T extends Resource> extends AppCompatButton implements 
     public int getResourceID(){
         return current.getResource().getID();
     }
+
+    public int getResourceIconID() { return current.getResource().getResourceIconId(); }
 
     public String getResourceName() {
         return current.getResource().getName();

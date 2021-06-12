@@ -8,7 +8,7 @@ import com.futurumgame.base.factories.Factory;
 import com.futurumgame.base.gameinternals.GameRoutine;
 import com.futurumgame.base.resources.Resource;
 
-public class UpgradeFactoryListener implements View.OnClickListener {
+public class UpgradeFactoryListener extends SoundListener {
 
     private final Factory<? extends Resource> factory;
     private final TextView costs;
@@ -20,6 +20,7 @@ public class UpgradeFactoryListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        super.onClick(v);
         UpgradeResult result = factory.tryUpgrade(GameRoutine.getWareHouse());
         result.createPopup(v.getContext());
     }

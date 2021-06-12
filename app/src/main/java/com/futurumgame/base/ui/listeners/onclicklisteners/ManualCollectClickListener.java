@@ -6,7 +6,7 @@ import com.futurumgame.base.gameinternals.FactoryNode;
 import com.futurumgame.base.gameinternals.GameRoutine;
 import com.futurumgame.base.resources.Resource;
 
-public class ManualCollectClickListener implements View.OnClickListener {
+public class ManualCollectClickListener  extends SoundListener {
 
     private final FactoryNode<?extends Resource>node;
 
@@ -16,6 +16,7 @@ public class ManualCollectClickListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        super.onClick(v);
         Resource factoryStocks = node.getCurrent().emptyStorage();
         GameRoutine.getWareHouse().addToResources(factoryStocks);
     }

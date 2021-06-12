@@ -18,14 +18,15 @@
 
     <ImageButton
         android:id="@+id/GoBack"
-        android:layout_width="93dp"
-        android:layout_height="85dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginTop="480dp"
         android:background="@drawable/back_button"
+        android:soundEffectsEnabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/Unlockables"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.6" />
 </androidx.constraintlayout.widget.ConstraintLayout>

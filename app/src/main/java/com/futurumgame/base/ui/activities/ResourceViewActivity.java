@@ -4,6 +4,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -28,6 +29,9 @@ public class ResourceViewActivity extends UpdatableViewActivity {
     private TextView warehouseStocks;
     private TextView productionRate;
     private TextView factoryOverview;
+    private TextView resourceHeader;
+
+    private ImageView resourceIcon;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,7 +56,8 @@ public class ResourceViewActivity extends UpdatableViewActivity {
         warehouseStocks = findViewById(R.id.WarehouseStock);
         productionRate = findViewById(R.id.Production);
         factoryOverview = findViewById(R.id.FactoryOveriew);
-
+        resourceHeader = findViewById(R.id.ResourceName);
+        resourceIcon = findViewById(R.id.ResourceImg);
     }
 
     @Override
@@ -77,5 +82,7 @@ public class ResourceViewActivity extends UpdatableViewActivity {
                 ResourceUtil.getText(this, R.string.UnitsPerSecond)));
         factoryOverview.setText(StringFormatter.NameLinebreakValue.format(
                 ResourceUtil.getText(this, R.string.Factory), FactoryFormatter.Multiline.format(node.getCurrent())));
+        resourceHeader.setText(node.getText());
+        resourceIcon.setImageResource(node.getResourceIconID());
     }
 }

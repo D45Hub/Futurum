@@ -75,71 +75,21 @@ public final class Units extends Number implements Comparable<Units> {
     }
 
     public void add(Units units) {
-        if (units.isZero()) {
-            return;
+        boolean isUnneededAddition = checkIfUnneededAddition(units);
+
+        if (!isUnneededAddition && !checkAndExecuteZeroAddition(units)) {
+            executeAddition(units);
+            normalize();
         }
-        if (evaluateToNaNIfTrue(units, u -> isNaN() || u.isNaN())) {
-            return;
-        }
-        if (evaluateToNegInfIfTrue(units,
-                u -> isNegInfinity() && !u.isPosInfinity() || !isPosInfinity() && u.isNegInfinity())) {
-            return;
-        }
-        if (evaluateToPosInfIfTrue(units,
-                u -> isPosInfinity() && !u.isNegInfinity() || !isNegInfinity() && u.isPosInfinity())) {
-            return;
-        }
-        if (evaluateToZeroIfTrue(units, u -> isInfinity() && u.isInfinity())) {
-            return;
-        }
-        if (isZero()) {
-            value = units.getValue();
-            scale = units.getScale();
-            return;
-        }
-        if (scale > units.scale) {
-            value += rescaleValue(units.value, scale, units.scale);
-        } else if (scale < units.scale) {
-            value = units.value + rescaleValue(value, scale, units.scale);
-            scale = units.scale;
-        } else {
-            value += units.value;
-        }
-        normalize();
     }
 
     public void subtract(Units units) {
-        if (units.isZero()) {
-            return;
+        boolean isUnneededSubtraction = checkIfUnneededSubtraction(units);
+
+        if (!isUnneededSubtraction && !checkAndExecuteZeroSubtraction(units)) {
+            executeSubtraction(units);
+            normalize();
         }
-        if (evaluateToNaNIfTrue(units, u -> isNaN() || u.isNaN())) {
-            return;
-        }
-        if (evaluateToNegInfIfTrue(units,
-                u -> isNegInfinity() && !u.isNegInfinity() || !isPosInfinity() && u.isPosInfinity())) {
-            return;
-        }
-        if (evaluateToPosInfIfTrue(units,
-                u -> isPosInfinity() && !u.isPosInfinity() || !isNegInfinity() && u.isNegInfinity())) {
-            return;
-        }
-        if (evaluateToZeroIfTrue(units, u -> isInfinity() && u.isInfinity())) {
-            return;
-        }
-        if (isZero()) {
-            value = -units.getValue();
-            scale = units.getScale();
-            return;
-        }
-        if (scale > units.scale) {
-            value -= rescaleValue(units.value, scale, units.scale);
-        } else if (scale < units.scale) {
-            value = units.value + rescaleValue(value, scale, units.scale);
-            scale = units.scale;
-        } else {
-            value -= units.value;
-        }
-        normalize();
     }
 
     public void multiply(Units units) {
@@ -150,8 +100,7 @@ public final class Units extends Number implements Comparable<Units> {
             return;
         }
         if (evaluateToNegInfIfTrue(units,
-                u -> isNegInfinity() && u.isBiggerThan(Zero) || isPosInfinity() && u.isSmallerThan(Zero)
-                        || isBiggerThan(Zero) && u.isNegInfinity() || isSmallerThan(Zero) && u.isPosInfinity())) {
+                u -> checkForMultiplicationNegativeInfinity(u))) {
             return;
         }
         if (evaluateToPosInfIfTrue(units, u -> isInfinity() || u.isInfinity())) {
@@ -411,6 +360,133 @@ public final class Units extends Number implements Comparable<Units> {
     private int calcScaleDiff(double rawValueDiff) {
         double scaleDiffRaw = Math.log10(Math.abs(rawValueDiff));
         return (int) (scaleDiffRaw + (scaleDiffRaw >= 0 ? 0 : -1));
+    }
+
+    private boolean checkIfUnneededAddition(Units unit) {
+        boolean isUnneededAddition = false;
+
+        isUnneededAddition = unit.isZero();
+
+        isUnneededAddition = evaluateToNaNIfTrue(unit, u -> isNaN() || u.isNaN());
+
+        isUnneededAddition = evaluateToNegInfIfTrue(unit,
+                u -> checkAdditionUnitsForNegativeInfinity(u));
+
+        isUnneededAddition = evaluateToPosInfIfTrue(unit,
+                u -> checkAdditionUnitsForPositiveInfinity(u));
+
+        isUnneededAddition = evaluateToZeroIfTrue(unit, u -> isInfinity() && u.isInfinity());
+
+        return isUnneededAddition;
+    }
+
+    private boolean checkAdditionUnitsForPositiveInfinity(Units otherUnit) {
+        boolean isPrimaryUnitPositiveInfinity = isPosInfinity() && !otherUnit.isNegInfinity();
+        boolean isSecondaryUnitPositiveInfinity = !isNegInfinity() && otherUnit.isPosInfinity();
+
+        return isPrimaryUnitPositiveInfinity || isSecondaryUnitPositiveInfinity;
+    }
+
+    private boolean checkAdditionUnitsForNegativeInfinity(Units otherUnit) {
+        boolean isPrimaryUnitNegativeInfinity = isNegInfinity() && !otherUnit.isPosInfinity();
+        boolean isSecondaryUnitNegativeInfinity = !isPosInfinity() && otherUnit.isNegInfinity();
+
+        return isPrimaryUnitNegativeInfinity || isSecondaryUnitNegativeInfinity;
+    }
+
+    private boolean checkIfUnneededSubtraction(Units unit) {
+        boolean isUnneededSubtraction = false;
+
+        isUnneededSubtraction = unit.isZero();
+
+        boolean finalIsUnneededSubtraction = isUnneededSubtraction;
+        isUnneededSubtraction = evaluateToNaNIfTrue(unit, u -> checkForNaNEvaluation(u, finalIsUnneededSubtraction));
+
+        boolean finalIsUnneededSubtraction1 = isUnneededSubtraction;
+        isUnneededSubtraction = evaluateToNegInfIfTrue(unit, u -> checkSubtractionUnitsForNegativeInfinity(u) && !finalIsUnneededSubtraction1);
+
+        boolean finalIsUnneededSubtraction2 = isUnneededSubtraction;
+        isUnneededSubtraction = evaluateToPosInfIfTrue(unit, u -> checkSubtractionUnitsForPositiveInfinity(u) && !finalIsUnneededSubtraction2);
+
+        boolean finalIsUnneededSubtraction3 = isUnneededSubtraction;
+        isUnneededSubtraction = evaluateToZeroIfTrue(unit, u -> checkForInfinityEvaluation(u, finalIsUnneededSubtraction3));
+
+        return isUnneededSubtraction;
+    }
+
+    private boolean checkForNaNEvaluation(Units unit, boolean enableEvaluation) {
+        return (isNaN() || unit.isNaN()) && !enableEvaluation;
+    }
+
+    private boolean checkForInfinityEvaluation(Units unit, boolean enableEvaluation) {
+        return isInfinity() && unit.isInfinity() && !enableEvaluation;
+    }
+
+    private boolean checkSubtractionUnitsForPositiveInfinity(Units otherUnit) {
+        boolean isPrimaryUnitPositiveInfinity = isPosInfinity() && !otherUnit.isPosInfinity();
+        boolean isSecondaryUnitPositiveInfinity = !isNegInfinity() && otherUnit.isNegInfinity();
+
+        return isPrimaryUnitPositiveInfinity || isSecondaryUnitPositiveInfinity;
+    }
+
+    private boolean checkSubtractionUnitsForNegativeInfinity(Units otherUnit) {
+        boolean isPrimaryUnitNegativeInfinity = isNegInfinity() && !otherUnit.isNegInfinity();
+        boolean isSecondaryUnitNegativeInfinity = !isPosInfinity() && otherUnit.isPosInfinity();
+
+        return isPrimaryUnitNegativeInfinity || isSecondaryUnitNegativeInfinity;
+    }
+
+    private boolean checkAndExecuteZeroAddition(Units addedUnit) {
+        boolean isZero = isZero();
+
+        if (isZero) {
+            value = addedUnit.getValue();
+            scale = addedUnit.getScale();
+        }
+
+        return isZero;
+    }
+
+    private void executeAddition(Units addedUnit) {
+        if (scale > addedUnit.scale) {
+            value += rescaleValue(addedUnit.value, scale, addedUnit.scale);
+        } else if (scale < addedUnit.scale) {
+            value = addedUnit.value + rescaleValue(value, scale, addedUnit.scale);
+            scale = addedUnit.scale;
+        } else {
+            value += addedUnit.value;
+        }
+    }
+
+    private boolean checkAndExecuteZeroSubtraction(Units subtractedValue) {
+        boolean isZero = isZero();
+
+        if (isZero) {
+            value = -subtractedValue.getValue();
+            scale = subtractedValue.getScale();
+        }
+
+        return isZero;
+    }
+
+    private void executeSubtraction(Units subtractedUnit) {
+        if (scale > subtractedUnit.scale) {
+            value -= rescaleValue(subtractedUnit.value, scale, subtractedUnit.scale);
+        } else if (scale < subtractedUnit.scale) {
+            value = subtractedUnit.value + rescaleValue(value, scale, subtractedUnit.scale);
+            scale = subtractedUnit.scale;
+        } else {
+            value -= subtractedUnit.value;
+        }
+    }
+
+    private boolean checkForMultiplicationNegativeInfinity(Units unit) {
+        boolean isNegInfTimesPositiveValue = isNegInfinity() && unit.isBiggerThan(Zero);
+        boolean isPosInfTimesNegativeValue = isPosInfinity() && unit.isSmallerThan(Zero);
+        boolean isPositiveValueTimesNegInf = isBiggerThan(Zero) && unit.isNegInfinity();
+        boolean isNegativeValueTimesPosInf = isSmallerThan(Zero) && unit.isPosInfinity();
+
+        return isNegInfTimesPositiveValue || isPosInfTimesNegativeValue || isPositiveValueTimesNegInf || isNegativeValueTimesPosInf;
     }
 
     public static Units parse(String string) throws UnitsFormatException {
