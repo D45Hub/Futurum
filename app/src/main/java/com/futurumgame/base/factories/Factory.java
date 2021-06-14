@@ -118,6 +118,9 @@ public abstract class Factory<T extends Resource> {
 
     protected void upgrade() {
         increaseLevel();
+        if(level == 2){
+            automated = true;
+        }
     }
 
     private void increaseLevel() {
