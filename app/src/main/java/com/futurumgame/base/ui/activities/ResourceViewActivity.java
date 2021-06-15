@@ -39,7 +39,6 @@ public class ResourceViewActivity extends UpdatableViewActivity {
         setContentView(R.layout.resource_view);
 
         GameRoutine.setNewCurrent(this);
-        allowUpdates();
 
         ImageButton manageFactoryButton = findViewById(R.id.factoryButton);
         manageFactoryButton.setOnClickListener(new GoToViewListener(FactoryManagerViewActivity.class, this));
@@ -58,6 +57,7 @@ public class ResourceViewActivity extends UpdatableViewActivity {
         factoryOverview = findViewById(R.id.FactoryOveriew);
         resourceHeader = findViewById(R.id.ResourceName);
         resourceIcon = findViewById(R.id.ResourceImg);
+        allowUpdates();
     }
 
     @Override
